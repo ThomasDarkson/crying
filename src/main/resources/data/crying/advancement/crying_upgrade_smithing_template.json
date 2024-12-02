@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "crying_upgrade_smithing_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "crying:crying_upgrade_smithing_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.crying.crying_upgrade_smithing_template.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "crying:crying_upgrade_smithing_template"
+    },
+    "title": {
+      "translate": "advancement.crying.crying_upgrade_smithing_template.title"
+    }
+  },
+  "requirements": [
+    [
+      "crying_upgrade_smithing_template"
+    ]
+  ],
+  "rewards": {
+    "experience": 4000
+  }
+}

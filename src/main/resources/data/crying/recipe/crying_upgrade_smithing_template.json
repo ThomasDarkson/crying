@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "crying",
+    "pattern": [
+      "#*#",
+      "#/#",
+      "###"
+    ],
+    "key": {
+      "#": [
+        "minecraft:netherrack"
+      ],
+      "*": [
+        "minecraft:nether_star"
+      ],
+      "/": [
+        "minecraft:crying_obsidian"
+      ]
+    },
+    "result": {
+      "id": "crying:crying_upgrade_smithing_template"
+    }
+  }

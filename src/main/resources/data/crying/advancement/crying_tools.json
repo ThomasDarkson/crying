@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "crying_tools": {
+      "conditions": {
+        "items": [
+          {
+            "items": "crying:crying_pickaxe"
+          },
+          {
+            "items": "crying:crying_sword"
+          },
+          {
+            "items": "crying:crying_axe"
+          },
+          {
+            "items": "crying:crying_shovel"
+          },
+          {
+            "items": "crying:crying_hoe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.crying.crying_tools.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "crying:crying_pickaxe"
+    },
+    "title": {
+      "translate": "advancement.crying.crying_tools.title"
+    }
+  },
+  "requirements": [
+    [
+      "crying_tools"
+    ]
+  ],
+  "rewards": {
+    "experience": 15000
+  }
+}

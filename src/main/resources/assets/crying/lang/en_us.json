@@ -1,0 +1,20 @@
+{
+    "item.crying.crying_pickaxe": "Crying Pickaxe",
+    "item.crying.crying_ingot": "Crying Ingot",
+    "item.crying.crying_ingot_space": " Crying Ingot",
+    "item.crying.crying_upgrade_smithing_template": "Crying Upgrade",
+    "item.crying.crying_sword": "Crying Sword",
+    "item.crying.crying_axe": "Crying Axe",
+    "item.crying.crying_shovel": "Crying Shovel",
+    "item.crying.crying_hoe": "Crying Hoe",
+    "item.crying.crying_block": "Crying Block",
+    "item.crying.netherite_equipment": " Netherite Equipment",
+    "advancement.crying.crying_hoe.title": "A Hoe That Makes You Cry",
+    "advancement.crying.crying_hoe.description": "Use a Crying Ingot to upgrade a Netherite Hoe, then regret the thing that you did",
+    "advancement.crying.crying_tools.title": "It Was Me, I Am The One Who's Cutting Onions",
+    "advancement.crying.crying_tools.description": "Have all the Crying tools in your inventory",
+    "advancement.crying.crying_upgrade_smithing_template.title": "Don't Cry, Upgrade",
+    "advancement.crying.crying_upgrade_smithing_template.description": "Craft a Crying Upgrade Smithing Template",
+    "advancement.crying.crying_ingot.title": "8 Ingots 1 Block",
+    "advancement.crying.crying_ingot.description": "Craft a Crying Ingot"
+}

@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "crying",
+    "ingredients": [
+      [
+        "crying:crying_block"
+      ]
+    ],
+    "result": {
+      "id": "crying:crying_ingot",
+      "count": 9
+    }
+}

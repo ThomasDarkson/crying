@@ -1,0 +1,20 @@
+{
+    "item.crying.crying_pickaxe": "Ağlayan Kazma",
+    "item.crying.crying_ingot": "Ağlayan Külçe",
+    "item.crying.crying_ingot_space": " Ağlayan Külçe",
+    "item.crying.crying_upgrade_smithing_template": "Ağlayan Yükseltmesi",
+    "item.crying.crying_sword": "Ağlayan Kılıç",
+    "item.crying.crying_axe": "Ağlayan Balta",
+    "item.crying.crying_shovel": "Ağlayan Kürek",
+    "item.crying.crying_hoe": "Ağlayan Çapa",
+    "item.crying.crying_block": "Ağlayan Blok",
+    "item.crying.netherite_equipment": " Netherit Ekipman",
+    "advancement.crying.crying_hoe.title": "Seni Ağlatan Bir Çapa",
+    "advancement.crying.crying_hoe.description": "Bir Netherit Çapayı yükseltmek için bir Ağlayan Külçe kullan ve pişman ol",
+    "advancement.crying.crying_tools.title": "Benim, Soğan Kesen Benim",
+    "advancement.crying.crying_tools.description": "Envanterinde bütün Ağlayan araçları bulundur",
+    "advancement.crying.crying_upgrade_smithing_template.title": "Ağlama, Yükselt",
+    "advancement.crying.crying_upgrade_smithing_template.description": "Bir Ağlayan Yükseltmesi Demirci Şablonu üret",
+    "advancement.crying.crying_ingot.title": "8 Külçe 1 Blok",
+    "advancement.crying.crying_ingot.description": "Bir Ağlayan Külçe üret"
+}

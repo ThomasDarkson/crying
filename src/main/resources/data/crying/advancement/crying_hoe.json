@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:husbandry/plant_seed",
+  "criteria": {
+    "crying_hoe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "crying:crying_hoe"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.crying.crying_hoe.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "crying:crying_hoe"
+    },
+    "title": {
+      "translate": "advancement.crying.crying_hoe.title"
+    }
+  },
+  "requirements": [
+    [
+      "crying_hoe"
+    ]
+  ],
+  "rewards": {
+    "experience": 5000
+  }
+}

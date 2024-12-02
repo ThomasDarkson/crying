@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "crying_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "crying:crying_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.crying.crying_ingot.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "crying:crying_ingot"
+    },
+    "title": {
+      "translate": "advancement.crying.crying_ingot.title"
+    }
+  },
+  "requirements": [
+    [
+      "crying_ingot"
+    ]
+  ],
+  "rewards": {
+    "experience": 1000
+  }
+}

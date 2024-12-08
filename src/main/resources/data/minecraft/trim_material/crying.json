@@ -1,0 +1,11 @@
+{
+  "asset_name": "crying",
+  "description": {
+    "color": "#2B0178",
+    "translate": "trim_material.crying.crying"
+  },
+  "ingredient": "crying:crying_ingot",
+  "override_armor_assets": {
+    "minecraft:crying": "crying_darker"
+  }
+}

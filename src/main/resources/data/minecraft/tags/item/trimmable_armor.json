@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        "crying:crying_helmet",
+        "crying:crying_chestplate",
+        "crying:crying_leggings",
+        "crying:crying_boots"
+    ]
+}

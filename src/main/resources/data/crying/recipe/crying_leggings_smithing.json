@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:smithing_transform",
+    "base": "minecraft:netherite_leggings",
+    "addition": [
+      "crying:crying_ingot"
+    ],
+    "template": [
+      "crying:crying_upgrade_smithing_template"
+    ],
+    "result": {
+      "id": "crying:crying_leggings"
+    }
+}

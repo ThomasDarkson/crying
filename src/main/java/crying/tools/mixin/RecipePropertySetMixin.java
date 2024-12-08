@@ -8,13 +8,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import crying.tools.CryingTools;
+import crying.tools.Crying;
 
 @Mixin(RecipePropertySet.class)
 public abstract class RecipePropertySetMixin {
     @Inject(method = "canUse", at = @At("HEAD"), cancellable = true)
     private void allowNetherite(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
-        for (Item i : CryingTools.itemsAllowed)
+        for (Item i : Crying.itemsAllowed)
         {
             if (stack.isOf(i)) {
                 info.setReturnValue(true); 

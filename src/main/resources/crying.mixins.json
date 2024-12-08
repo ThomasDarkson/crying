@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"RecipePropertySetMixin",
-		"SmithingScreenHandlerMixin"
+		"SmithingScreenHandlerMixin",
+		"CryingAttributeFixer",
+		"LivingEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

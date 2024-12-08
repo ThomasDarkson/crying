@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "group": "crying",
+  "ingredient": [
+    "crying:crying_ore"
+  ],
+  "result": {
+    "id": "crying:crying_residue"
+  },
+  "experience": 0,
+  "cookingtime": 400
+}

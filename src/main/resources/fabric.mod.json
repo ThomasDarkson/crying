@@ -2,35 +2,42 @@
 	"schemaVersion": 1,
 	"id": "crying",
 	"version": "${version}",
-	"name": "Crying Tools",
-	"description": "Crying Tools are late game tools that are 8 times stronger than Netherite.\nCombine Crying Obsidian, Netherite, Nether Stars and Netherrack to craft crying tools!",
+	"name": "Crying.",
+	"description": "A mod that expands upon the Crying Obsidian; with tools, armors, blocks, items and ores.",
 	"authors": [
 		"Tahir Toprak Karabekiroğlu"
 	],
 	"contact": {
-		"homepage": "https://github.com/TahirToprakKarabekiroglu/crying",
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/crying",
 		"sources": "https://github.com/TahirToprakKarabekiroglu/crying"
 	},
 	"license": "Apache",
 	"icon": "assets/crying/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"crying.tools.CryingTools"
+		"server": [
+			"crying.tools.CryingServer"
 		],
 		"client": [
-			"crying.tools.CryingToolsClient"
+			"crying.tools.CryingClient"
+		],
+		"main": [
+			"crying.tools.Crying"
 		],
 		"fabric-datagen": [
-			"crying.tools.CryingToolsDataGenerator"
+			"crying.tools.CryingDataGenerator"
 		]
 	},
 	"mixins": [
-		"crying.mixins.json"
+		"crying.mixins.json",
+		{
+			"config": "crying.client.mixins.json",
+			"environment": "client"
+		}
 	],
 	"depends": {
 		"fabricloader": ">=0.16.9",
-		"minecraft": "~1.21.3",
+		"minecraft": "~1.21.4",
 		"java": ">=21",
 		"fabric-api": "*"
 	}

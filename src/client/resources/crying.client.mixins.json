@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "crying.tools.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"CryingArmorMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

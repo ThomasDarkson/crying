@@ -1,6 +1,8 @@
 {
     "replace": false,
     "values": [
-        "crying:crying_block"
+        "crying:crying_block",
+        "crying:crying_ore",
+        "crying:hard_crying_obsidian"
     ]
 }

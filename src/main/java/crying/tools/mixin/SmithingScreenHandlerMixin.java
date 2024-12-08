@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import crying.tools.CryingTools;
+import crying.tools.Crying;
 
 @Mixin(SmithingScreenHandler.class)
 public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
@@ -25,7 +25,7 @@ public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
 
     @Inject(method = "canInsertIntoSlot", at = @At("HEAD"), cancellable = true)
     private void allowNetheriteInSecondSlot(ItemStack stack, Slot slot, CallbackInfoReturnable<Boolean> info) {
-        for (Item i : CryingTools.itemsAllowed)
+        for (Item i : Crying.itemsAllowed)
         {
             if (slot.id == SmithingScreenHandler.EQUIPMENT_ID && stack.isOf(i)) {
                 info.setReturnValue(true);

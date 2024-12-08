@@ -1,0 +1,45 @@
+{
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "crying_armor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "crying:crying_helmet"
+          },
+          {
+            "items": "crying:crying_chestplate"
+          },
+          {
+            "items": "crying:crying_leggings"
+          },
+          {
+            "items": "crying:crying_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.crying.crying_armor.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "crying:crying_chestplate"
+    },
+    "title": {
+      "translate": "advancements.crying.crying_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "crying_armor"
+    ]
+  ],
+  "rewards": {
+    "experience": 20000
+  }
+}

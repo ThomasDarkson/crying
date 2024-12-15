@@ -10,7 +10,6 @@ import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 
 public class CryingHelmet {
     public static final Item item = new ArmorItem(
@@ -19,7 +18,6 @@ public class CryingHelmet {
             new Item.Settings()
             .fireproof()
             .enchantable(100)
-            .rarity(Rarity.RARE)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_helmet")))
             .maxDamage(EquipmentType.HELMET.getMaxDamage(32)));
     

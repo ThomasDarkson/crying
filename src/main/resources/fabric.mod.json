@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "crying",
 	"version": "${version}",
-	"name": "Crying.",
+	"name": "Crying Tools",
 	"description": "A mod that expands upon the Crying Obsidian; with tools, armors, blocks, items and ores.",
 	"authors": [
 		"Tahir Toprak Karabekiroğlu"

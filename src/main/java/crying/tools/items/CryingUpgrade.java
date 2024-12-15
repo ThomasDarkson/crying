@@ -22,7 +22,7 @@ public class CryingUpgrade extends Item {
         super(new Item.Settings()
         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_upgrade_smithing_template")))
         .fireproof()
-        .rarity(Rarity.RARE));
+        .rarity(Rarity.UNCOMMON));
         Crying.register(this, "crying_upgrade_smithing_template");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, this));
     }

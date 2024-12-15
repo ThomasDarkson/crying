@@ -1,5 +1,5 @@
-# Crying.
-Crying. is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and an ore.
+# Crying Tools
+Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and an ore.
 
 Crying adds:
 - 5 New Advancements
@@ -18,7 +18,7 @@ In the Overworld; it has the identical generation properites of the Diamond Ore 
 
 ![ore](https://i.ibb.co/sQ4mCrX/2024-12-08-14-52-57.png "ore")
 
-When mined (with a Diamond Pickaxe or better), it drops itself as a block and it can be smelted into **Crying Residue** which can be used to craft a **Crying Ingot**.
+When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** which can be used to craft a **Crying Ingot**. The block itself can be smelted into Crying Ingots aswell.
 
 ![smelt](https://i.ibb.co/9ny0wQQ/Ekran-g-r-nt-s-2024-12-08-153540.png "smelt")
 
@@ -82,6 +82,7 @@ Crying Tools are tools that are 8 times stronger then Netherite Tools.
 - **Crying Hoe:** 1  
 
 **Attack speeds** are the same as Netherite tools.  
+**Crying Sword** damages the mobs **Enderman**, **Endermite** and **Ghast** twice.
 
 #### **Enchantability**
 - **All Crying Tools:** 120  
@@ -106,7 +107,7 @@ When you wear any piece of Crying Armor, you're granted an effect called **Crier
 
 Crier effect gives you **Resistance** and **Strength**. Even though the Crier effect gets stronger when you wear more Crying Armor, Strength will never stack. This means even if you wear a full set of Crying Armor, the Crier effect you have will only give you Strength **I**. This is not the case for Resistance however, and it stacks.
 
-The Crier effect doesn't affect normal Resistance and/or Strength effects.
+The Crier effect doesn't affect normal Resistance and Strength effects.
 
 ## **Advancements**
 

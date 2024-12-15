@@ -1,5 +1,6 @@
 package crying.tools.mixin;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.registry.tag.DamageTypeTags;
@@ -39,6 +40,15 @@ public abstract class LivingEntityMixin {
                 }
 
                 info.setReturnValue(dmg);
+            }
+            if (source.getWeaponStack() != null) {
+                if (source.getWeaponStack().getItem() == Crying.sword && (
+                    entity.getType() == EntityType.ENDERMAN ||
+                    entity.getType() == EntityType.ENDERMITE ||
+                    entity.getType() == EntityType.GHAST
+                )) {
+                    info.setReturnValue(dmg + 20F);
+                }
             }
         }
     }

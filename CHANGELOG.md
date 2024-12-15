@@ -1,3 +1,10 @@
+# 1.0.2
+- Made Crying Ore drop Crying Residue instead of itself
+- Made the items cry
+- Made Crying Sword damage Enderman, Endermite and Ghast more
+- Fixed the rarities of everything
+- Removed useless code
+
 # 1.0.1
 - Added armors
 - Added Crying Ore 

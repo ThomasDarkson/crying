@@ -8,7 +8,6 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 
 public class CryingIngot {
     public Item item = null;
@@ -22,7 +21,6 @@ public class CryingIngot {
     public void create() {
         this.item = new Item(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_ingot")))
-            .fireproof()
-            .rarity(Rarity.COMMON));
+            .fireproof());
     }
 }

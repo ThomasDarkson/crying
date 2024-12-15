@@ -30,6 +30,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.item.SwordItem;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentType;
@@ -59,6 +60,8 @@ public class Crying implements ModInitializer {
 
 	public static Item upgrade = null;
 
+	public static SwordItem sword = null;
+
 	@Override
 	public void onInitialize() {
 		// Block
@@ -75,10 +78,10 @@ public class Crying implements ModInitializer {
 
         // Tool
 		new CryingPickaxe();
-		new CryingSword();
 		new CryingAxe();
 		new CryingShovel();
 		new CryingHoe();
+		sword = new CryingSword();
 
         // Armor
 		Crier.setupCrier();

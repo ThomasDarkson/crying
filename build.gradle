@@ -58,6 +58,7 @@ java {
 }
 
 jar {
+	entryCompression = org.gradle.api.tasks.bundling.ZipEntryCompression.STORED
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}

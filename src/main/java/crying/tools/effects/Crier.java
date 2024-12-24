@@ -1,4 +1,4 @@
-package crying.tools.other;
+package crying.tools.effects;
 
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import crying.tools.Crying;

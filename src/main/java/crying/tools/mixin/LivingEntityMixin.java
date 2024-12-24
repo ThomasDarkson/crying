@@ -13,7 +13,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import crying.tools.Crying;
-import crying.tools.other.Crier;
+import crying.tools.effects.BaneOfCriers;
+import crying.tools.effects.Crier;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
@@ -49,6 +50,9 @@ public abstract class LivingEntityMixin {
                 )) {
                     info.setReturnValue(dmg + 20F);
                 }
+            }
+            if (entity.hasStatusEffect(BaneOfCriers.EFFECT)) {
+                info.setReturnValue(dmg * 2F);
             }
         }
     }

@@ -13,10 +13,11 @@ import crying.tools.armors.CryingLeggings;
 import crying.tools.blocks.CryingBlock;
 import crying.tools.blocks.CryingOre;
 import crying.tools.blocks.HardCryingObsidian;
+import crying.tools.enchantments.BaneOfCriers;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingUpgrade;
-import crying.tools.other.Crier;
+import crying.tools.effects.Crier;
 import crying.tools.other.CryingLoot;
 import crying.tools.tools.CryingAxe;
 import crying.tools.tools.CryingHoe;
@@ -81,6 +82,8 @@ public class Crying implements ModInitializer {
 		new CryingAxe();
 		new CryingShovel();
 		new CryingHoe();
+
+		crying.tools.effects.BaneOfCriers.initialize();
 		sword = new CryingSword();
 
         // Armor
@@ -91,6 +94,8 @@ public class Crying implements ModInitializer {
         new CryingHelmet();
 
 		CryingLoot.modifyLootTables();
+		
+		BaneOfCriers.initialize();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(player -> {

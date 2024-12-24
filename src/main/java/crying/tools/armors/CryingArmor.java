@@ -3,7 +3,7 @@ package crying.tools.armors;
 import java.util.Map;
 
 import crying.tools.Crying;
-import crying.tools.other.Crier;
+import crying.tools.effects.Crier;
 import crying.tools.other.CryingTags;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;

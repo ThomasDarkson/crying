@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crying",
+  "pattern": [
+    "#*#",
+    "#?#",
+    "###"
+  ],
+  "key": {
+    "#": [
+      "minecraft:diamond"
+    ],
+    "?": [
+      "minecraft:crying_obsidian"
+    ],
+    "*": [
+      "crying:crying_upgrade_smithing_template"
+    ]
+  },
+  "result": {
+    "id": "crying:crying_upgrade_smithing_template",
+    "count": 2
+  },
+  "show_notification": true
+}

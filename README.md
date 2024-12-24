@@ -1,3 +1,7 @@
+[<img alt="curseforge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg">](https://www.curseforge.com/minecraft/mc-mods/crying) [<img alt="modrinth" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg">](https://modrinth.com/mod/crying) 
+
+[<img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">](https://fabricmc.net/)
+
 # Crying Tools
 Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and an ore.
 
@@ -23,7 +27,7 @@ When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** whi
 ![smelt](https://i.ibb.co/9ny0wQQ/Ekran-g-r-nt-s-2024-12-08-153540.png "smelt")
 
 ## Crying Residue
-Crying Residue is a residue obtained from smelting a **Crying Ore**, it can be used to craft a **Crying Ingot** with Netherite Ingots and one Crying Obsidian.
+Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Ingots and one Crying Obsidian.
 
 ![residue](https://i.ibb.co/V9HMZFC/Ekran-g-r-nt-s-2024-12-08-154013.png "residue")
 
@@ -42,6 +46,10 @@ You also need a Crying Upgrade Smithing Template with a Crying Ingot to upgrade 
 ![smith](https://i.ibb.co/Yhm5cw8/Ekran-g-r-nt-s-2024-12-08-164120.png "smith")
 
 A Crying Upgrade Smithing Template can be found in Bridge and Treasure Bastions aswell with **1.02**% and **1**% chance respectively.
+
+It can be duplicated with diamonds and a crying obsidian aswell.
+
+![duplicate](https://i.ibb.co/Y2kC5W6/Ekran-g-r-nt-s-2024-12-24-193007.png "duplicate")
 
 ## Hard Crying Obsidian
 A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 8 **Ghast Tears** and 1 Crying Obsidian.
@@ -108,6 +116,15 @@ When you wear any piece of Crying Armor, you're granted an effect called **Crier
 Crier effect gives you **Resistance** and **Strength**. Even though the Crier effect gets stronger when you wear more Crying Armor, Strength will never stack. This means even if you wear a full set of Crying Armor, the Crier effect you have will only give you Strength **I**. This is not the case for Resistance however, and it stacks.
 
 The Crier effect doesn't affect normal Resistance and Strength effects.
+
+## Bane of Criers
+Bane of Criers (![bane](https://i.ibb.co/HgbH5Z8/bane-of-criers-effect.png "bane")) is both a **Status Effect** and an **Enchantment**.
+If a **weapon** enchanted with Bane of Criers is used on a living entity, the entity will be given the status effect. When an entity has the Bane of Criers effect, it will take 2 times more damage from all damage types. The duration of the effect depends on the enchantment level, the formula being `2.5 + 1 * (level - 1)`.
+
+When an entity has the Bane of Criers, they will cry.
+(![crying](https://i.ibb.co/Jdk3pY5/qqq.gif "crying"))
+
+The enchanted book can be traded with librarian villagers, can be found on enchantment tables and ominous vaults in Trial Chambers.
 
 ## **Advancements**
 

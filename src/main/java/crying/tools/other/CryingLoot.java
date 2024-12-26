@@ -21,25 +21,25 @@ public class CryingLoot {
                         .rolls(ConstantLootNumberProvider.create(1.0F))
                         .with(ItemEntry.builder(Crying.upgrade)
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0F, 1.0F)))
-                        .conditionally(RandomChanceLootCondition.builder(0.01f)));
+                        .conditionally(RandomChanceLootCondition.builder(0.05f)));
 
                 tableBuilder.pool(poolBuilder);
 
                 LootPool.Builder poolBuilder2 = LootPool.builder()
-                        .rolls(ConstantLootNumberProvider.create(1.0F))
+                        .rolls(ConstantLootNumberProvider.create(2.0F))
                         .with(ItemEntry.builder(Crying.ingot)
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0F, 2.0F)))
-                        .conditionally(RandomChanceLootCondition.builder(0.125f)));
+                        .conditionally(RandomChanceLootCondition.builder(0.1125f)));
 
                 tableBuilder.pool(poolBuilder2);
             }
 
             if (source.isBuiltin() && BASTION_BRIDGE.equals(key.getValue())) {
                 LootPool.Builder poolBuilder = LootPool.builder()
-                        .rolls(ConstantLootNumberProvider.create(3.0F))
+                        .rolls(ConstantLootNumberProvider.create(6.0F))
                         .with(ItemEntry.builder(Crying.upgrade)
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0F, 1.0F)))
-                        .conditionally(RandomChanceLootCondition.builder(0.0034f)));
+                        .conditionally(RandomChanceLootCondition.builder(0.0103f)));
 
                 tableBuilder.pool(poolBuilder);
 
@@ -47,7 +47,7 @@ public class CryingLoot {
                         .rolls(ConstantLootNumberProvider.create(2.0F))
                         .with(ItemEntry.builder(Crying.ingot)
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0F, 1.0F)))
-                        .conditionally(RandomChanceLootCondition.builder(0.05f)));
+                        .conditionally(RandomChanceLootCondition.builder(0.1f)));
 
                 tableBuilder.pool(poolBuilder2);
             }

@@ -1,3 +1,7 @@
+# 1.0.4
+- Added a new recipe to craft Crying Ingot
+- Buffed the loot chances in Bridge and Treasure chests
+
 # 1.0.3
 - Added Bane of Criers
 - Added a recipe to duplicate Crying Upgrade

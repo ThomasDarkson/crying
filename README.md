@@ -38,14 +38,18 @@ Even though Crying Ingot can be crafted with residues, it can also be crafted wi
 
 ![no_residue](https://i.ibb.co/GcwDsBC/Ekran-g-r-nt-s-2024-12-08-162236.png "no_residue")
 
-1-2 Crying Ingots can be found in Bridge and Treasure bastions with **10**% and **12.5**% chance respectively.
+It can also be crafted with only crying ingredients.
+
+![no_netherite](https://i.ibb.co/1srHSnm/Ekran-g-r-nt-s-2024-12-26-191151.png "no_netherite")
+
+1-2 Crying Ingots can be found in Bridge and Treasure bastions with **20**% and **22.5**% chance respectively.
 
 ## Crying Upgrade Smithing Template
 You also need a Crying Upgrade Smithing Template with a Crying Ingot to upgrade Netherite Equipment. To craft one, you need one **Hard Crying Obsidian**, one Iron Ingot and seven Netherrack.
 
 ![smith](https://i.ibb.co/Yhm5cw8/Ekran-g-r-nt-s-2024-12-08-164120.png "smith")
 
-A Crying Upgrade Smithing Template can be found in Bridge and Treasure Bastions aswell with **1.02**% and **1**% chance respectively.
+A Crying Upgrade Smithing Template can be found in Bridge and Treasure Bastions aswell with **6.18**% and **5**% chance respectively.
 
 It can be duplicated with diamonds and a crying obsidian aswell.
 
@@ -58,8 +62,6 @@ A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian
 
 ## Crying Block
 A Crying Block is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
-
-![a](https://i.ibb.co/r571pTK/Yeni-Proje-6.png "a")
 
 ## Upgrading to Crying
 To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template**, one **Crying Ingot** and any Netherite equipment.

@@ -21,9 +21,9 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class CryingPickaxe extends PickaxeItem {
-    private static int durability = 16247;
+    private static int durability = 14622;
 
-    private static float speed = 109F;
+    private static float speed = 90F;
 
     private static float attackDamageBonus = 0F;
 

@@ -1,3 +1,11 @@
+# 2.0.0
+- Added Crying bar mechanic
+- Made tools animated
+- Balanced tools and armor
+- Reduced the amount of XP advancements give
+- Remastered armor textures
+- Fixed Ominous Vaults only dropping Bane of Criers
+
 # 1.0.4
 - Added a new recipe to craft Crying Ingot
 - Buffed the loot chances in Bridge and Treasure chests

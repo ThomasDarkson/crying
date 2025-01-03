@@ -21,16 +21,16 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class CryingAxe extends AxeItem {
-    private static int durability = 32495;
+    private static int durability = 14622;
 
-    private static float speed = 90F;
+    private static float speed = 72F;
 
     private static float attackDamageBonus = 0F;
 
     private static int enchantability = 120;
 
     public CryingAxe() {
-        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 29, -3F, new Item.Settings()
+        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 24, -3F, new Item.Settings()
         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_axe")))
         .fireproof()
         .enchantable(enchantability));

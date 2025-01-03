@@ -22,7 +22,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class CryingSword extends SwordItem {
-    private static int durability = 16247;
+    private static int durability = 14622;
 
     private static float speed = 18F;
 

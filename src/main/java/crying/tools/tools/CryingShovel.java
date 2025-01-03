@@ -21,7 +21,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
 public class CryingShovel extends ShovelItem {
-    private static int durability = 16247;
+    private static int durability = 14622;
 
     private static float speed = 32F;
 

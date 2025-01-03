@@ -5,7 +5,9 @@
 	"mixins": [
 		"SmithingScreenHandlerMixin",
 		"CryingAttributeFixer",
-		"LivingEntityMixin"
+		"LivingEntityMixin",
+		"PlayerEntityMixin",
+		"WaterPotionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

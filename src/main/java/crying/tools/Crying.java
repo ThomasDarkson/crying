@@ -127,4 +127,17 @@ public class Crying implements ModInitializer {
         ArmorMaterial material = new ArmorMaterial(durability, defensePoints, enchantability, equipSound, toughness, knockbackResistance, tagKey, registr);
 		return material;
     }
+
+	public static float floorDecimal(float value, int decimals) {
+		if (decimals < 1)
+			return (float) Math.floor(value);
+
+		float mult = 0F;
+		for (int m = 0; m < decimals; m++) {
+			mult += 10F;
+		}
+
+		float newValue = (float) Math.floor(value * mult);
+		return newValue / mult;
+	}
 }

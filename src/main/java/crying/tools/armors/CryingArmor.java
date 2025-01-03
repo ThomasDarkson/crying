@@ -4,8 +4,10 @@ import java.util.Map;
 
 import crying.tools.Crying;
 import crying.tools.effects.Crier;
+import crying.tools.interfaces.CryingInterface;
 import crying.tools.other.CryingTags;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.ArmorMaterials;
@@ -24,8 +26,8 @@ public class CryingArmor implements ArmorMaterials {
         ),
         120,
         SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
-        6f,
-        0.2475f,
+        5f,
+        0.2f,
         CryingTags.CryingTag,
         CryingAssetKeys.CRYING
     );
@@ -63,6 +65,8 @@ public class CryingArmor implements ArmorMaterials {
         if (isCryingArmor(chestplate))
             amplifier++;
 
+        CryingInterface cryingPlayer = (CryingInterface) (Object) ((PlayerEntity) player);
+        cryingPlayer.getManagerOverride_crying().adjustCryingLevel(amplifier);
         return amplifier;
     }
 

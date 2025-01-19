@@ -23,11 +23,11 @@ import net.minecraft.world.World;
 public class CryingHoe extends HoeItem {
     private static int durability = 14622;
 
-    private static float speed = 90F;
+    private static float speed = 45F;
 
     private static float attackDamageBonus = 0F;
 
-    private static int enchantability = 120;
+    private static int enchantability = 50;
 
     public CryingHoe() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 0F, +0F, new Item.Settings()

@@ -23,11 +23,11 @@ import net.minecraft.world.World;
 public class CryingAxe extends AxeItem {
     private static int durability = 14622;
 
-    private static float speed = 72F;
+    private static float speed = 45F;
 
     private static float attackDamageBonus = 0F;
 
-    private static int enchantability = 120;
+    private static int enchantability = 50;
 
     public CryingAxe() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 24, -3F, new Item.Settings()

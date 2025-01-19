@@ -28,6 +28,12 @@ public class CryingArmorMixin {
     private static final Identifier MAX_HALF_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_half_max");
     private static final Identifier MAX_EMPTY_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_half_empty");
 
+    private static final Identifier EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_empty_permanent");
+    private static final Identifier HALF_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_half_permanent");
+    private static final Identifier FULL_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_full_permanent");
+    private static final Identifier MAX_HALF_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_half_max_permanent");
+    private static final Identifier MAX_EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_half_empty_permanent");
+
     @Inject(method = "renderArmor", at = @At("HEAD"))
     private static void renderArmor(DrawContext context, PlayerEntity player, int i, int j, int k, int x, CallbackInfo info) {
         int armor = player.getArmor();
@@ -89,12 +95,25 @@ public class CryingArmorMixin {
             Identifier half = HALF_TEXTURE;
             Identifier empty = EMPTY_TEXTURE;
             Identifier full = FULL_TEXTURE;
+
+            if (j < (manager.getPermanentMaxLevel() / 2)) {
+                half = HALF_TEXTURE_PERMANENT;
+                empty = EMPTY_TEXTURE_PERMANENT;
+                full = FULL_TEXTURE_PERMANENT;
+            }
             
             if (ishalf) {
                 if (j == Math.round(max) - 1) {
-                    full = MAX_HALF_TEXTURE;
-                    half = MAX_HALF_TEXTURE;
-                    empty = MAX_EMPTY_TEXTURE;
+                    if (j < (manager.getPermanentMaxLevel() / 2)) {
+                        full = MAX_HALF_TEXTURE_PERMANENT;
+                        half = MAX_HALF_TEXTURE_PERMANENT;
+                        empty = MAX_EMPTY_TEXTURE_PERMANENT;
+                    }
+                    else {
+                        full = MAX_HALF_TEXTURE;
+                        half = MAX_HALF_TEXTURE;
+                        empty = MAX_EMPTY_TEXTURE;
+                    }
                 }
             }
 

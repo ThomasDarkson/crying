@@ -24,7 +24,7 @@ public class CryingArmor implements ArmorMaterials {
             EquipmentType.CHESTPLATE, 16,
             EquipmentType.LEGGINGS, 12
         ),
-        120,
+        50,
         SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,
         5f,
         0.2f,

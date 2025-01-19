@@ -1,3 +1,10 @@
+# 2.0.1
+- Reworked Crying Level system
+- Added Crying Apple
+- Drinking water now regenerates 8 Crying Levels
+- Made Crying Ingot recipes shapeless
+- All tools now have the same mining speeds and enchantability
+
 # 2.0.0
 - Added Crying bar mechanic
 - Made tools animated

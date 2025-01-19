@@ -24,11 +24,11 @@ import net.minecraft.world.World;
 public class CryingSword extends SwordItem {
     private static int durability = 14622;
 
-    private static float speed = 18F;
+    private static float speed = 45F;
 
     private static float attackDamageBonus = 0F;
 
-    private static int enchantability = 120;
+    private static int enchantability = 50;
 
     public CryingSword() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 19F, -2.4F, new Item.Settings()

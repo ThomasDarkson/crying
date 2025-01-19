@@ -67,7 +67,6 @@ public abstract class LivingEntityMixin {
                     if (manager.getMaxLevel() > 0) {
                         if (entity.getHealth() - dmg <= 0F && (entity instanceof HostileEntity)) {
                             manager.decreaseLevel(-1F);
-                            manager.setRegen(true);
                         } 
                     }
                 }

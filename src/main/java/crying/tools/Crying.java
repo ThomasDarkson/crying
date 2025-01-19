@@ -14,6 +14,7 @@ import crying.tools.blocks.CryingBlock;
 import crying.tools.blocks.CryingOre;
 import crying.tools.blocks.HardCryingObsidian;
 import crying.tools.enchantments.BaneOfCriers;
+import crying.tools.items.CryingApple;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingUpgrade;
@@ -61,6 +62,8 @@ public class Crying implements ModInitializer {
 
 	public static Item upgrade = null;
 
+	public static Item crying_apple = null;
+
 	public static SwordItem sword = null;
 
 	@Override
@@ -92,6 +95,8 @@ public class Crying implements ModInitializer {
         new CryingLeggings();
         new CryingChestplate();
         new CryingHelmet();
+
+		crying_apple = new CryingApple();
 
 		CryingLoot.modifyLootTables();
 		

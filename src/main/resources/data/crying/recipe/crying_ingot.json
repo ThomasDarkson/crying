@@ -1,22 +1,17 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "group": "crying",
-  "pattern": [
-    "*##",
-    "##/",
-    "///"
+  "ingredients": [
+    "minecraft:crying_obsidian",
+    "crying:crying_residue",
+    "crying:crying_residue",
+    "crying:crying_residue",
+    "crying:crying_residue",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_ingot",
+    "minecraft:netherite_ingot"
   ],
-  "key": {
-    "#": [
-      "minecraft:netherite_ingot"
-    ],
-    "*": [
-      "minecraft:crying_obsidian"
-    ],
-    "/": [
-      "crying:crying_residue"
-    ]
-  },
   "result": {
     "id": "crying:crying_ingot"
   }

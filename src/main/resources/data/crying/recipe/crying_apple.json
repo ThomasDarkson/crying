@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "crying",
+    "ingredients": [
+      [
+        "minecraft:crying_obsidian"
+      ],
+      [
+        "minecraft:apple"
+      ]
+    ],
+    "result": {
+      "id": "crying:crying_apple"
+    }
+  }

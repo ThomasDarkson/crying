@@ -29,6 +29,11 @@ public class CryingManager {
 
     public CryingManager(String uuid) {
         this.uuid = uuid;
+        if (managers.containsKey(uuid)) {
+            CryingManager manager = getFromUUID(uuid);
+            this.permanentMaxLevel = manager.getPermanentMaxLevel();
+            this.cryingLevel = manager.getPermanentMaxLevel();
+        }
         updateThis();
     }
 

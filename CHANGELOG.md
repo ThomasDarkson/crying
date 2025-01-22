@@ -1,3 +1,6 @@
+# 2.0.2
+- Fixed permanent levels resetting after death
+
 # 2.0.1
 - Reworked Crying Level system
 - Added Crying Apple

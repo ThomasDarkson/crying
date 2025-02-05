@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crying",
+  "pattern": [
+    "###",
+    " # "
+  ],
+  "key": {
+    "#": [
+      "minecraft:stick"
+    ]
+  },
+  "result": {
+    "id": "crying:handle"
+  }
+}

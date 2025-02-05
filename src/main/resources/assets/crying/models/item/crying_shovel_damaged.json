@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "crying:item/crying_shovel_damaged"
+    }
+}

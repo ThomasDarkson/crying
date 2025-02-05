@@ -1,0 +1,37 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:damage",
+    "normalize": false,
+    "scale": 1,
+    "entries": [
+      {
+        "threshold": 4332,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_knife_heavily_damaged",
+          "tints": []
+        }
+      },
+      {
+        "threshold": 2166,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_knife_damaged"
+        }
+      },
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_knife"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "crying:item/crying_knife"
+    }
+  },
+  "hand_animation_on_swap": true
+}

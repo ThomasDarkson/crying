@@ -17,7 +17,7 @@ public class CryingLeggings {
             EquipmentType.LEGGINGS, 
             new Item.Settings()
             .fireproof()
-            .enchantable(100)
+            .enchantable(50)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_leggings")))
             .maxDamage(EquipmentType.LEGGINGS.getMaxDamage(32)));
     

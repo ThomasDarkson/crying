@@ -17,7 +17,7 @@ public class CryingBoots {
             EquipmentType.BOOTS, 
             new Item.Settings()
             .fireproof()
-            .enchantable(100)
+            .enchantable(50)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_boots")))
             .maxDamage(EquipmentType.BOOTS.getMaxDamage(32)));
     

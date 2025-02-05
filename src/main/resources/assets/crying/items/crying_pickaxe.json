@@ -1,6 +1,37 @@
 {
-    "model": {
-        "type": "minecraft:model",
-        "model": "crying:item/crying_pickaxe"
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:damage",
+    "normalize": false,
+    "scale": 1,
+    "entries": [
+      {
+        "threshold": 9748,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_pickaxe_heavily_damaged",
+          "tints": []
+        }
+      },
+      {
+        "threshold": 4874,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_pickaxe_damaged"
+        }
+      },
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_pickaxe"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "crying:item/crying_pickaxe"
     }
+  },
+  "hand_animation_on_swap": true
 }

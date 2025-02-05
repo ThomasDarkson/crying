@@ -1,3 +1,12 @@
+# 2.1.0
+- New items: Crying Knife, Knife and Handle
+- Crying tools now get damaged based on durability
+- Rebalanced Crying Axe and Pickaxe
+- Removed tears that drop from hand when holding a Crying tool
+- Crying Levels now generate 5 seconds faster
+- Crying Apple eating time is reduced
+- Fixed enchantability values of armors to match with the README
+
 # 2.0.2
 - Fixed permanent levels resetting after death
 

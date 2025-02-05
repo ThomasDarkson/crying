@@ -18,13 +18,16 @@ import crying.tools.items.CryingApple;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingUpgrade;
+import crying.tools.items.Handle;
 import crying.tools.effects.Crier;
 import crying.tools.other.CryingLoot;
 import crying.tools.tools.CryingAxe;
 import crying.tools.tools.CryingHoe;
+import crying.tools.tools.CryingKnife;
 import crying.tools.tools.CryingPickaxe;
 import crying.tools.tools.CryingShovel;
 import crying.tools.tools.CryingSword;
+import crying.tools.tools.Knife;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Block;
@@ -50,7 +53,7 @@ public class Crying implements ModInitializer {
     public static final String MOD_ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static final Item[] itemsAllowed = {
+    public static Item[] itemsAllowed = {
 		Items.NETHERITE_AXE, 
 		Items.NETHERITE_SWORD, 
 		Items.NETHERITE_PICKAXE, 
@@ -65,6 +68,8 @@ public class Crying implements ModInitializer {
 	public static Item crying_apple = null;
 
 	public static SwordItem sword = null;
+
+	public static SwordItem knife = null;
 
 	@Override
 	public void onInitialize() {
@@ -88,6 +93,11 @@ public class Crying implements ModInitializer {
 
 		crying.tools.effects.BaneOfCriers.initialize();
 		sword = new CryingSword();
+
+		// Knives
+		new Handle();
+		knife = new Knife();
+		new CryingKnife();
 
         // Armor
 		Crier.setupCrier();

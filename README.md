@@ -2,16 +2,21 @@
 
 [<img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">](https://fabricmc.net/)
 
-# Crying Tools
-Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and an ore.
+![Yeni Proje (2)](https://github.com/user-attachments/assets/f836d15a-ea12-4e22-8038-7dfa78a72773)
 
-Crying adds:
+--------------------------------------------------------------
+
+Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and more.
+
+Crying Tools adds:
+- 7 New Tools
 - 5 New Advancements
-- 5 New Tools
 - 4 New Trimmable Armor
 - 3 New Blocks
-- 2 New Items
+- 3 New Items
 - 1 New Ore
+- 1 New Enchantment 
+with new mechanics!
 
 ## Crying Ore
 Crying Ore is a very rare ore that generates both in the Nether and the Overworld.
@@ -64,7 +69,7 @@ A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian
 A Crying Block is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
 
 ## Upgrading to Crying
-To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template**, one **Crying Ingot** and any Netherite equipment.
+To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template** (![crying_upgrade_smithing_template](https://github.com/user-attachments/assets/5ff9cb4d-d00b-4597-9fcb-2fa9b7162ed3)), one **Crying Ingot** (![crying_ingot](https://github.com/user-attachments/assets/37807b5d-780f-4ff8-a4b0-462fc4593d56)) and any Netherite equipment.
 
 ![399583384-eca771e9-41c9-4942-8890-c150f24926eb](https://github.com/user-attachments/assets/26f82b84-d177-4092-bc1d-7fdf15408e83)
 
@@ -74,23 +79,59 @@ Crying Tools are tools that are 8 times stronger then Netherite Tools.
 ### Tool Values
 
 #### **Mining Speed**
-- **All Crying Tools:** 45
+- **Crying Axe**: 60
+- **Crying Hoe**: 45
+- **Crying Pickaxe**: 43
+- **Crying Shovel**: 45
+
+Knives and Crying Sword is the same with all the other swords.
 
 #### **Durability**
-- **All Crying Tools:** 14,622 
+- **All Crying Tools (except knives):** 14,622
+- **Crying Knife**: 6498
+- **Knife**: 150
 
 #### **Attack Damage**
-- **Crying Axe:** 25  
-- **Crying Sword:** 20  
-- **Crying Shovel:** 7.5  
-- **Crying Pickaxe:** 7  
-- **Crying Hoe:** 1  
+- **Crying Axe**: 25  
+- **Crying Sword**: 20
+- **Crying Knife**: 12
+- **Crying Shovel**: 7.5  
+- **Crying Pickaxe**: 7  
+- **Crying Hoe**: 1
+- **Knife**: 3  
 
-**Attack speeds** are the same as Netherite tools.  
+#### **Attack speeds**
+- **Crying Knife**: 2.8
+- **Knife**: 2.3
+- **All Other**: Same as Netherite ones
+  
 **Crying Sword** damages the mobs **Enderman**, **Endermite** and **Ghast** twice.
 
 #### **Enchantability**
-- **All Crying Tools:** 50  
+- **All Crying Tools:** 50
+
+## Knives
+Knives are combat tools that are weaker than swords but with much faster attack speeds.
+To craft a knife, you need a **handle** (![handle](https://github.com/user-attachments/assets/5dec3ba5-bb1f-4984-baaf-d75220a75a63)) and an **iron ingot** (![iron_ingot](https://github.com/user-attachments/assets/90bb663f-3f09-4c5a-b7ef-f2ac39f47b27)).
+
+To craft a handle, you need **4 sticks** (![stick](https://github.com/user-attachments/assets/85720fcb-f03e-4c15-8d10-e6ced8b603f1)).
+
+![image](https://github.com/user-attachments/assets/128f1dd3-df3d-479d-bd46-ffc5f0f1585d)
+
+![image](https://github.com/user-attachments/assets/6bc9af0d-9766-4a88-9342-f333dfee408b)
+
+A knife can be ugraded to a Crying one, with one **Crying Upgrade Smithing Template** (![crying_upgrade_smithing_template](https://github.com/user-attachments/assets/5ff9cb4d-d00b-4597-9fcb-2fa9b7162ed3)) and one **Crying Ingot** (![crying_ingot](https://github.com/user-attachments/assets/37807b5d-780f-4ff8-a4b0-462fc4593d56)) just like any Netherite equipment.
+
+![image](https://github.com/user-attachments/assets/9ad648d8-5b57-4aa2-a4e2-9f708244ce97)
+
+## Damaged Tools
+Like all tools, Crying Tools also lose durability when they are being used. However; unlike other tools, Crying Tools will be damaged over time.
+If a Crying Tool has lost %66 or more of its durability, it will be **Heavily Damaged**.
+Else if it has lost between %33 and %66 of its durability, it will be **Damaged**.
+
+Damage has no effect on the tool's attack damage and speed, just an indicator that it's lost a considerable amount of durability.
+
+![image](https://github.com/user-attachments/assets/18d027fa-405b-497f-b27b-cb8e74dee25a)
 
 ## Crying Armor
 Crying Armor is also 8 times stronger than Netherite Armor.

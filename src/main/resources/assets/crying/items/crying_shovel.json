@@ -1,6 +1,37 @@
 {
-    "model": {
-        "type": "minecraft:model",
-        "model": "crying:item/crying_shovel"
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:damage",
+    "normalize": false,
+    "scale": 1,
+    "entries": [
+      {
+        "threshold": 9748,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_shovel_heavily_damaged",
+          "tints": []
+        }
+      },
+      {
+        "threshold": 4874,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_shovel_damaged"
+        }
+      },
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_shovel"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "crying:item/crying_shovel"
     }
+  },
+  "hand_animation_on_swap": true
 }

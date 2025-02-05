@@ -17,7 +17,7 @@ public class CryingChestplate {
             EquipmentType.CHESTPLATE, 
             new Item.Settings()
             .fireproof()
-            .enchantable(100)
+            .enchantable(50)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_chestplate")))
             .maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(32)));
     

@@ -1,3 +1,10 @@
+# 2.1.1
+- Updated Crying Ingot, Crying Upgrade Smithing Template and Hard Crying Obsidian recipes
+- Updated Hard Crying Obsidian Texture
+- Increased hardness and blast resistance of Hard Crying Obsidian
+- Changed the amount of experience "It Was Me, I Am The One Who's Cutting Onions" and "A Hoe That Makes You Cry" advancements give 
+- Bumped up the required Fabric API and Yarn mappings
+
 # 2.1.0
 - New items: Crying Knife, Knife and Handle
 - Crying tools now get damaged based on durability

@@ -25,7 +25,7 @@ public class HardCryingObsidian extends CryingObsidianBlock {
             mapColor(MapColor.BLACK).
             instrument(NoteBlockInstrument.BASEDRUM).
             requiresTool().
-            strength(54.0F, 1280.0F).
+            strength(75.0F, 1320.0F).
             luminance((state) -> {
                 return 10;
             })

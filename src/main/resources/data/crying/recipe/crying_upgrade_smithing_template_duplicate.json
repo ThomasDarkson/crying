@@ -11,7 +11,7 @@
       "minecraft:diamond"
     ],
     "?": [
-      "minecraft:crying_obsidian"
+      "minecraft:iron_block"
     ],
     "*": [
       "crying:crying_upgrade_smithing_template"

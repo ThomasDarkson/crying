@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "group": "crying",
   "pattern": [
-    "#*#",
     "#/#",
+    "#*#",
     "###"
   ],
   "key": {
     "#": [
-      "minecraft:netherrack"
+      "minecraft:crying_obsidian"
     ],
     "*": [
-      "minecraft:iron_ingot"
+      "minecraft:iron_block"
     ],
     "/": [
       "crying:hard_crying_obsidian"

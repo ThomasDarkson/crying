@@ -32,41 +32,35 @@ When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** whi
 ![smelt](https://i.ibb.co/9ny0wQQ/Ekran-g-r-nt-s-2024-12-08-153540.png "smelt")
 
 ## Crying Residue
-Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Ingots and one Crying Obsidian.
+Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Scraps and one Crying Obsidian.
 
-![residue](https://i.ibb.co/V9HMZFC/Ekran-g-r-nt-s-2024-12-08-154013.png "residue")
+![image](https://github.com/user-attachments/assets/22401974-ad6d-47da-bd81-d01e1bf6a886)
 
 ## Crying Ingot
 Crying Ingot is an item to upgrade Netherite equipment to Crying ones, it's also a trim material that can be used with any armor and trim template!
 
-Even though Crying Ingot can be crafted with residues, it can also be crafted without them if you have some netherite ingots to spare.
-
-![no_residue](https://i.ibb.co/GcwDsBC/Ekran-g-r-nt-s-2024-12-08-162236.png "no_residue")
-
-It can also be crafted with only crying ingredients.
-
-![no_netherite](https://i.ibb.co/1srHSnm/Ekran-g-r-nt-s-2024-12-26-191151.png "no_netherite")
-
 1-2 Crying Ingots can be found in Bridge and Treasure bastions with **20**% and **22.5**% chance respectively.
 
 ## Crying Upgrade Smithing Template
-You also need a Crying Upgrade Smithing Template with a Crying Ingot to upgrade Netherite Equipment. To craft one, you need one **Hard Crying Obsidian**, one Iron Ingot and seven Netherrack.
+You also need a Crying Upgrade Smithing Template with a Crying Ingot to upgrade Netherite Equipment. To craft one, you need 1 **Hard Crying Obsidian**, 1 **Block of Iron** and 7 **Crying Obsidian**.
 
-![smith](https://i.ibb.co/Yhm5cw8/Ekran-g-r-nt-s-2024-12-08-164120.png "smith")
-
-A Crying Upgrade Smithing Template can be found in Bridge and Treasure Bastions aswell with **6.18**% and **5**% chance respectively.
+![image](https://github.com/user-attachments/assets/a665ee1c-42fe-441c-8362-eb9e4f6561e3)
 
 It can be duplicated with diamonds and a crying obsidian aswell.
 
-![duplicate](https://i.ibb.co/Y2kC5W6/Ekran-g-r-nt-s-2024-12-24-193007.png "duplicate")
+![image](https://github.com/user-attachments/assets/ea15c685-bb94-4455-977d-76416a00afc3)
+
+A Crying Upgrade Smithing Template can be found in Bridge and Treasure Bastions aswell with **6.18**% and **5**% chance respectively.
 
 ## Hard Crying Obsidian
-A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 8 **Ghast Tears** and 1 Crying Obsidian.
+A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 4 **Ghast Tears**, 4 Block of Iron and 1 Crying Obsidian.
 
-![hard](https://i.ibb.co/Y24SJK1/Ekran-g-r-nt-s-2024-12-08-165409.png "hard")
+![image](https://github.com/user-attachments/assets/9cf5011c-99c4-4c52-a073-dafed658ce93)
 
 ## Crying Block
 A Crying Block is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
+
+![image](https://github.com/user-attachments/assets/3ff12e05-af67-4578-b5bc-58602f849a2f)
 
 ## Upgrading to Crying
 To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template** (![crying_upgrade_smithing_template](https://github.com/user-attachments/assets/5ff9cb4d-d00b-4597-9fcb-2fa9b7162ed3)), one **Crying Ingot** (![crying_ingot](https://github.com/user-attachments/assets/37807b5d-780f-4ff8-a4b0-462fc4593d56)) and any Netherite equipment.
@@ -207,17 +201,17 @@ The enchanted book can be traded with librarian villagers, can be found on encha
 
 ## **Advancements**
 
+### **It Was Me, I Am The One Who's Cutting Onions**
+##### Have all the Crying tools in your inventory
+- **Reward:** 10,000 XP  
+
 ### **Cover Me in Depression**
 ##### Get a full suit of Crying armor
 - **Reward:** 8,000 XP  
 
-### **It Was Me, I Am The One Who's Cutting Onions**
-##### Have all the Crying tools in your inventory
-- **Reward:** 5,000 XP  
-
 ### **A Hoe That Makes You Cry**
 ##### Use a Crying Ingot to upgrade a Netherite Hoe, then regret the thing that you did
-- **Reward:** 1000 XP  
+- **Reward:** 2000 XP  
 
 ### **Don't Cry, Upgrade**
 ##### Craft a Crying Upgrade Smithing Template

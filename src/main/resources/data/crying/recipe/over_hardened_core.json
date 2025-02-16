@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crying",
+  "pattern": [
+    "###",
+    "#*#",
+    "#/#"
+  ],
+  "key": {
+    "#": [
+      "minecraft:reinforced_deepslate"
+    ],
+    "*": [
+      "minecraft:heavy_core"
+    ],
+    "/": [
+      "crying:crying_block"
+    ]
+  },
+  "result": {
+    "id": "crying:over-hardened_core"
+  }
+}

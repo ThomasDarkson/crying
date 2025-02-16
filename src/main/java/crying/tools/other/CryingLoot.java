@@ -2,6 +2,7 @@ package crying.tools.other;
 
 import crying.tools.Crying;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
@@ -13,6 +14,10 @@ import net.minecraft.util.Identifier;
 public class CryingLoot {
     private static final Identifier BASTION_TREASURE = Identifier.of("minecraft", "chests/bastion_treasure");
     private static final Identifier BASTION_BRIDGE = Identifier.of("minecraft", "chests/bastion_bridge");
+
+    private static final Identifier RUINED_PORTAL = Identifier.of("minecraft", "chests/ruined_portal");
+
+    private static final Identifier REWARD_OMINOUS_RARE = Identifier.of("minecraft", "chests/trial_chambers/reward_ominous_rare");
 
     public static void modifyLootTables() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
@@ -50,6 +55,50 @@ public class CryingLoot {
                         .conditionally(RandomChanceLootCondition.builder(0.1f)));
 
                 tableBuilder.pool(poolBuilder2);
+            }
+
+            if (source.isBuiltin() && RUINED_PORTAL.equals(key.getValue())) {
+                LootPool.Builder poolBuilder = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1F))
+                    .with(ItemEntry.builder(Items.CRYING_OBSIDIAN))
+                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
+                    .conditionally(RandomChanceLootCondition.builder(0.33F));
+
+                tableBuilder.pool(poolBuilder);
+
+                LootPool.Builder poolBuilder2 = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(6F))
+                    .with(ItemEntry.builder(Crying.residue))
+                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 2F)))
+                    .conditionally(RandomChanceLootCondition.builder(0.03F));
+
+                tableBuilder.pool(poolBuilder2);
+            }
+
+            if (source.isBuiltin() && REWARD_OMINOUS_RARE.equals(key.getValue())) {
+                LootPool.Builder poolBuilder = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(2F))
+                    .with(ItemEntry.builder(Crying.hoe))
+                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
+                    .conditionally(RandomChanceLootCondition.builder(0.04F));
+
+                tableBuilder.pool(poolBuilder);
+
+                LootPool.Builder poolBuilder2 = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1F))
+                    .with(ItemEntry.builder(Crying.axe))
+                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
+                    .conditionally(RandomChanceLootCondition.builder(0.06F));
+
+                tableBuilder.pool(poolBuilder2);
+
+                LootPool.Builder poolBuilder3 = LootPool.builder()
+                    .rolls(ConstantLootNumberProvider.create(1F))
+                    .with(ItemEntry.builder(Crying.pickaxe))
+                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
+                    .conditionally(RandomChanceLootCondition.builder(0.05F));
+
+                tableBuilder.pool(poolBuilder3);
             }
         });
     }

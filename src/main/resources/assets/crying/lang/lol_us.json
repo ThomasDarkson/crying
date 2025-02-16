@@ -12,6 +12,7 @@
     "effect.crying.crier": "sadder",
     "effect.crying.bane_of_criers_effect": "KILL ALL SADZ",
     "enchantment.crying.bane_of_criers": "KILL ALL SADZ",
+    "enchantment.crying.smoothness": "faster death",
     "item.crying.crying_pickaxe": "sad Pikax",
     "item.crying.crying_pickaxe_damaged": "bleedin sad Pikax",
     "item.crying.crying_pickaxe_heavily_damaged": "almost ded sad Pikax",
@@ -47,5 +48,8 @@
     "item.crying.crying_knife": "sad slicer",
     "item.crying.crying_knife_damaged": "bleeding sad slicer",
     "item.crying.crying_knife_heavily_damaged": "almost ded sad slicer",
+    "item.crying.over-hardened_core": "minecraft core",
+    "item.crying.the_crying_being": "woww so mysterious thing wow",
+    "item.crying.crying_rod": "sad stick",
     "trim_material.crying.crying": "sad stuff"
 }

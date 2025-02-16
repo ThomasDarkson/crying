@@ -13,14 +13,18 @@ import crying.tools.armors.CryingLeggings;
 import crying.tools.blocks.CryingBlock;
 import crying.tools.blocks.CryingOre;
 import crying.tools.blocks.HardCryingObsidian;
+import crying.tools.blocks.OverHardenedCore;
 import crying.tools.enchantments.BaneOfCriers;
+import crying.tools.enchantments.Smoothness;
 import crying.tools.items.CryingApple;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
+import crying.tools.items.CryingRod;
 import crying.tools.items.CryingUpgrade;
 import crying.tools.items.Handle;
 import crying.tools.effects.Crier;
 import crying.tools.other.CryingLoot;
+import crying.tools.other.CryingTags;
 import crying.tools.tools.CryingAxe;
 import crying.tools.tools.CryingHoe;
 import crying.tools.tools.CryingKnife;
@@ -28,6 +32,7 @@ import crying.tools.tools.CryingPickaxe;
 import crying.tools.tools.CryingShovel;
 import crying.tools.tools.CryingSword;
 import crying.tools.tools.Knife;
+import crying.tools.tools.TheCryingBeing;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Block;
@@ -48,6 +53,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 
 public class Crying implements ModInitializer {
     public static final String MOD_ID = "crying";
@@ -61,15 +67,21 @@ public class Crying implements ModInitializer {
 		Items.NETHERITE_SHOVEL, 
 	}; // Make it so netherite tools can be placed into smithing table slots
 
+	public static Item residue = null;
 	public static Item ingot = null;
 
 	public static Item upgrade = null;
 
 	public static Item crying_apple = null;
 
+	public static Item hoe = null;
+	public static Item pickaxe = null;
+	public static Item axe = null;
 	public static SwordItem sword = null;
 
 	public static SwordItem knife = null;
+
+	public static Item THE_CRYING_BEING = null;
 
 	@Override
 	public void onInitialize() {
@@ -83,13 +95,13 @@ public class Crying implements ModInitializer {
 
 		// Ore
 		new CryingOre();
-		new CryingResidue();
+		residue = new CryingResidue().item;
 
         // Tool
-		new CryingPickaxe();
-		new CryingAxe();
+		pickaxe = new CryingPickaxe();
+		axe = new CryingAxe();
 		new CryingShovel();
-		new CryingHoe();
+		hoe = new CryingHoe();
 
 		crying.tools.effects.BaneOfCriers.initialize();
 		sword = new CryingSword();
@@ -108,9 +120,17 @@ public class Crying implements ModInitializer {
 
 		crying_apple = new CryingApple();
 
+		new CryingRod();
+		new OverHardenedCore();
+		
+		THE_CRYING_BEING = new TheCryingBeing();
+
 		CryingLoot.modifyLootTables();
+
+		CryingTags.initialize();
 		
 		BaneOfCriers.initialize();
+		Smoothness.initialize();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(player -> {
@@ -129,9 +149,16 @@ public class Crying implements ModInitializer {
 
 	public static Block registerBlock(Block block, String name, boolean shouldRegisterItem) {
 		Identifier id = Identifier.of(Crying.MOD_ID, name);
+		Rarity rarity = Rarity.COMMON;
+		Integer stack = 64;
+
+		if (name == "over-hardened_core") {
+			rarity = Rarity.EPIC;
+			stack = 1;
+		}
 
 		if (shouldRegisterItem) {
-			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, name))));
+			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, name))).rarity(rarity).maxCount(stack));
 			Registry.register(Registries.ITEM, id, blockItem);
 		}
 

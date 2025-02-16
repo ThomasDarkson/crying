@@ -9,13 +9,13 @@
 Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and more.
 
 Crying Tools adds:
-- 7 New Tools
+- 8 New Tools
 - 5 New Advancements
 - 4 New Trimmable Armor
-- 3 New Blocks
-- 3 New Items
+- 4 New Blocks
+- 4 New Items
 - 1 New Ore
-- 1 New Enchantment 
+- 2 New Enchantments 
 with new mechanics!
 
 ## Crying Ore
@@ -25,6 +25,8 @@ In the Nether; it has the identical generation properties of the Ancient Debris,
 
 In the Overworld; it has the identical generation properites of the Diamond Ore instead and it generates as a normal ore, the only differences being Crying Ore generates 3x less and it can be fully exposed to air.
 
+It has the 50 hardness and has 1200 blast resistance.
+
 ![ore](https://i.ibb.co/sQ4mCrX/2024-12-08-14-52-57.png "ore")
 
 When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** which can be used to craft a **Crying Ingot**. The block itself can be smelted into Crying Ingots aswell.
@@ -32,14 +34,12 @@ When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** whi
 ![smelt](https://i.ibb.co/9ny0wQQ/Ekran-g-r-nt-s-2024-12-08-153540.png "smelt")
 
 ## Crying Residue
-Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Scraps and one Crying Obsidian.
+Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Scraps.
 
 ![image](https://github.com/user-attachments/assets/22401974-ad6d-47da-bd81-d01e1bf6a886)
 
 ## Crying Ingot
 Crying Ingot is an item to upgrade Netherite equipment to Crying ones, it's also a trim material that can be used with any armor and trim template!
-
-1-2 Crying Ingots can be found in Bridge and Treasure bastions with **20**% and **22.5**% chance respectively.
 
 ## Crying Upgrade Smithing Template
 You also need a Crying Upgrade Smithing Template with a Crying Ingot to upgrade Netherite Equipment. To craft one, you need 1 **Hard Crying Obsidian**, 1 **Block of Iron** and 7 **Crying Obsidian**.
@@ -50,17 +50,40 @@ It can be duplicated with diamonds and a crying obsidian aswell.
 
 ![image](https://github.com/user-attachments/assets/ea15c685-bb94-4455-977d-76416a00afc3)
 
-A Crying Upgrade Smithing Template can be found in Bridge and Treasure Bastions aswell with **6.18**% and **5**% chance respectively.
-
 ## Hard Crying Obsidian
-A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 4 **Ghast Tears**, 4 Block of Iron and 1 Crying Obsidian.
-
+A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 4 **Ghast Tears**, 4 Block of Iron and 1 Crying Obsidian. It has the 75 hardness and has 1320 blast resistance.
+ 
 ![image](https://github.com/user-attachments/assets/9cf5011c-99c4-4c52-a073-dafed658ce93)
 
-## Crying Block
-A Crying Block is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
+## Block of Crying
+A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots. It has the 400 hardness and has 9600 blast resistance.
 
 ![image](https://github.com/user-attachments/assets/3ff12e05-af67-4578-b5bc-58602f849a2f)
+
+## Over-hardened Core
+Over-hardened Core is a block used to craft The Crying Being. It has the 900 hardness and has 32 million blast resistance.
+To craft one, you need 7 **Reinforced Deepslate (check note)**, one Block of Crying and one **Heavy Core**.
+
+Note: A Crying Pickaxe has a 1 in 28 chance of dropping a reinforced deepslate when it breaks one, therefore making it obtainable in survival.
+
+![image](https://github.com/user-attachments/assets/50183dd1-77d7-4c84-a224-5a6a393fa5da)
+
+## Crying Rod
+Crying Rod is a kind of rod needed to craft The Crying Being.
+
+To craft one, you need one **Blaze Rod** and one Crying Obsidian.
+
+![image](https://github.com/user-attachments/assets/dd5902b3-febb-4456-b4b6-5ba67f089efa)
+
+## The Crying Being
+The Crying Being is an **universal** end-game item, meaning it's a sword, pickaxe, axe, shovel, hoe and **Mace** all in one.
+It can break any breakable block **instantly**, it deals a maximum of 999 damage and can be used like a mace. 
+
+Just like a mace, making a successful hit mid-air will cancel **all** fall damage. However, The Crying Being cannot be enchanted with mace enchantments and will not deal more damage unlike a mace.
+
+To craft one, you need a **Crying Rod**, one **Over-hardened Core** and 2 Crying Ingots.
+
+![image](https://github.com/user-attachments/assets/7bbd5ae0-299c-493f-ac80-63fd5b0e5ece)
 
 ## Upgrading to Crying
 To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template** (![crying_upgrade_smithing_template](https://github.com/user-attachments/assets/5ff9cb4d-d00b-4597-9fcb-2fa9b7162ed3)), one **Crying Ingot** (![crying_ingot](https://github.com/user-attachments/assets/37807b5d-780f-4ff8-a4b0-462fc4593d56)) and any Netherite equipment.
@@ -68,7 +91,7 @@ To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade S
 ![399583384-eca771e9-41c9-4942-8890-c150f24926eb](https://github.com/user-attachments/assets/26f82b84-d177-4092-bc1d-7fdf15408e83)
 
 ## Crying Tools
-Crying Tools are tools that are 8 times stronger then Netherite Tools.
+Crying Tools are tools that are much stronger than Netherite Tools.
 
 ### Tool Values
 
@@ -169,10 +192,10 @@ The effectiveness of the Crier effect is calculated with Crying Level ÷ Max Cry
 
 If the level hits zero, the Crier effect will be inactive. Crying levels always regenerate unless the bar hits maximum level.
 
-- On **Hard** difficulty, one Crying level regenerates every **40** seconds.
-- On **Normal** difficulty, one Crying level regenerates every **30** seconds.
-- On **Easy** difficulty, one Crying level regenerates every **20** seconds.
-- On **Peaceful** difficulty, one Crying level regenerates every second.
+- On **Hard** difficulty, one Crying level regenerates every **25** seconds.
+- On **Normal** difficulty, one Crying level regenerates every **15** seconds.
+- On **Easy** difficulty, one Crying level regenerates every **5** seconds.
+- On **Peaceful** difficulty, one Crying level regenerates every **0.25** second.
 
 Drinking water will regenerate **8** Crying Levels.
 
@@ -189,6 +212,25 @@ Permanent levels will be shown with yellow-ish outlines. (![crying_half_permanen
 
 Since permanent levels never drain; if you eat 10 Crying Apples, all of your Crying Levels will never drain and therefore you will have the Crier effect permanently.
 
+## Loot
+
+### Treasure Bastions
+1 Crying Upgrade Smithing Template has a 5% chance to be in Treasure Bastions.
+1 or 2 Crying Ingots a 22.5% chance to be in Treasure Bastions.
+
+### Bridge Bastions
+1 Crying Upgrade Smithing Template has a 6.18% chance to be in Bridge Bastions.
+1 or 2 Crying Ingots a 20% chance to be in Bridge Bastions.
+
+### Ruined Portal Chests
+1 Crying Obsidian has a 33% chance to be in Ruined Portal chests.
+1 or 2 Crying Residues have a 18% chance.
+
+#### Ominous Vaults
+1 Crying Hoe has a 8% chance to pop out of Ominous Vaults (Rare loot table).
+1 Crying Axe has a 6% chance to pop out of Ominous Vaults (Rare loot table).
+1 Crying Pickaxe has a 5% chance to pop out of Ominous Vaults (Rare loot table).
+
 ## Bane of Criers
 Bane of Criers (![bane](https://i.ibb.co/HgbH5Z8/bane-of-criers-effect.png "bane")) is both a **Status Effect** and an **Enchantment**.
 If a **weapon** enchanted with Bane of Criers is used on a living entity, the entity will be given the status effect. When an entity has the Bane of Criers effect, it will take 2 times more damage from all damage types. The duration of the effect depends on the enchantment level, the formula being `2.5 + 1 * (level - 1)`.
@@ -197,7 +239,17 @@ When an entity has the Bane of Criers, they will cry.
 
 ![crying](https://i.ibb.co/Jdk3pY5/qqq.gif "crying")
 
-The enchanted book can be traded with librarian villagers, can be found on enchantment tables and ominous vaults in Trial Chambers.
+The enchanted book can be traded with librarian villagers and can be found on enchantment tables.
+It can be used on **swords**, **axes** and The Crying Being.
+
+## Smoothness
+Smoothness is an enchantment that increases attack speed of a weapon.
+For every level, it increases 0.08 speed and the max level of the enchantment is 5.
+
+![image](https://github.com/user-attachments/assets/900b98a2-2bb4-4cd3-aa97-a5485fe4bc6f)
+
+Smoothness book can be traded with librarian villagers, can be found on enchantment tables (The Crying Being only).
+It can be used on **swords**, **axes** and The Crying Being.
 
 ## **Advancements**
 

@@ -12,6 +12,7 @@
     "effect.crying.crier": "Ağlayan",
     "effect.crying.bane_of_criers_effect": "Ağlayanların Kıyameti",
     "enchantment.crying.bane_of_criers": "Ağlayanların Kıyameti",
+    "enchantment.crying.smoothness": "Akıcılık",
     "item.crying.crying_pickaxe": "Ağlayan Kazma",
     "item.crying.crying_pickaxe_damaged": "Hasarlı Ağlayan Kazma",
     "item.crying.crying_pickaxe_heavily_damaged": "Ağır Hasarlı Ağlayan Kazma",
@@ -47,5 +48,8 @@
     "item.crying.crying_knife": "Ağlayan Bıçak",
     "item.crying.crying_knife_damaged": "Hasarlı Ağlayan Bıçak",
     "item.crying.crying_knife_heavily_damaged": "Ağır Hasarlı Ağlayan Bıçak",
+    "item.crying.over-hardened_core": "Aşırı Sertleştirilmiş Çekirdek",
+    "item.crying.the_crying_being": "Ağlayan Varlık",
+    "item.crying.crying_rod": "Ağlayan Çubuk", 
     "trim_material.crying.crying": "Ağlayan Materyal"
 }

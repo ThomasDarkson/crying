@@ -1,3 +1,16 @@
+# 2.2.0 - The Crying Update
+- New *universal* tool: **The Crying Being**
+- New Block: **Over-hardened Core**
+- New Item: **Crying Rod**
+- New Enchantment: **Smoothness**
+- **Crying Pickaxe** can now break **Reinforced Deepslate** with 1 in 28 chance
+- Crying Residue and Crying Obsidian can now be found in Ruined Portal chests
+- Crying Pickaxe, Crying Axe and Crying Hoe can now be found in Ominous Vaults in Trial Chambers
+- Bane of Criers book is removed from Ominous Vaults
+- Crying Levels now regenerate faster
+- Crying Levels will now regenerate in Creative Mode
+- **Crying Block** is renamed to **Block of Crying**
+
 # 2.1.1
 - Updated Crying Ingot, Crying Upgrade Smithing Template and Hard Crying Obsidian recipes
 - Updated Hard Crying Obsidian Texture

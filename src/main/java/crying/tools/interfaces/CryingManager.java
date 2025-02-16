@@ -87,14 +87,14 @@ public class CryingManager {
         {
             ++this.cryingTickTimer;
 
-            int ticktime = 500;
+            int ticktime = 300;
             if (difficulty == Difficulty.EASY)
-                ticktime = 300;
+                ticktime = 100;
             else if (difficulty == Difficulty.HARD)
-                ticktime = 700;
+                ticktime = 500;
 
-            if (difficulty == Difficulty.PEACEFUL)
-                ticktime = 20;
+            if (difficulty == Difficulty.PEACEFUL || player.isCreative())
+                ticktime = 5;
 
             if (this.cryingTickTimer >= ticktime)
             {

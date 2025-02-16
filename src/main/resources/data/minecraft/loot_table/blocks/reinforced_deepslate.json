@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.03571428571
+                },
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "items": [
+                      "crying:crying_pickaxe",
+                      "crying:the_crying_being"
+                    ]
+                  }
+                }
+              ],
+              "name": "minecraft:reinforced_deepslate"
+            }
+          ]
+        }
+      ],
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "minecraft:blocks/reinforced_deepslate"
+}

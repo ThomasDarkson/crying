@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.mojang.authlib.GameProfile;
 
+import crying.tools.Crying;
 import crying.tools.interfaces.CryingInterface;
 import crying.tools.interfaces.CryingManager;
 
@@ -34,6 +36,12 @@ public abstract class PlayerEntityMixin implements CryingInterface {
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
         PlayerEntity player = (PlayerEntity) (Object) this;
+        if (player.getMainHandStack().getItem() == Crying.THE_CRYING_BEING) {
+            if (source.isIn(DamageTypeTags.IS_PROJECTILE)) {
+                world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, player.getSoundCategory(), 1.0F, 1.0F);
+                info.setReturnValue(false);
+            }
+        }
         if (!player.isInvulnerableTo(world, source) 
             && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
             && !source.isIn(DamageTypeTags.IS_FALL)

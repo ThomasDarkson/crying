@@ -32,6 +32,7 @@ public class CryingKnife extends SwordItem {
     public CryingKnife() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_IRON_TOOL, durability, speed, attackDamageBonus, enchantability, ItemTags.IRON_TOOL_MATERIALS), 11F, -1.2F, new Item.Settings()
         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_knife")))
+        .fireproof()
         .enchantable(enchantability));
 
         Crying.register(this, "crying_knife");

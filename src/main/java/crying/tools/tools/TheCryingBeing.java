@@ -52,6 +52,7 @@ public class TheCryingBeing extends Item {
         super(
             new Item.Settings()
             .rarity(Rarity.EPIC)
+            .fireproof()
             .maxDamage(99999)
             .component(DataComponentTypes.TOOL, TheCryingBeing.createToolComponent())
             .attributeModifiers(TheCryingBeing.createAttributeModifiers())

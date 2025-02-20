@@ -1,3 +1,6 @@
+# 2.2.1 - Bugfix
+- Crying Knife and The Crying Being is now fireproof
+
 # 2.2.0 - The Crying Update
 - New *universal* tool: **The Crying Being**
 - New Block: **Over-hardened Core**

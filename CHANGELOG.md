@@ -1,3 +1,7 @@
+# 2.2.2 - The Last Update until 1.21.5
+- Crying Knife now damages Enderman, Endermite and Ghast more like Crying Sword
+- Changed how frequently items blink
+
 # 2.2.1 - Bugfix
 - Crying Knife and The Crying Being is now fireproof
 

@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
@@ -50,7 +51,8 @@ public abstract class LivingEntityMixin {
                 info.setReturnValue(dmg);
             }
             if (source.getWeaponStack() != null) {
-                if (source.getWeaponStack().getItem() == Crying.sword && (
+                Item weapon = source.getWeaponStack().getItem();
+                if ((weapon == Crying.sword || weapon == Crying.crying_knife) && (
                     entity.getType() == EntityType.ENDERMAN ||
                     entity.getType() == EntityType.ENDERMITE ||
                     entity.getType() == EntityType.GHAST

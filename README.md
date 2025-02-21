@@ -122,7 +122,7 @@ Knives and Crying Sword is the same with all the other swords.
 - **Knife**: 2.3
 - **All Other**: Same as Netherite ones
   
-**Crying Sword** damages the mobs **Enderman**, **Endermite** and **Ghast** twice.
+**Crying Sword** and **Crying Knife** damage **Enderman**, **Endermite** and **Ghast** twice.
 
 #### **Enchantability**
 - **All Crying Tools:** 50

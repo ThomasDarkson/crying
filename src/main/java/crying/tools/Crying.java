@@ -80,6 +80,7 @@ public class Crying implements ModInitializer {
 	public static SwordItem sword = null;
 
 	public static SwordItem knife = null;
+	public static SwordItem crying_knife = null;
 
 	public static Item THE_CRYING_BEING = null;
 
@@ -109,7 +110,7 @@ public class Crying implements ModInitializer {
 		// Knives
 		new Handle();
 		knife = new Knife();
-		new CryingKnife();
+		crying_knife = new CryingKnife();
 
         // Armor
 		Crier.setupCrier();

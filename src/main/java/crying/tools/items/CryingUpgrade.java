@@ -20,7 +20,7 @@ import net.minecraft.util.Rarity;
 public class CryingUpgrade extends Item {
     public CryingUpgrade() {
         super(new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_upgrade_smithing_template")))
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_upgrade_smithing_template")))
         .fireproof()
         .rarity(Rarity.UNCOMMON));
         Crying.register(this, "crying_upgrade_smithing_template");

@@ -10,7 +10,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 public class BaneOfCriers extends StatusEffect {
-    public static RegistryEntry<StatusEffect> EFFECT = Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(Crying.MOD_ID, "bane_of_criers_effect"), new BaneOfCriers());
+    public static RegistryEntry<StatusEffect> EFFECT = Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(Crying.ID, "bane_of_criers_effect"), new BaneOfCriers());
 
 	public static void initialize() {
 

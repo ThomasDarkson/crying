@@ -3,7 +3,7 @@
     "translate": "enchantment.crying.smoothness"
   },
   "supported_items": "#crying:can_be_enchanted_with_smoothness",
-  "primary_items": "crying:the_crying_being",
+  "primary_items": "#minecraft:swords",
   "weight": 1,
   "max_level": 5,
   "min_cost": {

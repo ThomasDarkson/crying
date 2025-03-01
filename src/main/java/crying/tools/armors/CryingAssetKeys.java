@@ -12,6 +12,6 @@ public class CryingAssetKeys implements EquipmentAssetKeys {
    public static RegistryKey<EquipmentAsset> CRYING = register("crying");
 
    static RegistryKey<EquipmentAsset> register(String name) {
-      return RegistryKey.of(REGISTRY_KEY, Identifier.of(Crying.MOD_ID, name));
+      return RegistryKey.of(REGISTRY_KEY, Identifier.of(Crying.ID, name));
    }
 }

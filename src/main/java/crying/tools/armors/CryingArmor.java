@@ -3,16 +3,16 @@ package crying.tools.armors;
 import java.util.Map;
 
 import crying.tools.Crying;
-import crying.tools.effects.Crier;
-import crying.tools.interfaces.CryingInterface;
+import crying.tools.interfaces.SanityInterface;
 import crying.tools.other.CryingTags;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.ArmorMaterials;
 import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 
 public class CryingArmor implements ArmorMaterials {
@@ -32,45 +32,47 @@ public class CryingArmor implements ArmorMaterials {
         CryingAssetKeys.CRYING
     );
 
-    public static void checkAndApplyArmorEffect(ServerPlayerEntity player) {
-        int amplifier = isWearingFullSet(player);
-        if (amplifier <= 0)
-        {
-            if (player.hasStatusEffect(Crier.CRIER))
-                player.removeStatusEffect(Crier.CRIER);
-
-            Crier.setAmplifier((Crier) Crier.CRIER.value(), -1);
-            return;
-        }
-
-        if (amplifier > 0) {
-            Crier.setAmplifier((Crier) Crier.CRIER.value(), amplifier - 1);
-            if (!player.hasStatusEffect(Crier.CRIER))
-                player.addStatusEffect(new StatusEffectInstance(Crier.CRIER, -1, 0, false, false));
-        }
-    }
-
-    public static int isWearingFullSet(ServerPlayerEntity player) {
+    public static int setCount(LivingEntity entity) {
         int amplifier = 0;
-        ItemStack helmet = player.getInventory().getArmorStack(3); 
-        ItemStack chestplate = player.getInventory().getArmorStack(2);
-        ItemStack leggings = player.getInventory().getArmorStack(1);
-        ItemStack boots = player.getInventory().getArmorStack(0);
-        if (isCryingArmor(helmet))
-            amplifier++;
-        if (isCryingArmor(boots))
-            amplifier++;
-        if (isCryingArmor(leggings))
-            amplifier++;
-        if (isCryingArmor(chestplate))
-            amplifier++;
+        ItemStack h = entity.getEquippedStack(EquipmentSlot.HEAD);
+        ItemStack c = entity.getEquippedStack(EquipmentSlot.CHEST);
+        ItemStack l = entity.getEquippedStack(EquipmentSlot.LEGS);
+        ItemStack b = entity.getEquippedStack(EquipmentSlot.FEET);
 
-        CryingInterface cryingPlayer = (CryingInterface) (Object) ((PlayerEntity) player);
-        cryingPlayer.getManagerOverride_crying().adjustCryingLevel(amplifier);
+        ItemStack armors[] = {h, c, l, b};
+
+        for (ItemStack i : armors) {
+            if (isCryingArmor(i)) {
+                amplifier++;
+            }
+        }
+
+        if (entity instanceof PlayerEntity player) {
+            SanityInterface cryingPlayer = (SanityInterface) (Object) ((PlayerEntity) player);
+            cryingPlayer.getManagerOverride_crying().adjustsanityLevel(amplifier);
+        }
         return amplifier;
     }
 
     public static boolean isCryingArmor(ItemStack itemStack) {
-        return itemStack != null && itemStack.getItem().toString().contains("crying");
+        Item[] armors = {
+            Crying.helmet,
+            Crying.chestplate,
+            Crying.leggings,
+            Crying.boots
+        };
+        if (itemStack != null) {
+            boolean returner = false;
+            Item armor = itemStack.getItem();
+            for (Item i : armors) {
+                if (armor == i) {
+                    returner = true;
+                    break;
+                }
+            }
+
+            return returner;
+        }
+        return false;
     }
 }

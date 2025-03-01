@@ -19,6 +19,6 @@ public class Handle {
     }
 
     public void create() {
-        this.item = new Item(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "handle"))));
+        this.item = new Item(new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "handle"))));
     }
 }

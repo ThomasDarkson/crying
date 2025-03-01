@@ -2,18 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "group": "crying",
   "pattern": [
+    " ! ",
     "?#?",
     " * "
   ],
   "key": {
     "#": [
-      "crying:over-hardened_core"
+      "crying:over-hardened_core_with_eye"
     ],
     "*": [
       "crying:crying_rod"
     ],
     "?": [
       "crying:crying_ingot"
+    ],
+    "!": [
+      "minecraft:crying_obsidian"
     ]
   },
   "result": {

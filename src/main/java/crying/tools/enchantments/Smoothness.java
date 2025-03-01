@@ -7,7 +7,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class Smoothness {
-    public static final RegistryKey<Enchantment> smoothness = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(Crying.MOD_ID, "smoothness"));
+    public static final RegistryKey<Enchantment> smoothness = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(Crying.ID, "smoothness"));
 
     public static void initialize() {
 

@@ -13,6 +13,7 @@
     "effect.crying.bane_of_criers_effect": "Bane of Criers",
     "enchantment.crying.bane_of_criers": "Bane of Criers",
     "enchantment.crying.smoothness": "Smoothness",
+    "entity.crying.crier": "Crier",
     "item.crying.crying_pickaxe": "Crying Pickaxe",
     "item.crying.crying_pickaxe_damaged": "Damaged Crying Pickaxe",
     "item.crying.crying_pickaxe_heavily_damaged": "Heavily Damaged Crying Pickaxe",
@@ -49,7 +50,14 @@
     "item.crying.crying_knife_damaged": "Damaged Crying Knife",
     "item.crying.crying_knife_heavily_damaged": "Heavily Damaged Crying Knife",
     "item.crying.over-hardened_core": "Over-hardened Core",
+    "item.crying.over-hardened_core_with_eye": "Over-hardened Core with Eye",
+    "item.crying.eye": "Eye",
     "item.crying.the_crying_being": "The Crying Being",
     "item.crying.crying_rod": "Crying Rod", 
+    "item.crying.crier_spawn_egg": "Crier Spawn Egg",
+    "resourcepack.crying.mice.name": "C418 Songs + Crying Mice",
+    "subtitles.crying.crier_idle": "Crier Groans",
+    "subtitles.crying.crier_hurt": "Crier Gets Hurt",
+    "subtitles.crying.crier_dies": "Crier Dies",
     "trim_material.crying.crying": "Crying Material"
 }

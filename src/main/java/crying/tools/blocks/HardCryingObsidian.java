@@ -21,7 +21,7 @@ public class HardCryingObsidian extends CryingObsidianBlock {
     public HardCryingObsidian() {
         super(
             Settings.create().
-            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.MOD_ID, "hard_crying_obsidian"))).
+            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "hard_crying_obsidian"))).
             mapColor(MapColor.BLACK).
             instrument(NoteBlockInstrument.BASEDRUM).
             requiresTool().

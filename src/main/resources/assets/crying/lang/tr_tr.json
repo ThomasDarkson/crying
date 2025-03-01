@@ -13,6 +13,7 @@
     "effect.crying.bane_of_criers_effect": "Ağlayanların Kıyameti",
     "enchantment.crying.bane_of_criers": "Ağlayanların Kıyameti",
     "enchantment.crying.smoothness": "Akıcılık",
+    "entity.crying.crier": "Ağlayan",
     "item.crying.crying_pickaxe": "Ağlayan Kazma",
     "item.crying.crying_pickaxe_damaged": "Hasarlı Ağlayan Kazma",
     "item.crying.crying_pickaxe_heavily_damaged": "Ağır Hasarlı Ağlayan Kazma",
@@ -49,7 +50,14 @@
     "item.crying.crying_knife_damaged": "Hasarlı Ağlayan Bıçak",
     "item.crying.crying_knife_heavily_damaged": "Ağır Hasarlı Ağlayan Bıçak",
     "item.crying.over-hardened_core": "Aşırı Sertleştirilmiş Çekirdek",
+    "item.crying.over-hardened_core_with_eye": "Göz ile Aşırı Sertleştirilmiş Çekirdek",
+    "item.crying.eye": "Göz",
     "item.crying.the_crying_being": "Ağlayan Varlık",
     "item.crying.crying_rod": "Ağlayan Çubuk", 
+    "item.crying.crier_spawn_egg": "Crier Spawn Egg",
+    "resourcepack.crying.mice.name": "C418 Şarkıları + Crying Mice",
+    "subtitles.crying.crier_idle": "Ağlayan İnler",
+    "subtitles.crying.crier_hurt": "Ağlayan Hasar Alır",
+    "subtitles.crying.crier_dies": "Ağlayan Ölür",
     "trim_material.crying.crying": "Ağlayan Materyal"
 }

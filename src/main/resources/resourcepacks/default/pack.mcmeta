@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "pack_format": 46,
+    "supported_formats": {
+      "min_inclusive": 46,
+      "max_inclusive": 53
+    },
+    "description": "This pack replaces all songs with C418 songs + Crying Mice."
+  }
+}

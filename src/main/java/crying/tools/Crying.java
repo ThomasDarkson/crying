@@ -14,15 +14,18 @@ import crying.tools.blocks.CryingBlock;
 import crying.tools.blocks.CryingOre;
 import crying.tools.blocks.HardCryingObsidian;
 import crying.tools.blocks.OverHardenedCore;
+import crying.tools.blocks.OverHardenedCoreWithEye;
 import crying.tools.enchantments.BaneOfCriers;
 import crying.tools.enchantments.Smoothness;
+import crying.tools.entities.CrierEntity;
+import crying.tools.items.CrierSpawnEgg;
 import crying.tools.items.CryingApple;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingRod;
 import crying.tools.items.CryingUpgrade;
+import crying.tools.items.Eye;
 import crying.tools.items.Handle;
-import crying.tools.effects.Crier;
 import crying.tools.other.CryingLoot;
 import crying.tools.other.CryingTags;
 import crying.tools.tools.CryingAxe;
@@ -35,11 +38,15 @@ import crying.tools.tools.Knife;
 import crying.tools.tools.TheCryingBeing;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
-
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentAsset;
@@ -52,25 +59,37 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
 public class Crying implements ModInitializer {
-    public static final String MOD_ID = "crying";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final String ID = "crying";
+    public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 
-    public static Item[] itemsAllowed = {
-		Items.NETHERITE_AXE, 
-		Items.NETHERITE_SWORD, 
-		Items.NETHERITE_PICKAXE, 
-		Items.NETHERITE_HOE, 
-		Items.NETHERITE_SHOVEL, 
-	}; // Make it so netherite tools can be placed into smithing table slots
+	@SuppressWarnings("rawtypes")
+	static RegistryKey key(String id) {
+		return RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, id));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static final EntityType<CrierEntity> CRIER = Registry.register(
+		Registries.ENTITY_TYPE,
+		key("crier"),
+		EntityType.Builder.create(CrierEntity::new, SpawnGroup.MONSTER).makeFireImmune().dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(key("crier"))
+	);
+
+	public static Item helmet = null;
+	public static Item chestplate = null;
+	public static Item leggings = null;
+	public static Item boots = null;
 
 	public static Item residue = null;
 	public static Item ingot = null;
 
 	public static Item upgrade = null;
+
+	public static Item overhardenedcore = null;
 
 	public static Item crying_apple = null;
 
@@ -83,6 +102,15 @@ public class Crying implements ModInitializer {
 	public static SwordItem crying_knife = null;
 
 	public static Item THE_CRYING_BEING = null;
+
+	public static final Identifier CRIER_IDLE = Identifier.of(ID, "crier_idle");
+    public static SoundEvent CRIER_IDLE_EVENT = SoundEvent.of(CRIER_IDLE);
+
+	public static final Identifier CRIER_HURT = Identifier.of(ID, "crier_hurt");
+    public static SoundEvent CRIER_HURT_EVENT = SoundEvent.of(CRIER_HURT);
+
+	public static final Identifier CRIER_DIES = Identifier.of(ID, "crier_dies");
+    public static SoundEvent CRIER_DIES_EVENT = SoundEvent.of(CRIER_DIES);
 
 	@Override
 	public void onInitialize() {
@@ -112,17 +140,19 @@ public class Crying implements ModInitializer {
 		knife = new Knife();
 		crying_knife = new CryingKnife();
 
-        // Armor
-		Crier.setupCrier();
         new CryingBoots();
         new CryingLeggings();
         new CryingChestplate();
-        new CryingHelmet();
+        helmet = new CryingHelmet().item;
+
+		boots = CryingBoots.item;
+		chestplate = CryingChestplate.item;
+		leggings = CryingLeggings.item;
 
 		crying_apple = new CryingApple();
 
 		new CryingRod();
-		new OverHardenedCore();
+		overhardenedcore = new OverHardenedCore().asItem();
 		
 		THE_CRYING_BEING = new TheCryingBeing();
 
@@ -133,33 +163,48 @@ public class Crying implements ModInitializer {
 		BaneOfCriers.initialize();
 		Smoothness.initialize();
 
+		Registry.register(Registries.SOUND_EVENT, CRIER_IDLE, CRIER_IDLE_EVENT);
+		Registry.register(Registries.SOUND_EVENT, CRIER_HURT, CRIER_HURT_EVENT);
+		Registry.register(Registries.SOUND_EVENT, CRIER_DIES, CRIER_DIES_EVENT);
+
+		new Eye();
+		new OverHardenedCoreWithEye();
+
+		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
+
+		new CrierSpawnEgg();
+
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(player -> {
                 if (player instanceof ServerPlayerEntity serverPlayer) {
-                    CryingArmor.checkAndApplyArmorEffect(serverPlayer);
+                    CryingArmor.setCount(serverPlayer);
                 }
             });
         });
+
+		FabricLoader.getInstance().getModContainer(ID).ifPresent(container -> {
+			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "default"), container, Text.translatable("resourcepack.crying.mice.name"), ResourcePackActivationType.NORMAL);
+		});
 	}
 
     public static Item register(Item item, String id) {
-		Identifier itemID = Identifier.of(Crying.MOD_ID, id);
+		Identifier itemID = Identifier.of(Crying.ID, id);
 		Item registeredItem = Registry.register(Registries.ITEM, itemID, item);
 		return registeredItem;
 	}
 
 	public static Block registerBlock(Block block, String name, boolean shouldRegisterItem) {
-		Identifier id = Identifier.of(Crying.MOD_ID, name);
+		Identifier id = Identifier.of(Crying.ID, name);
 		Rarity rarity = Rarity.COMMON;
 		Integer stack = 64;
 
-		if (name == "over-hardened_core") {
+		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye") {
 			rarity = Rarity.EPIC;
 			stack = 1;
 		}
 
 		if (shouldRegisterItem) {
-			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, name))).rarity(rarity).maxCount(stack));
+			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name))).rarity(rarity).maxCount(stack));
 			Registry.register(Registries.ITEM, id, blockItem);
 		}
 

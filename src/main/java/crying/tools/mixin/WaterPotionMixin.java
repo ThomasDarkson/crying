@@ -20,10 +20,10 @@ public abstract class WaterPotionMixin {
     @Inject(method = "onConsume", at = @At("TAIL"))
     public void onConsume(World world, LivingEntity user, ItemStack stack, ConsumableComponent consumable, CallbackInfo info) {
         if (user instanceof PlayerEntity player) {
-            CryingManager manager = ((CryingInterface) (Object) player).getManagerOverride_crying();
+            SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
             PotionContentsComponent potion = (PotionContentsComponent) (Object) this;
             if (potion.matches(Potions.WATER)) {
-                manager.decreaseLevel(-8F);
+                manager.decreaseLevel(-10F);
             }
         }
     }

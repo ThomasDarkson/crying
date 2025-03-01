@@ -1,4 +1,23 @@
-# 2.2.2 - The Last Update until 1.21.5
+# 3.0.0 - The Awakening Update
+- New Boss Mob: **Crier**, drops 1 *Eye*
+- New Track: Crying Mice
+- Built in a new resource pack for the track
+- 2 New Items: **Eye** and **Crier Spawn Egg**
+- 1 New Block: **Over-hardened Core with Eye**, *The Crying Being* crafting recipe now needs one
+- Replaced Crying Level system with **Sanity** system, the things you do affect your **Sanity**
+- Reworked **Crying Apple**
+- Retextured some textures
+- *The Crying Being* now protects an entity from projectile, fire, lightning and fall damage
+- *The Crying Being* has now 2147483647 durability and 666 attack speed
+- *The Crying Being* will not damage any players no matter which entity is using it
+- *The Crying Being* now can be used as a hoe to till supported blocks
+- *The Crying Being* now cannot be enchanted with the **Smoothness** enchantment
+- Removed the Crier **effect**
+- Increased the levels drinking water gives
+- Fixed permanent levels transfering over to other worlds
+- Decreased the chances of Crying Axe and Crying Pickaxe loot
+
+# 2.2.2
 - Crying Knife now damages Enderman, Endermite and Ghast more like Crying Sword
 - Changed how frequently items blink
 

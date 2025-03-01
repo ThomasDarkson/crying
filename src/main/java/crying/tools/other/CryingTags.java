@@ -13,9 +13,9 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 public class CryingTags extends FabricTagProvider<Item> {
-    public static final TagKey<Item> CryingTag = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_repair"));
+    public static final TagKey<Item> CryingTag = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_repair"));
 
-    public static final TagKey<Item> CAN_SMOOTH = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "can_be_enchanted_with_smoothness"));
+    public static final TagKey<Item> CAN_SMOOTH = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "can_be_enchanted_with_smoothness"));
 
     public CryingTags(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, RegistryKeys.ITEM, registriesFuture);

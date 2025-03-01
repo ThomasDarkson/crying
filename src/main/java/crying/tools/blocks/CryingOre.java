@@ -30,7 +30,7 @@ public class CryingOre extends CryingObsidianBlock
     public CryingOre() {
         super(
             Settings.create().
-            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.MOD_ID, "crying_ore"))).
+            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "crying_ore"))).
             mapColor(MapColor.BLACK).
             instrument(NoteBlockInstrument.BASEDRUM).
             requiresTool().

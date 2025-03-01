@@ -28,7 +28,7 @@
   },
   "elements": [
     {
-      "name": "over-hardened_block",
+      "name": "over-hardened_core",
       "from": [4, 0, 4],
       "to": [12, 8, 12],
       "faces": {

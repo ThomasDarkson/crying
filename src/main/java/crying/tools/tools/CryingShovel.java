@@ -27,7 +27,7 @@ public class CryingShovel extends ShovelItem {
 
     public CryingShovel() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 6.5F, -3F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_shovel")))
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_shovel")))
         .fireproof()
         .enchantable(enchantability));
 

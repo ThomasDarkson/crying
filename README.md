@@ -9,14 +9,23 @@
 Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and more.
 
 Crying Tools adds:
+- 1 New Boss
 - 8 New Tools
 - 5 New Advancements
 - 4 New Trimmable Armor
-- 4 New Blocks
-- 4 New Items
+- 5 New Blocks
+- 6 New Items
 - 1 New Ore
+- 1 New Track
 - 2 New Enchantments 
 with new mechanics!
+
+## Crying Mice
+Crying Mice is a track inspired by C418's **Living Mice**, it can play in **Bamboo Jungles**, **Forests**, **Flower Forests**, **Sparse Jungles**, **Old Growth Taigas**, **Stony Peaks** and **Meadows**.
+
+It can also play in creative mode.
+
+If you want nostalgia, Crying Tools comes with an optional resource pack that replaces all songs with C418 songs + Crying Mice. You can enable it in resource packs menu in game.
 
 ## Crying Ore
 Crying Ore is a very rare ore that generates both in the Nether and the Overworld.
@@ -61,12 +70,24 @@ A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back 
 ![image](https://github.com/user-attachments/assets/3ff12e05-af67-4578-b5bc-58602f849a2f)
 
 ## Over-hardened Core
-Over-hardened Core is a block used to craft The Crying Being. It has the 900 hardness and has 32 million blast resistance.
+Over-hardened Core is a block used to craft an **Over-hardened Core with Eye**. It has the 900 hardness and has 32 million blast resistance. It is not stackable.
 To craft one, you need 7 **Reinforced Deepslate (check note)**, one Block of Crying and one **Heavy Core**.
 
 Note: A Crying Pickaxe has a 1 in 28 chance of dropping a reinforced deepslate when it breaks one, therefore making it obtainable in survival.
 
 ![image](https://github.com/user-attachments/assets/50183dd1-77d7-4c84-a224-5a6a393fa5da)
+
+## Eye
+Eye is an item used to craft an **Over-hardened Core with Eye**. It is only obtainable by killing a **Crier**.
+
+## Over-hardened Core with Eye
+Over-hardened Core with Eye is a block used to craft **The Crying Being**, It has -1 hardness and cannot be placed on any block. It is not stackable.
+
+If it gets placed on any block, it will instantly break and drop itself. Item frames are an exception to this, since they are an entity and not a block.
+
+To craft one, you need 1 **Eye** and 1 **Over-hardened Core**.
+
+![image](https://github.com/user-attachments/assets/31fdf1c2-e7a8-4503-b0d1-1f2e06b0e56c)
 
 ## Crying Rod
 Crying Rod is a kind of rod needed to craft The Crying Being.
@@ -76,17 +97,54 @@ To craft one, you need one **Blaze Rod** and one Crying Obsidian.
 ![image](https://github.com/user-attachments/assets/dd5902b3-febb-4456-b4b6-5ba67f089efa)
 
 ## The Crying Being
-The Crying Being is an **universal** end-game item, meaning it's a sword, pickaxe, axe, shovel, hoe and **Mace** all in one.
-It can break any breakable block **instantly**, it deals a maximum of 999 damage and can be used like a mace. 
+The Crying Being is an **universal** end-game item, meaning it's a sword, pickaxe, axe, shovel, hoe all in one.
+It can break any breakable block **instantly**, it deals a maximum of 2147483647 damage and has an attack speed of 666. 
 
-Just like a mace, making a successful hit mid-air will cancel **all** fall damage. However, The Crying Being cannot be enchanted with mace enchantments and will not deal more damage unlike a mace.
+Just like a hoe, The Crying Being can be used to till supported blocks with a right click.
 
-To craft one, you need a **Crying Rod**, one **Over-hardened Core** and 2 Crying Ingots.
+To craft one, you need a **Crying Rod**, one **Over-hardened Core with Eye**, 2 Crying Ingots and 1 Crying Obsidian.
 
-![image](https://github.com/user-attachments/assets/7bbd5ae0-299c-493f-ac80-63fd5b0e5ece)
+The Crying Being will protect any living entity from projectile, explosion, lightning and fall damage if the entity is holding it in it's main hand. This also includes players.
+
+The Crying Being will never damage any players, no matter if a player of a mob uses it.
+
+![image](https://github.com/user-attachments/assets/3a3af225-86dd-4036-9d21-e1fb648ee93b)
+
+## Crier
+The **Crier** is a boss that can be summoned by a player, they are the only sources of **Eye**.
+
+![2025-02-28_22 55 27](https://github.com/user-attachments/assets/c9e8b2c8-602f-45f1-8dfe-6e4eeb8b35e4)
+
+It always spawns with a Crying Helmet, Crying Sword and shield, and it will immediately start to attack the player. 
+
+It has 666 health points; is completely immune to suffocation, drowning, fall and projectile damage. It blocks attacks with its shield with a 20% chance.
+
+If Crier loses 25% of its health points, it will summon 4 **Husks**.
+If Crier loses 50% of its health points, it will summon 1 **Witch**.
+If Crier loses 75% of its health points, it will summon 1 **Illusioner**.
+
+If a Crier feels threatened, it can do these when it takes damage:
+- It can make itself invisible for 5 seconds with 5% chance.
+- It can heal itself 8 health with 7.5% chance.
+- It can create an explosion with 3.5 power with 4.5% chance. 
+
+It's permanently affected with the **Weakness II** status effect, and can't get any other status effects other than Weakness.
+
+It can break doors almost instantly and step up two full blocks, and walks faster in water than other mobs.
+
+It can be summoned with commands or **Crier Spawn Egg**, which is craftable with 8 **Crying Ingots** and 1 Egg.
+
+![image](https://github.com/user-attachments/assets/16b7362d-f87e-4d23-a4b2-e027f74c2a51)
+
+Crier will also attack these mobs:
+- Wardens
+- Cats
+- Endermen
+- Iron Golems
+- Snow Golems
 
 ## Upgrading to Crying
-To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template** (![crying_upgrade_smithing_template](https://github.com/user-attachments/assets/5ff9cb4d-d00b-4597-9fcb-2fa9b7162ed3)), one **Crying Ingot** (![crying_ingot](https://github.com/user-attachments/assets/37807b5d-780f-4ff8-a4b0-462fc4593d56)) and any Netherite equipment.
+To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template**, one **Crying Ingot** and any Netherite equipment.
 
 ![399583384-eca771e9-41c9-4942-8890-c150f24926eb](https://github.com/user-attachments/assets/26f82b84-d177-4092-bc1d-7fdf15408e83)
 
@@ -129,15 +187,15 @@ Knives and Crying Sword is the same with all the other swords.
 
 ## Knives
 Knives are combat tools that are weaker than swords but with much faster attack speeds.
-To craft a knife, you need a **handle** (![handle](https://github.com/user-attachments/assets/5dec3ba5-bb1f-4984-baaf-d75220a75a63)) and an **iron ingot** (![iron_ingot](https://github.com/user-attachments/assets/90bb663f-3f09-4c5a-b7ef-f2ac39f47b27)).
+To craft a knife, you need a **handle** and an **iron ingot**.
 
-To craft a handle, you need **4 sticks** (![stick](https://github.com/user-attachments/assets/85720fcb-f03e-4c15-8d10-e6ced8b603f1)).
+To craft a handle, you need **4 sticks**.
 
 ![image](https://github.com/user-attachments/assets/128f1dd3-df3d-479d-bd46-ffc5f0f1585d)
 
 ![image](https://github.com/user-attachments/assets/6bc9af0d-9766-4a88-9342-f333dfee408b)
 
-A knife can be ugraded to a Crying one, with one **Crying Upgrade Smithing Template** (![crying_upgrade_smithing_template](https://github.com/user-attachments/assets/5ff9cb4d-d00b-4597-9fcb-2fa9b7162ed3)) and one **Crying Ingot** (![crying_ingot](https://github.com/user-attachments/assets/37807b5d-780f-4ff8-a4b0-462fc4593d56)) just like any Netherite equipment.
+A knife can be ugraded to a Crying one, with one **Crying Upgrade Smithing Template** and one **Crying Ingot** just like any Netherite equipment.
 
 ![image](https://github.com/user-attachments/assets/9ad648d8-5b57-4aa2-a4e2-9f708244ce97)
 
@@ -153,64 +211,75 @@ Damage has no effect on the tool's attack damage and speed, just an indicator th
 ## Crying Armor
 Crying Armor is also 8 times stronger than Netherite Armor.
 
-| **Crying Armor Piece**     | **Durability** | **Defense Points** |  **Hardness** |
-|----------------------|----------------|---------------------|--------------------|  
-| **Crying Helmet**    | 6,501          | 6                   | 5                  |
-| **Crying Chestplate**| 9,456          | 16                  | 5                  |  
-| **Crying Leggings**  | 8,865          | 12                  | 5                  |  
-| **Crying Boots**     | 7,683          | 6                   | 5                  |  
+| **Crying Armor Piece**     | **Durability** | **Defense Points** |  **Hardness**  |
+|-----------------------|----------------|---------------------|--------------------|  
+| **Crying Helmet**     | 6,501          | 6                   | 5                  |
+| **Crying Chestplate** | 9,456          | 16                  | 5                  |  
+| **Crying Leggings**   | 8,865          | 12                  | 5                  |  
+| **Crying Boots**      | 7,683          | 6                   | 5                  |  
 
-(The extra defense points will be shown as ![full](https://i.ibb.co/JF7D1dV/armor-full.png "full"))
+(The extra defense points will be shown with ![full](https://i.ibb.co/JF7D1dV/armor-full.png "full"))
 
 #### **Enchantability**
 - **All Crying Armor:** 50
 
-## Crier
-When you wear any piece of Crying Armor, you're granted an effect called **Crier** (![cry](https://i.ibb.co/P1kMJ94/crier.png "cry")). The more pieces of Crying Armor you wear, the stronger the Crier effect gets. The effect is permanent unless no piece of Crying Armor is worn.
+## Sanity
 
-Crier effect gives you **Resistance** and **Strength**. Even though the Crier effect gets stronger when you wear more Crying Armor, Strength will never stack. This means even if you wear a full set of Crying Armor, the Crier effect you have will only give you Strength **I**. This is not the case for Resistance however, and it stacks.
+![image](https://github.com/user-attachments/assets/dc567a09-cb7b-442f-a6fb-7b4689f2fc37)
 
-The Crier effect doesn't affect normal Resistance and Strength effects.
+When you wear any piece of Crying Armor, you need to control your Sanity so the armor can give you more protection. You need to control your Sanity unless you don't wear any Crying Armor.
 
-## Crying Level
-Crying Level is a player-specific feature that regulates how active the Crier effect on a player is. 
-If a player is wearing not wearing any Crying armor, this feature is inactive until the player wears any Crying armor.
+Your sanity level determines how much extra protection Crying Armor gives you. Higher your sanity level is, higher the extra protection the armor will give you.
 
-Amount of crying levels on a player depends on their worn crying armor count. For every one crying armor, their maximum crying level increases by 5. 
-For example if a player is wearing full set crying armor, their maximum crying level will be 20.
+Maximum sanity level can be increased with wearing more Crying Armor, for every 1 armor the maximum sanity level increases by 5. Since you can wear 4 armor, the highest it can be is 20.
 
-The crying level is shown with a bar that shows the current level and the max level. (![crying_half_empty](https://github.com/user-attachments/assets/642f88e7-eea5-423e-becb-c34dfba008fb)
-![crying_half](https://github.com/user-attachments/assets/c1068b8a-ae54-4026-99a9-5a31c544ff21)
-![crying_full](https://github.com/user-attachments/assets/4a2150d5-1d4d-44d0-8f44-a593382aec27)
-![crying_empty](https://github.com/user-attachments/assets/0ed9cd4f-0e88-4a94-afb7-f9aead5fecb2)
-![crying_half_max](https://github.com/user-attachments/assets/f4279f8d-24df-443f-b410-4b800e902b05))
+The protection is calculated with the formula %`20 * (MaxSanityLevel * (sanityLevel / MaxSanityLevel))`, the protection is capped at 80%.
 
+If your sanity level hits zero, armor will not give you any extra protection.
 
-![image](https://github.com/user-attachments/assets/6af1cbce-3af0-4563-9507-b1b05685d8de)
+Your sanity will increase or decrease based on your actions, for example eating a poisonous food will drain your sanity. Your sanity will always regenerate unless it hits maximum level.
 
-The effectiveness of the Crier effect is calculated with Crying Level ÷ Max Crying Level. Any damage from any hostile mob will drain the levels, draining 1 level every 4 damage taken.
+- On **Hard** difficulty, sanity regenerates every **30** seconds.
+- On **Normal** difficulty, sanity regenerates every **20** seconds.
+- On **Easy** difficulty, sanity regenerates every **10** seconds.
+- On **Peaceful** difficulty, sanity regenerates every **0.25** second.
 
-If the level hits zero, the Crier effect will be inactive. Crying levels always regenerate unless the bar hits maximum level.
+### Actions that drain sanity instantly
+- Taking damage from any hostile or neutral mob or slime, drains `(damage / 4)` sanity
+- Eating a **pufferfish**, drains **all** sanity
+- Killing a **villager**, **cat**, **tamed animal**, **wandering trader**, **iron golem**, **snow golem** or an **allay**; drains **all** sanity.
+- Eating a **rotten flesh**, **poisonous potato**, **raw chicken** or a spider eye; drains **4** sanity.
+- Keeping HP under 40%, drains **1** sanity every **10** seconds
 
-- On **Hard** difficulty, one Crying level regenerates every **25** seconds.
-- On **Normal** difficulty, one Crying level regenerates every **15** seconds.
-- On **Easy** difficulty, one Crying level regenerates every **5** seconds.
-- On **Peaceful** difficulty, one Crying level regenerates every **0.25** second.
+### Actions that regenerate sanity instantly
+- Drinking **honey**, regenerates **all** sanity
+- Taming a **tameable animal**, regenerates **all** sanity
+- Killing an **illusioner**, regenerates **16** sanity
+- Drinking **water**, regenerates **10** sanity
+- Killing a **witch**, regenerates **8** sanity
+- Killing an **enderman**, **ghast** or **endermite**, regenerates **5** sanity
+- Killing an **evoker**, regenerates **4** sanity
+- Eating **cooked beef**, **porkchop** or **mutton**; regenerates **4** sanity with 30% chance
+- Eating a **Crying Apple** regenerates 2 sanity
 
-Drinking water will regenerate **8** Crying Levels.
+## Crying Apple
+Crying Apple is a food that is crafted from 4 Crying Obsidian and 1 Apple.
+Eating one takes 6.2 seconds and restores all hunger and saturation, and can be eaten even if the hunger bar is full.
 
-#### Permanent Levels
-Levels can be made permanent so they do not drain from damages from hostile mobs. 
-Eating a **Crying Apple** (![crying_apple](https://github.com/user-attachments/assets/409644a6-e335-46ce-b1ba-a5e573f84d4a)) will make **2** Crying levels **permanent**. A Crying Apple can be crafted with an apple (![apple](https://github.com/user-attachments/assets/0b48fa29-83a7-4ace-b06f-284e9a2659ce)) and a crying obsidian (![crying_obsidian](https://github.com/user-attachments/assets/17ed46c6-68d7-4dfa-b384-a4190936cabc)).
+![image](https://github.com/user-attachments/assets/5e0883e4-b1d2-4294-8260-1721a15be2e4)
 
+A Crying Apple will give the player **Slowness** 4 with 75% chance for 30 seconds, and **Bane of Criers** with 100% chance for 5 seconds.
 
-Permanent levels will be shown with yellow-ish outlines. (![crying_half_permanent](https://github.com/user-attachments/assets/98e8c56e-4918-4a7f-b043-f7d1c7af16cb)
-![crying_half_empty_permanent](https://github.com/user-attachments/assets/8cf70670-df2f-4327-8934-2207b31416f8)
-![crying_full_permanent](https://github.com/user-attachments/assets/346cb813-f0a6-4465-b5c8-eef7ae16a4d4)
-![crying_empty_permanent](https://github.com/user-attachments/assets/f14669f9-da12-41fd-b3bd-75adc423f606)
-![crying_half_max_permanent](https://github.com/user-attachments/assets/38c6274f-0ede-4236-9570-2ff0f3ca9684))
+Eating one will make **2** sanity levels **permanent**, meaning permanent levels cannot be drained ever again unless all pieces of Crying Armor is taken off.
 
-Since permanent levels never drain; if you eat 10 Crying Apples, all of your Crying Levels will never drain and therefore you will have the Crier effect permanently.
+Permanent levels will be shown with a yellow part in sanity bars.
+
+![image](https://github.com/user-attachments/assets/11629166-580f-4492-bfbe-a3628c178673)
+
+The permanent levels will come back when any piece of Crying Armor is worn. 
+Eating **10** Crying Apples will make all sanity levels permanent, meaning no action can drain it.
+
+Dying and respawning will not reset permanent levels.
 
 ## Loot
 
@@ -227,9 +296,9 @@ Since permanent levels never drain; if you eat 10 Crying Apples, all of your Cry
 1 or 2 Crying Residues have a 18% chance.
 
 #### Ominous Vaults
-1 Crying Hoe has a 8% chance to pop out of Ominous Vaults (Rare loot table).
-1 Crying Axe has a 6% chance to pop out of Ominous Vaults (Rare loot table).
-1 Crying Pickaxe has a 5% chance to pop out of Ominous Vaults (Rare loot table).
+1 Crying Hoe has a 5% chance to pop out of Ominous Vaults (Rare loot table).
+1 Crying Axe has a 4% chance to pop out of Ominous Vaults (Rare loot table).
+1 Crying Pickaxe has a 1% chance to pop out of Ominous Vaults (Rare loot table).
 
 ## Bane of Criers
 Bane of Criers (![bane](https://i.ibb.co/HgbH5Z8/bane-of-criers-effect.png "bane")) is both a **Status Effect** and an **Enchantment**.
@@ -244,12 +313,12 @@ It can be used on **swords**, **axes** and The Crying Being.
 
 ## Smoothness
 Smoothness is an enchantment that increases attack speed of a weapon.
-For every level, it increases 0.08 speed and the max level of the enchantment is 5.
+For every level, it increases 0.08 attack speed and the max level of the enchantment is 5.
 
 ![image](https://github.com/user-attachments/assets/900b98a2-2bb4-4cd3-aa97-a5485fe4bc6f)
 
-Smoothness book can be traded with librarian villagers, can be found on enchantment tables (The Crying Being only).
-It can be used on **swords**, **axes** and The Crying Being.
+Smoothness book can be traded with librarian villagers, can be found on enchantment tables.
+It can be used on **swords** and **axes**.
 
 ## **Advancements**
 

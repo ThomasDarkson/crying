@@ -1,15 +1,20 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "group": "crying",
-    "ingredients": [
-      [
-        "minecraft:crying_obsidian"
-      ],
-      [
-        "minecraft:apple"
-      ]
+  "type": "minecraft:crafting_shaped",
+  "group": "crying",
+  "pattern": [
+    " # ",
+    "#!#",
+    " # "
+  ],
+  "key": {
+    "#": [
+      "minecraft:crying_obsidian"
     ],
-    "result": {
-      "id": "crying:crying_apple"
-    }
+    "!": [
+      "minecraft:apple"
+    ]
+  },
+  "result": {
+    "id": "crying:crying_apple"
   }
+}

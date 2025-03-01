@@ -1,7 +1,9 @@
 package crying.tools;
 
+import crying.tools.entities.CrierEntityRenderer;
 import crying.tools.other.CryingAttribute;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 
@@ -25,5 +27,7 @@ public class CryingClient implements ClientModInitializer
                 default: break;
             }
         }
+
+        EntityRendererRegistry.register(Crying.CRIER, CrierEntityRenderer::new);
     }
 }

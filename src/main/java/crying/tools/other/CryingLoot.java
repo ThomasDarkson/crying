@@ -80,7 +80,7 @@ public class CryingLoot {
                     .rolls(ConstantLootNumberProvider.create(2F))
                     .with(ItemEntry.builder(Crying.hoe))
                     .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
-                    .conditionally(RandomChanceLootCondition.builder(0.04F));
+                    .conditionally(RandomChanceLootCondition.builder(0.05F));
 
                 tableBuilder.pool(poolBuilder);
 
@@ -88,7 +88,7 @@ public class CryingLoot {
                     .rolls(ConstantLootNumberProvider.create(1F))
                     .with(ItemEntry.builder(Crying.axe))
                     .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
-                    .conditionally(RandomChanceLootCondition.builder(0.06F));
+                    .conditionally(RandomChanceLootCondition.builder(0.04F));
 
                 tableBuilder.pool(poolBuilder2);
 
@@ -96,7 +96,7 @@ public class CryingLoot {
                     .rolls(ConstantLootNumberProvider.create(1F))
                     .with(ItemEntry.builder(Crying.pickaxe))
                     .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1F, 1F)))
-                    .conditionally(RandomChanceLootCondition.builder(0.05F));
+                    .conditionally(RandomChanceLootCondition.builder(0.01F));
 
                 tableBuilder.pool(poolBuilder3);
             }

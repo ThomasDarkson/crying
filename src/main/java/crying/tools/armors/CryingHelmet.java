@@ -12,17 +12,19 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 public class CryingHelmet {
-    public static final Item item = new ArmorItem(
+    public Item item = null;
+    
+    public CryingHelmet()
+    {
+        item = new ArmorItem(
             CryingArmor.CRYING_ARMOR_MATERIAL, 
             EquipmentType.HELMET, 
             new Item.Settings()
             .fireproof()
             .enchantable(50)
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_helmet")))
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_helmet")))
             .maxDamage(EquipmentType.HELMET.getMaxDamage(32)));
-    
-    public CryingHelmet()
-    {
+            
         Crying.register(item, "crying_helmet");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_BOOTS, item));
     }

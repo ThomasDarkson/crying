@@ -28,7 +28,7 @@ public class CryingSword extends SwordItem {
 
     public CryingSword() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 19F, -2.4F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_sword")))
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_sword")))
         .fireproof()
         .enchantable(enchantability));
 

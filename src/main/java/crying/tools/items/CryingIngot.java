@@ -20,7 +20,7 @@ public class CryingIngot {
 
     public void create() {
         this.item = new Item(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_ingot")))
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_ingot")))
             .fireproof());
     }
 }

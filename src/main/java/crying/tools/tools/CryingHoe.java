@@ -27,7 +27,7 @@ public class CryingHoe extends HoeItem {
 
     public CryingHoe() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 0F, +0F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_hoe")))
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_hoe")))
         .fireproof()
         .enchantable(enchantability));
 

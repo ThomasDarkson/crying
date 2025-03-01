@@ -27,7 +27,7 @@ public class CryingPickaxe extends PickaxeItem {
 
     public CryingPickaxe() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, attackDamageBonus, enchantability, CryingTags.CryingTag), 6F, -2.8F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "crying_pickaxe")))
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_pickaxe")))
         .fireproof()
         .enchantable(enchantability));
 

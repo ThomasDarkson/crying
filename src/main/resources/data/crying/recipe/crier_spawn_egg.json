@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "crying",
+  "ingredients": [
+    "minecraft:egg",
+    "crying:crying_ingot",
+    "crying:crying_ingot",
+    "crying:crying_ingot",
+    "crying:crying_ingot",
+    "crying:crying_ingot",
+    "crying:crying_ingot",
+    "crying:crying_ingot",
+    "crying:crying_ingot"
+  ],
+  "result": {
+    "id": "crying:crier_spawn_egg",
+    "count": 1
+  }
+}

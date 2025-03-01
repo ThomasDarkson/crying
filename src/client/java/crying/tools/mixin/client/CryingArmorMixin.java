@@ -13,26 +13,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import crying.tools.Crying;
-import crying.tools.interfaces.CryingManager;
+import crying.tools.interfaces.SanityManager;
 
 @Mixin(InGameHud.class)
 public class CryingArmorMixin {
-    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/armor_empty");
-    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/armor_half");
-    private static final Identifier ARMOR_HALF_TEXTURE_2 = Identifier.of(Crying.MOD_ID, "hud/armor_half_2");
-    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/armor_full");
+    private static final Identifier ARMOR_EMPTY_TEXTURE = Identifier.of(Crying.ID, "hud/armor_empty");
+    private static final Identifier ARMOR_HALF_TEXTURE = Identifier.of(Crying.ID, "hud/armor_half");
+    private static final Identifier ARMOR_HALF_TEXTURE_2 = Identifier.of(Crying.ID, "hud/armor_half_2");
+    private static final Identifier ARMOR_FULL_TEXTURE = Identifier.of(Crying.ID, "hud/armor_full");
 
-    private static final Identifier EMPTY_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_empty");
-    private static final Identifier HALF_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_half");
-    private static final Identifier FULL_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_full");
-    private static final Identifier MAX_HALF_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_half_max");
-    private static final Identifier MAX_EMPTY_TEXTURE = Identifier.of(Crying.MOD_ID, "hud/crying_half_empty");
+    private static final Identifier EMPTY_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_empty");
+    private static final Identifier HALF_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_half");
+    private static final Identifier FULL_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_full");
+    private static final Identifier MAX_HALF_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_half_max");
+    private static final Identifier MAX_EMPTY_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_half_empty");
 
-    private static final Identifier EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_empty_permanent");
-    private static final Identifier HALF_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_half_permanent");
-    private static final Identifier FULL_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_full_permanent");
-    private static final Identifier MAX_HALF_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_half_max_permanent");
-    private static final Identifier MAX_EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.MOD_ID, "hud/crying_half_empty_permanent");
+    private static final Identifier EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_empty_permanent");
+    private static final Identifier HALF_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_half_permanent");
+    private static final Identifier FULL_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_full_permanent");
+    private static final Identifier MAX_HALF_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_half_max_permanent");
+    private static final Identifier MAX_EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_half_empty_permanent");
 
     @Inject(method = "renderArmor", at = @At("HEAD"))
     private static void renderArmor(DrawContext context, PlayerEntity player, int i, int j, int k, int x, CallbackInfo info) {
@@ -74,15 +74,15 @@ public class CryingArmorMixin {
 
     @Inject(method = "renderFood", at = @At("HEAD"))
     private void renderFood(DrawContext context, PlayerEntity player, int top, int right, CallbackInfo info) {
-        CryingManager manager = CryingManager.getFromUUID(player.getUuidAsString());
+        SanityManager manager = SanityManager.getFromUUID(player.getUuidAsString());
         if (manager == null) 
-            manager = new CryingManager(player.getUuidAsString());
+            manager = new SanityManager(player.getUuidAsString());
 
         int a = player.getMaxAir();
         int c = Math.clamp((long) player.getAir(), 0, a);
         boolean bl = player.isSubmergedIn(FluidTags.WATER) || c < a;
             
-        float i = manager.getCryingLevel();
+        float i = manager.getsanityLevel();
         float max = Math.round((float) manager.getMaxLevel() / 2F);
     
         for(int j = 0; j < (Math.round(max)); ++j) {
@@ -118,13 +118,13 @@ public class CryingArmorMixin {
             }
 
             if (j * 2F + 1F < i) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, full, l, k, 7, 9);
+                context.drawGuiTexture(RenderLayer::getGuiTextured, full, l, k, 9, 9);
             }
             else if (j * 2F + 1F == i) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, half, l, k, 7, 9);
+                context.drawGuiTexture(RenderLayer::getGuiTextured, half, l, k, 9, 9);
             }
             else {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, empty, l, k, 7, 9);
+                context.drawGuiTexture(RenderLayer::getGuiTextured, empty, l, k, 9, 9);
             }
         }
     }

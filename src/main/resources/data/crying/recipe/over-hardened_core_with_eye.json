@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "crying",
+  "ingredients": [
+    [
+      "crying:over-hardened_core"
+    ],
+    [
+      "crying:eye"
+    ]
+  ],
+  "result": {
+    "id": "crying:over-hardened_core_with_eye",
+    "count": 1
+  }
+}

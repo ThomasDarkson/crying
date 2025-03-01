@@ -9,31 +9,28 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 
-public class CryingManager {
-    private static Map<String, CryingManager> managers = new HashMap<>();
+public class SanityManager {
+    private static Map<String, SanityManager> managers = new HashMap<>();
     private static final int FINAL_MAX_INT = 20;
     protected String uuid;
 
-    private float cryingLevel = 0;
-    private int cryingTickTimer = 0;
+    private float sanityLevel = 0;
+    private int sanityTickTimer = 0;
     private int cryingArmorCount = 0;
     private int maxLevel = 0;
+
+    private int ticksHalfHealth = 0;
 
     private int permanentMaxLevel = 0;
 
     private boolean shouldRegen = true;
 
-    public static CryingManager getFromUUID(String uuid) {
+    public static SanityManager getFromUUID(String uuid) {
         return managers.get(uuid);
     }
 
-    public CryingManager(String uuid) {
+    public SanityManager(String uuid) {
         this.uuid = uuid;
-        if (managers.containsKey(uuid)) {
-            CryingManager manager = getFromUUID(uuid);
-            this.permanentMaxLevel = manager.getPermanentMaxLevel();
-            this.cryingLevel = manager.getPermanentMaxLevel();
-        }
         updateThis();
     }
 
@@ -42,7 +39,7 @@ public class CryingManager {
         updateThis();
     }
 
-    public void adjustCryingLevel(int armor) {
+    public void adjustsanityLevel(int armor) {
         if (armor < 0)
             armor = 0;
         if (armor > 4)
@@ -50,10 +47,10 @@ public class CryingManager {
 
         this.cryingArmorCount = armor;
         this.maxLevel = armor * 5;
-        if (this.cryingLevel > (float) this.maxLevel)
-            this.cryingLevel = (float) this.maxLevel;
-        else if (this.cryingLevel < ((float) getPermanentMaxLevel()))
-            this.cryingLevel = (float) getPermanentMaxLevel();
+        if (this.sanityLevel < ((float) getPermanentMaxLevel()))
+            this.sanityLevel = (float) getPermanentMaxLevel();
+        else if (this.sanityLevel > (float) this.maxLevel)
+            this.sanityLevel = (float) this.maxLevel;
                 
         updateThis();
     }
@@ -75,7 +72,7 @@ public class CryingManager {
         Difficulty difficulty = serverWorld.getDifficulty();
 
         boolean bl = serverWorld.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
-        if (getCryingLevel() >= (float) getMaxLevel())
+        if (getsanityLevel() >= (float) getMaxLevel())
             setRegen(false);
         else
             setRegen(true);
@@ -83,39 +80,54 @@ public class CryingManager {
         if (player.isCreative())
             setRegen(true);
 
+        if (player.getMaxHealth() > 1F && (player.getHealth() / player.getMaxHealth()) < 0.4F) {
+            ticksHalfHealth++;
+        } 
+        else 
+            ticksHalfHealth = 0;
+
+        if (ticksHalfHealth % 200 == 0 && ticksHalfHealth > 0) {
+            decreaseLevel(1F);
+        }
+
         if (bl && cryingArmorCount > 0 && getCryingArmorCount() >= 1 && getMaxLevel() > 0 && shouldRegen) 
         {
-            ++this.cryingTickTimer;
+            ++this.sanityTickTimer;
 
-            int ticktime = 300;
+            int ticktime = 400;
             if (difficulty == Difficulty.EASY)
-                ticktime = 100;
+                ticktime = 200;
             else if (difficulty == Difficulty.HARD)
-                ticktime = 500;
+                ticktime = 600;
 
             if (difficulty == Difficulty.PEACEFUL || player.isCreative())
                 ticktime = 5;
 
-            if (this.cryingTickTimer >= ticktime)
+            if (this.sanityTickTimer >= ticktime && ticksHalfHealth <= 0)
             {
                 decreaseLevel(-1F);
-                this.cryingTickTimer = 0;
+                this.sanityTickTimer = 0;
             }
         }
     }
 
     public void decreaseLevel(float decrease) {
-        this.cryingLevel -= decrease;
-        if (this.cryingLevel < ((float) getPermanentMaxLevel()))
-            this.cryingLevel = (float) getPermanentMaxLevel();
-        else if (this.cryingLevel > (float) this.maxLevel)
-            this.cryingLevel = (float) this.maxLevel;
+        this.sanityLevel -= decrease;
+        if (this.sanityLevel <= 0) {
+            this.sanityTickTimer = 0;
+            this.sanityLevel = 0;
+        }
+        
+        if (this.sanityLevel < ((float) getPermanentMaxLevel()))
+            this.sanityLevel = (float) getPermanentMaxLevel();
+        else if (this.sanityLevel > (float) this.maxLevel)
+            this.sanityLevel = (float) this.maxLevel;
 
         updateThis();
     }
 
-    public float getCryingLevel() {
-        return this.cryingLevel;
+    public float getsanityLevel() {
+        return this.sanityLevel;
     }
 
     public int getMaxLevel() {
@@ -130,19 +142,28 @@ public class CryingManager {
         return this.permanentMaxLevel;
     }
 
+    public void setPermanentMaxLevel(int level) {
+        this.permanentMaxLevel = level;
+        this.sanityLevel = (float) level;
+
+        updateThis();
+    }
+
     public void readNbt(NbtCompound nbt) {
-        if (nbt.contains("cryingLevel", 99)) {
-            this.cryingLevel = nbt.getFloat("cryingLevel");
-            this.cryingTickTimer = nbt.getInt("cryingTickTimer");
+        if (nbt.contains("sanityLevel", 99)) {
+            this.sanityLevel = nbt.getFloat("sanityLevel");
+            this.sanityTickTimer = nbt.getInt("sanityTickTimer");
             this.maxLevel = nbt.getInt("maxLevel");
             this.permanentMaxLevel = nbt.getInt("permanentMaxLevel");
             this.cryingArmorCount = nbt.getInt("cryingArmorCount");
             this.shouldRegen = nbt.getBoolean("shouldRegen");
+            this.ticksHalfHealth = nbt.getInt("ticksHalfHealth");
+            
+            if (this.sanityLevel < (float) this.permanentMaxLevel)
+                this.sanityLevel = (float) this.permanentMaxLevel;
 
-            if (this.cryingLevel > this.maxLevel)
-                this.cryingLevel = this.maxLevel;
-            else if (this.cryingLevel < (float) this.permanentMaxLevel)
-                this.cryingLevel = (float) this.permanentMaxLevel;
+            else if (this.sanityLevel > this.maxLevel)
+                this.sanityLevel = this.maxLevel;
 
             if (this.permanentMaxLevel > FINAL_MAX_INT)
                 this.permanentMaxLevel = FINAL_MAX_INT;
@@ -152,12 +173,13 @@ public class CryingManager {
     }
 
     public void writeNbt(NbtCompound nbt) {
-        nbt.putFloat("cryingLevel", this.cryingLevel);
-        nbt.putInt("cryingTickTimer", this.cryingTickTimer);
+        nbt.putFloat("sanityLevel", this.sanityLevel);
+        nbt.putInt("sanityTickTimer", this.sanityTickTimer);
         nbt.putInt("permanentMaxLevel", this.permanentMaxLevel);
         nbt.putInt("maxLevel", this.maxLevel);
         nbt.putInt("cryingArmorCount", this.cryingArmorCount);
         nbt.putBoolean("shouldRegen", this.shouldRegen);
+        nbt.putInt("ticksHalfHealth", this.ticksHalfHealth);
     }
 
     public void setRegen(boolean regen) {

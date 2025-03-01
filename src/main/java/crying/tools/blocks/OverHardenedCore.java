@@ -17,7 +17,7 @@ public class OverHardenedCore extends HeavyCoreBlock {
     public OverHardenedCore() {
         super(
             Settings.create()
-            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.MOD_ID, "over-hardened_core")))
+            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "over-hardened_core")))
             .mapColor(MapColor.IRON_GRAY)
             .instrument(NoteBlockInstrument.SNARE)
             .sounds(BlockSoundGroup.HEAVY_CORE)

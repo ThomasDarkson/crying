@@ -32,7 +32,7 @@ public class Knife extends SwordItem {
 
     public Knife() {
         super(new ToolMaterial(BlockTags.INCORRECT_FOR_IRON_TOOL, durability, speed, attackDamageBonus, enchantability, ItemTags.IRON_TOOL_MATERIALS), 2F, -1.7F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.MOD_ID, "knife")))
+        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "knife")))
         .enchantable(enchantability));
 
         Crying.register(this, "knife");

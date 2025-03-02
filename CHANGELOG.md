@@ -1,3 +1,7 @@
+# 3.0.1 - Bugfix
+- Added a resource pack to add Crying Mice to songs list, therefore making the song completely optional
+- Fixed items being held incorretly in third person
+
 # 3.0.0 - The Awakening Update
 - New Boss Mob: **Crier**, drops 1 *Eye*
 - New Track: Crying Mice

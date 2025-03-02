@@ -183,7 +183,8 @@ public class Crying implements ModInitializer {
         });
 
 		FabricLoader.getInstance().getModContainer(ID).ifPresent(container -> {
-			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "default"), container, Text.translatable("resourcepack.crying.mice.name"), ResourcePackActivationType.NORMAL);
+			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "c418_mice"), container, Text.translatable("resourcepack.crying.c418.name"), ResourcePackActivationType.NORMAL);
+			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "default"), container, Text.translatable("resourcepack.crying.mice.name"), ResourcePackActivationType.DEFAULT_ENABLED);
 		});
 	}
 

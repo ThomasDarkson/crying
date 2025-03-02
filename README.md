@@ -21,11 +21,13 @@ Crying Tools adds:
 with new mechanics!
 
 ## Crying Mice
-Crying Mice is a track inspired by C418's **Living Mice**, it can play in **Bamboo Jungles**, **Forests**, **Flower Forests**, **Sparse Jungles**, **Old Growth Taigas**, **Stony Peaks** and **Meadows**.
+Crying Mice is a track inspired by C418's **Living Mice** made by me, it can play in **Bamboo Jungles**, **Forests**, **Flower Forests**, **Sparse Jungles**, **Old Growth Taigas**, **Stony Peaks** and **Meadows**.
 
 It can also play in creative mode.
 
 If you want nostalgia, Crying Tools comes with an optional resource pack that replaces all songs with C418 songs + Crying Mice. You can enable it in resource packs menu in game.
+
+To remove the song from the game, simply disable the resourcepacks "Crying Mice" and the resource pack mentioned above.
 
 ## Crying Ore
 Crying Ore is a very rare ore that generates both in the Nether and the Overworld.

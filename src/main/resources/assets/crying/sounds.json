@@ -18,5 +18,11 @@
         "sounds": [
             "crying:crier_dies"
         ]
+    },
+    "crier_scream": {
+        "subtitle": "subtitles.crying.crier_scream",
+        "sounds": [
+            "crying:crier_scream"
+        ]
     }
 }

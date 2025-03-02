@@ -132,11 +132,27 @@ If a Crier feels threatened, it can do these when it takes damage:
 
 It's permanently affected with the **Weakness II** status effect, and can't get any other status effects other than Weakness.
 
-It can break doors almost instantly and step up two full blocks, and walks faster in water than other mobs.
+It can break doors almost instantly and step up four full blocks, and walks faster in water than other mobs.
 
 It can be summoned with commands or **Crier Spawn Egg**, which is craftable with 8 **Crying Ingots** and 1 Egg.
 
 ![image](https://github.com/user-attachments/assets/16b7362d-f87e-4d23-a4b2-e027f74c2a51)
+
+### Second Phase
+A Crier's second phase will start when it loses 90% of its health.
+
+It will create one last explosion with 4.5 power, it will scream and it will get stronger.
+
+- Its scale becomes 3.
+- Its movement speed is increased by 66%.
+- It can step up 5 full blocks.
+- It deals 5 extra damage.
+- It becomes immune to fire.
+- It can block attacks with its shield 40% more.
+- It will never become invisible.
+- It will never create an explosion again.
+
+At this point, it has become forlorn.
 
 Crier will also attack these mobs:
 - Wardens

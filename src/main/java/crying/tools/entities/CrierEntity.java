@@ -60,6 +60,8 @@ import net.minecraft.world.World.ExplosionSourceType;
 public class CrierEntity extends ZombieEntity {
     ServerBossBar bossBar = null;
 
+    boolean secondPhase = false;
+
     boolean summonedHusk = false;
     boolean summonedWitch = false;
     boolean summonedIllusioner = false;
@@ -100,7 +102,7 @@ public class CrierEntity extends ZombieEntity {
     }
 
     public static DefaultAttributeContainer.Builder createCrierAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.34500004174432513d).add(EntityAttributes.MAX_HEALTH, 666d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.2d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 2d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.34500004174432513d).add(EntityAttributes.MAX_HEALTH, 666d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.2d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
     }
 
     public boolean canHaveStatusEffect(StatusEffectInstance effect) {
@@ -179,7 +181,31 @@ public class CrierEntity extends ZombieEntity {
                     summonedIllusioner = true;
                 }
             }
+
+            if (health < 0.1F && !secondPhase) {
+                world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundCategory(), 1.0F, 1.0F);
+                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 4.5F, true, ExplosionSourceType.MOB);
+                switchToSecondPhase();
+
+                secondPhase = true;
+            }
         }
+    }
+
+    void switchToSecondPhase() {
+        EntityAttributeInstance scale = this.getAttributeInstance(EntityAttributes.SCALE);
+        scale.setBaseValue(3d);
+
+        EntityAttributeInstance speed = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+        speed.setBaseValue(speed.getBaseValue() + 0.2d);
+
+        EntityAttributeInstance height = this.getAttributeInstance(EntityAttributes.STEP_HEIGHT);
+        height.setBaseValue(5d);
+        
+        EntityAttributeInstance damage = this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
+        damage.setBaseValue(6d);
+
+        bossBar.setName(Text.translatable("crying.entity.forlorn.crier").append(this.getDefaultName()));
     }
 
     void swingBothHands() {
@@ -234,6 +260,7 @@ public class CrierEntity extends ZombieEntity {
         nbt.putBoolean("summonedHusk", summonedHusk);
         nbt.putBoolean("summonedWitch", summonedWitch);
         nbt.putBoolean("summonedIllusioner", summonedIllusioner);
+        nbt.putBoolean("secondPhase", secondPhase);
     }
 
     @Override
@@ -247,6 +274,10 @@ public class CrierEntity extends ZombieEntity {
         summonedHusk = nbt.getBoolean("summonedHusk");
         summonedWitch = nbt.getBoolean("summonedWitch");
         summonedIllusioner = nbt.getBoolean("summonedIllusioner");
+        secondPhase = nbt.getBoolean("secondPhase");
+
+        if (secondPhase)
+            switchToSecondPhase();
     }
 
     @Override
@@ -256,6 +287,11 @@ public class CrierEntity extends ZombieEntity {
         this.bossBar.setName(this.getDisplayName());
     }
 
+    @Override
+    public boolean isCustomNameVisible() {
+        return super.isCustomNameVisible() && !secondPhase;
+    }
+    
     @Override
     public boolean tryAttack(ServerWorld world, Entity target) {
         boolean bl = super.tryAttack(world, target);
@@ -274,27 +310,29 @@ public class CrierEntity extends ZombieEntity {
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
         if (isInsideWall()) 
             return false;
+        else if (source.isIn(DamageTypeTags.IS_FIRE) && secondPhase)
+            return false;
         else if (source.isOf(DamageTypes.DROWN) || source.isIn(DamageTypeTags.IS_FALL))
             return false;
         else if (source.isIn(DamageTypeTags.IS_PROJECTILE)) {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             return false;
         }
-        else if (world.getRandom().nextFloat() < 0.2F && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
+        else if (world.getRandom().nextFloat() < (secondPhase ? 0.6F : 0.2F) && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             this.swingHand(Hand.OFF_HAND);
             return false;
         }
         else {
             float f = world.getRandom().nextFloat();
-            if (f < 0.045F) {
+            if (f < (secondPhase ? 0F : 0.045F)) {
                 world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 3.5F, false, ExplosionSourceType.MOB);
             }
-            if (f < 0.05F) {
+            if (f < (secondPhase ? 0F : 0.05F)) {
                 this.swingHand(Hand.MAIN_HAND);
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 100, 0, false, false, false));
             }
-            if (f < 0.075F) {
+            if (f < (secondPhase ? 0.15F : 0.075F)) {
                 this.swingHand(Hand.MAIN_HAND);
                 this.setHealth(getHealth() + 8F);
             }

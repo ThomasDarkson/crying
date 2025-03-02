@@ -1,3 +1,9 @@
+# 3.0.2 - Bugfix 2
+- Added a second phase to Crier that activates when it has below 10% its HP
+- Removed 2048 `ATTACK_DAMAGE` attribute limit so *The Crying Being* can deal maximum damage
+- Fixed knives being held incorretly in third person
+- Bumped the Gradle and Fabric API version
+
 # 3.0.1 - Bugfix
 - Added a resource pack to add Crying Mice to songs list, therefore making the song completely optional
 - Fixed items being held incorretly in third person

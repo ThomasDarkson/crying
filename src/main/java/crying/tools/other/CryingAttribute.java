@@ -11,7 +11,8 @@ public class CryingAttribute {
     public static final Map<String, Double> attributes = Map.of(
         "attribute.name.armor", 80d,
         "attribute.name.armor_toughness", 48d,
-        "attribute.name.knockback_resistance", 10d
+        "attribute.name.knockback_resistance", 10d,
+        "attribute.name.attack_damage", ((double) Integer.MAX_VALUE)
     );
 
     public double min;

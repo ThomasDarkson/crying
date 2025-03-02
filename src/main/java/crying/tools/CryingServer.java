@@ -12,7 +12,7 @@ public class CryingServer implements DedicatedServerModInitializer
     public void onInitializeServer() {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             if (server.isDedicated()) {
-                String[] attributes = {"attribute.name.armor", "attribute.name.armor_toughness", "attribute.name.knockback_resistance"};
+                String[] attributes = {"attribute.name.armor", "attribute.name.armor_toughness", "attribute.name.knockback_resistance", "attribute.name.attack_damage"};
                 for (String i : attributes)
                 {
                     switch (i) {
@@ -25,6 +25,9 @@ public class CryingServer implements DedicatedServerModInitializer
                         case "attribute.name.knockback_resistance":
                             CryingAttribute attribute3 = new CryingAttribute(i, (ClampedEntityAttribute) EntityAttributes.KNOCKBACK_RESISTANCE.value());
                             attribute3.fix();
+                        case "attribute.name.attack_damage":
+                            CryingAttribute attribute4 = new CryingAttribute(i, (ClampedEntityAttribute) EntityAttributes.ATTACK_DAMAGE.value());
+                            attribute4.fix();
                         default: break;
                     }
                 }

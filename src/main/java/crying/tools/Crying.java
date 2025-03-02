@@ -112,6 +112,9 @@ public class Crying implements ModInitializer {
 	public static final Identifier CRIER_DIES = Identifier.of(ID, "crier_dies");
     public static SoundEvent CRIER_DIES_EVENT = SoundEvent.of(CRIER_DIES);
 
+	public static final Identifier CRIER_SCREAM = Identifier.of(ID, "crier_scream");
+    public static SoundEvent CRIER_SCREAM_EVENT = SoundEvent.of(CRIER_SCREAM);
+
 	@Override
 	public void onInitialize() {
 		// Block

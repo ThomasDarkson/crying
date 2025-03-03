@@ -17,7 +17,7 @@ Crying Tools adds:
 - 6 New Items
 - 1 New Ore
 - 1 New Track
-- 2 New Enchantments 
+- 2 New Enchantments
 with new mechanics!
 
 ## Crying Mice
@@ -117,9 +117,12 @@ The **Crier** is a boss that can be summoned by a player, they are the only sour
 
 ![2025-02-28_22 55 27](https://github.com/user-attachments/assets/c9e8b2c8-602f-45f1-8dfe-6e4eeb8b35e4)
 
-It always spawns with a Crying Helmet, Crying Sword and shield, and it will immediately start to attack the player. 
+It always spawns with a Crying Helmet, Crying Sword and shield.
+When summoned, it will initialize an explosion that can break ALL blocks except **bedrock** and it will immediately start to attack the player. 
 
-It has 666 health points; is completely immune to suffocation, drowning, fall and projectile damage. It blocks attacks with its shield with a 20% chance.
+It has 666 health points; is completely immune to suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 20% chance.
+
+If it's in a pit or a deep hole, it will start to fly to escape and attack its targets.
 
 If Crier loses 25% of its health points, it will summon 4 **Husks**.
 If Crier loses 50% of its health points, it will summon 1 **Witch**.
@@ -134,7 +137,7 @@ It's permanently affected with the **Weakness II** status effect, and can't get 
 
 It can break doors almost instantly and step up four full blocks, and walks faster in water than other mobs.
 
-It can be summoned with commands or **Crier Spawn Egg**, which is craftable with 8 **Crying Ingots** and 1 Egg.
+It can be summoned with commands or **Crier Summoner**, which is craftable with 8 **Crying Ingots** and 1 Egg.
 
 ![image](https://github.com/user-attachments/assets/16b7362d-f87e-4d23-a4b2-e027f74c2a51)
 

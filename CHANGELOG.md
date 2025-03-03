@@ -1,3 +1,9 @@
+# 3.0.3 - Crier changes
+- Crier can now **fly** to escape pits and holes
+- Crier now initials an explosion that will break **any** block except bedrock
+- Crier is now immune to *Mace*
+- Crier Spawn Egg is replaced with **Crier Summoner**
+
 # 3.0.2 - Bugfix 2
 - Added a second phase to Crier that activates when it has below 10% its HP
 - Removed 2048 `ATTACK_DAMAGE` attribute limit so *The Crying Being* can deal maximum damage

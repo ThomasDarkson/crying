@@ -18,7 +18,7 @@ import crying.tools.blocks.OverHardenedCoreWithEye;
 import crying.tools.enchantments.BaneOfCriers;
 import crying.tools.enchantments.Smoothness;
 import crying.tools.entities.CrierEntity;
-import crying.tools.items.CrierSpawnEgg;
+import crying.tools.items.CrierSummoner;
 import crying.tools.items.CryingApple;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
@@ -76,7 +76,7 @@ public class Crying implements ModInitializer {
 	public static final EntityType<CrierEntity> CRIER = Registry.register(
 		Registries.ENTITY_TYPE,
 		key("crier"),
-		EntityType.Builder.create(CrierEntity::new, SpawnGroup.MONSTER).makeFireImmune().dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(key("crier"))
+		EntityType.Builder.create(CrierEntity::new, SpawnGroup.MONSTER).dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(key("crier"))
 	);
 
 	public static Item helmet = null;
@@ -175,7 +175,7 @@ public class Crying implements ModInitializer {
 
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
 
-		new CrierSpawnEgg();
+		new CrierSummoner();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(player -> {

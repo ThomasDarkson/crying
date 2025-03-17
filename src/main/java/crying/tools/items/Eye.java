@@ -14,6 +14,7 @@ public class Eye extends Item {
         super(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "eye")))
             .fireproof()
+            .maxCount(1)
             .rarity(Rarity.EPIC));
 
         Crying.register(this, "eye");

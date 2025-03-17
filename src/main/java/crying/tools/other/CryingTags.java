@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 public class CryingTags extends FabricTagProvider<Item> {
     public static final TagKey<Item> CryingTag = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_repair"));
 
-    public static final TagKey<Item> CAN_SMOOTH = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "can_be_enchanted_with_smoothness"));
+    public static final TagKey<Item> AXES_AND_SWORDS = TagKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "axes_and_swords"));
 
     public CryingTags(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, RegistryKeys.ITEM, registriesFuture);

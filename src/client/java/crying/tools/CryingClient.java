@@ -1,6 +1,7 @@
 package crying.tools;
 
 import crying.tools.entities.CrierEntityRenderer;
+import crying.tools.entities.CryingCatEntityRenderer;
 import crying.tools.other.CryingAttribute;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -32,5 +33,6 @@ public class CryingClient implements ClientModInitializer
         }
 
         EntityRendererRegistry.register(Crying.CRIER, CrierEntityRenderer::new);
+        EntityRendererRegistry.register(Crying.CRYING_CAT, CryingCatEntityRenderer::new);
     }
 }

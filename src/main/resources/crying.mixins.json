@@ -10,7 +10,11 @@
 		"ServerPlayerEntityMixin",
 		"WaterPotionMixin",
 		"FoodComponentMixin",
-		"TameableEntityMixin"
+		"TameableEntityMixin",
+		"ItemMixin",
+		"CreeperEntityMixin",
+		"ItemEntityMixin",
+		"CatEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

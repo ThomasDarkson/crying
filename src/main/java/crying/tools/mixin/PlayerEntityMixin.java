@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.mojang.authlib.GameProfile;
 
 import crying.tools.Crying;
+import crying.tools.effects.LoveOfTheFeline;
 import crying.tools.interfaces.SanityManager;
 import crying.tools.interfaces.SanityInterface;
 
@@ -94,6 +95,14 @@ public abstract class PlayerEntityMixin implements SanityInterface {
 
                 manager.decreaseLevel(type == Crying.CRIER ? -20F : decreaseValue);
             }
+        }
+    }
+
+    @Inject(method = "wakeUp", at = @At("TAIL"))
+    public void wakeUp(CallbackInfo info) {
+        PlayerEntity player = (PlayerEntity) (Object) this;
+        if (player.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE)) {
+            player.setHealth(player.getMaxHealth());
         }
     }
 

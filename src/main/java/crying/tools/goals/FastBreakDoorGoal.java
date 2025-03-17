@@ -1,4 +1,4 @@
-package crying.tools.other;
+package crying.tools.goals;
 
 import java.util.function.Predicate;
 

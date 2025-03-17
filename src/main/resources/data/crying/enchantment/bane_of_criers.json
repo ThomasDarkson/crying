@@ -2,8 +2,8 @@
   "description": {
     "translate": "enchantment.crying.bane_of_criers"
   },
-  "supported_items": "#minecraft:enchantable/weapon",
-  "primary_items": "#minecraft:enchantable/sword",
+  "supported_items": "#crying:axes_and_swords",
+  "primary_items": "#crying:axes_and_swords",
   "weight": 4,
   "max_level": 5,
   "min_cost": {

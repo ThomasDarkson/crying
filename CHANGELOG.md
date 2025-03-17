@@ -1,3 +1,19 @@
+# 4.0.0 - Crying Cat says meow
+- New Mob: Crying Cat, can be put on head
+- New Block: Crying Furball, used to spawn Crying Cat
+- 3 New Enchantments: Feathered, Bloodlust and Aegis
+- New Status Effect: Love of The Feline, activates when Crying Cat is on head
+- Remade Crying Mice
+- Reworked Crying Apple
+- Crier has now less health and less explosion damage
+- Changed Crier Summoner recipe
+- Buffed Crying Axe and Crying Pickaxe chances 
+- Changed The Crying Being recipe
+- The Crying Being is now enchantable
+- The Crying Being now can't till blocks
+- Changed Over-hardened Core recipe
+- Eye is now not stackable
+
 # 3.0.3 - Crier changes
 - Crier can now **fly** to escape pits and holes
 - Crier now initials an explosion that will break **any** block except bedrock

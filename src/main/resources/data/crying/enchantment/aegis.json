@@ -1,0 +1,23 @@
+{
+  "description": "Aegis",
+  "exclusive_set": [
+    "minecraft:blast_protection",
+    "minecraft:projectile_protection",
+    "minecraft:fire_protection"
+  ],
+  "supported_items": "#minecraft:chest_armor",
+  "weight": 1,
+  "max_level": 1,
+  "min_cost": {
+    "base": 60,
+    "per_level_above_first": 20
+  },
+  "max_cost": {
+    "base": 300,
+    "per_level_above_first": 20
+  },
+  "anvil_cost": 7,
+  "slots": [
+    "chest"
+  ]
+}

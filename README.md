@@ -6,21 +6,24 @@
 
 --------------------------------------------------------------
 
-Crying Tools is a Minecraft mod that expands upon the Crying Obsidian; with new tools, armor, blocks, items and more.
+Crying Tools is a Minecraft mod that expands upon the Crying Obsidian, with a lot of new content.
 
 Crying Tools adds:
-- 1 New Boss
+- 9 New Items
 - 8 New Tools
+- 6 New Blocks
+- 5 New Enchantments
 - 5 New Advancements
 - 4 New Trimmable Armor
-- 5 New Blocks
-- 6 New Items
-- 1 New Ore
+- 2 New Mobs
 - 1 New Track
-- 2 New Enchantments
 with new mechanics!
 
+You may use this mod in modpacks with credit.
+
 ## Crying Mice
+[![mice](https://i.ibb.co/6c4cBf17/Yeni-Proje-2-1.png)](https://youtu.be/Zwu8JVXwEss "Crying Mice")
+
 Crying Mice is a track inspired by C418's **Living Mice** made by me, it can play in **Bamboo Jungles**, **Forests**, **Flower Forests**, **Sparse Jungles**, **Old Growth Taigas**, **Stony Peaks** and **Meadows**.
 
 It can also play in creative mode.
@@ -30,13 +33,16 @@ If you want nostalgia, Crying Tools comes with an optional resource pack that re
 To remove the song from the game, simply disable the resourcepacks "Crying Mice" and the resource pack mentioned above.
 
 ## Crying Ore
+- Hardness: 50
+- Blast Resistance: 1200
+- Can be broken with: Diamond Pickaxe or higher
+- Stackable: 64
+
 Crying Ore is a very rare ore that generates both in the Nether and the Overworld.
 
 In the Nether; it has the identical generation properties of the Ancient Debris, meaning it generates in the form of scatter ores. However, Crying Ore **can** be fully exposed to air unlike Ancient Debris.
 
 In the Overworld; it has the identical generation properites of the Diamond Ore instead and it generates as a normal ore, the only differences being Crying Ore generates 3x less and it can be fully exposed to air.
-
-It has the 50 hardness and has 1200 blast resistance.
 
 ![ore](https://i.ibb.co/sQ4mCrX/2024-12-08-14-52-57.png "ore")
 
@@ -45,14 +51,20 @@ When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** whi
 ![smelt](https://i.ibb.co/9ny0wQQ/Ekran-g-r-nt-s-2024-12-08-153540.png "smelt")
 
 ## Crying Residue
+- Stackable: 64
+
 Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Scraps.
 
 ![image](https://github.com/user-attachments/assets/22401974-ad6d-47da-bd81-d01e1bf6a886)
 
 ## Crying Ingot
+- Stackable: 64
+
 Crying Ingot is an item to upgrade Netherite equipment to Crying ones, it's also a trim material that can be used with any armor and trim template!
 
 ## Crying Upgrade Smithing Template
+- Stackable: 64
+
 You also need a Crying Upgrade Smithing Template with a Crying Ingot to upgrade Netherite Equipment. To craft one, you need 1 **Hard Crying Obsidian**, 1 **Block of Iron** and 7 **Crying Obsidian**.
 
 ![image](https://github.com/user-attachments/assets/a665ee1c-42fe-441c-8362-eb9e4f6561e3)
@@ -62,28 +74,49 @@ It can be duplicated with diamonds and a crying obsidian aswell.
 ![image](https://github.com/user-attachments/assets/ea15c685-bb94-4455-977d-76416a00afc3)
 
 ## Hard Crying Obsidian
-A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 4 **Ghast Tears**, 4 Block of Iron and 1 Crying Obsidian. It has the 75 hardness and has 1320 blast resistance.
+- Hardness: 75
+- Blast Resistance: 1320
+- Can be broken with: Diamond Pickaxe or higher
+- Stackable: 64
+
+A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 4 **Ghast Tears**, 4 Block of Iron and 1 Crying Obsidian.
  
 ![image](https://github.com/user-attachments/assets/9cf5011c-99c4-4c52-a073-dafed658ce93)
 
 ## Block of Crying
-A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots. It has the 400 hardness and has 9600 blast resistance.
+- Hardness: 400
+- Blast Resistance: 9600
+- Can be broken with: Diamond Pickaxe or higher
+- Stackable: 64
+
+A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
 
 ![image](https://github.com/user-attachments/assets/3ff12e05-af67-4578-b5bc-58602f849a2f)
 
 ## Over-hardened Core
-Over-hardened Core is a block used to craft an **Over-hardened Core with Eye**. It has the 900 hardness and has 32 million blast resistance. It is not stackable.
-To craft one, you need 7 **Reinforced Deepslate (check note)**, one Block of Crying and one **Heavy Core**.
+- Hardness: 900
+- Blast Resistance: 32,000,000
+- Can be broken with: Diamond Pickaxe or higher
+- Stackable: No
+
+Over-hardened Core is a block used to craft an **Over-hardened Core with Eye**.
+To craft one, you need 7 **Reinforced Deepslate (check note)**, one **Crying Ingot** and one **Heavy Core**.
 
 Note: A Crying Pickaxe has a 1 in 28 chance of dropping a reinforced deepslate when it breaks one, therefore making it obtainable in survival.
 
-![image](https://github.com/user-attachments/assets/50183dd1-77d7-4c84-a224-5a6a393fa5da)
+![image](https://i.ibb.co/ZpXVvCx2/Ekran-g-r-nt-s-2025-03-16-222632.png)
 
 ## Eye
+- Stackable: No
 Eye is an item used to craft an **Over-hardened Core with Eye**. It is only obtainable by killing a **Crier**.
 
 ## Over-hardened Core with Eye
-Over-hardened Core with Eye is a block used to craft **The Crying Being**, It has -1 hardness and cannot be placed on any block. It is not stackable.
+- Hardness: -1
+- Blast Resistance: 2,147,483,647
+- Can be broken with: Can't be broken
+- Stackable: No
+
+Over-hardened Core with Eye is a block used to craft **The Crying Being**, It cannot be placed on any block.
 
 If it gets placed on any block, it will instantly break and drop itself. Item frames are an exception to this, since they are an entity and not a block.
 
@@ -92,6 +125,8 @@ To craft one, you need 1 **Eye** and 1 **Over-hardened Core**.
 ![image](https://github.com/user-attachments/assets/31fdf1c2-e7a8-4503-b0d1-1f2e06b0e56c)
 
 ## Crying Rod
+- Stackable: 64
+
 Crying Rod is a kind of rod needed to craft The Crying Being.
 
 To craft one, you need one **Blaze Rod** and one Crying Obsidian.
@@ -99,18 +134,18 @@ To craft one, you need one **Blaze Rod** and one Crying Obsidian.
 ![image](https://github.com/user-attachments/assets/dd5902b3-febb-4456-b4b6-5ba67f089efa)
 
 ## The Crying Being
-The Crying Being is an **universal** end-game item, meaning it's a sword, pickaxe, axe, shovel, hoe all in one.
-It can break any breakable block **instantly**, it deals a maximum of 2147483647 damage and has an attack speed of 666. 
+- Stackable: No
 
-Just like a hoe, The Crying Being can be used to till supported blocks with a right click.
+The Crying Being is an **universal** end-game item, meaning it's a sword and pickaxe.
+It can break any breakable block **instantly**, it deals a maximum of 2,147,483,647 damage and has an attack speed of 618. 
 
-To craft one, you need a **Crying Rod**, one **Over-hardened Core with Eye**, 2 Crying Ingots and 1 Crying Obsidian.
-
-The Crying Being will protect any living entity from projectile, explosion, lightning and fall damage if the entity is holding it in it's main hand. This also includes players.
+To craft one, you need a **Crying Pickaxe**, **Crying Rod**, **Over-hardened Core with Eye** and a smithing table.
 
 The Crying Being will never damage any players, no matter if a player of a mob uses it.
 
-![image](https://github.com/user-attachments/assets/3a3af225-86dd-4036-9d21-e1fb648ee93b)
+It has an enchantability value of 2,147,483,647.
+
+![](https://i.ibb.co/Cs0C7PyW/Ekran-g-r-nt-s-2025-03-16-221328.png)
 
 ## Crier
 The **Crier** is a boss that can be summoned by a player, they are the only sources of **Eye**.
@@ -120,7 +155,7 @@ The **Crier** is a boss that can be summoned by a player, they are the only sour
 It always spawns with a Crying Helmet, Crying Sword and shield.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock** and it will immediately start to attack the player. 
 
-It has 666 health points; is completely immune to suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 20% chance.
+It has 618 health points; is completely immune to suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 20% chance.
 
 If it's in a pit or a deep hole, it will start to fly to escape and attack its targets.
 
@@ -131,23 +166,22 @@ If Crier loses 75% of its health points, it will summon 1 **Illusioner**.
 If a Crier feels threatened, it can do these when it takes damage:
 - It can make itself invisible for 5 seconds with 5% chance.
 - It can heal itself 8 health with 7.5% chance.
-- It can create an explosion with 3.5 power with 4.5% chance. 
+- It can create an explosion with 2 power with 4.5% chance. 
 
 It's permanently affected with the **Weakness II** status effect, and can't get any other status effects other than Weakness.
 
 It can break doors almost instantly and step up four full blocks, and walks faster in water than other mobs.
 
-It can be summoned with commands or **Crier Summoner**, which is craftable with 8 **Crying Ingots** and 1 Egg.
+It can be summoned with commands or **Crier Summoner**, which is craftable with 8 **Crying Residue** and 1 Egg.
 
-![image](https://github.com/user-attachments/assets/16b7362d-f87e-4d23-a4b2-e027f74c2a51)
+![image](https://i.ibb.co/RTdmz1fR/Ekran-g-r-nt-s-2025-03-16-222457.png)
 
 ### Second Phase
 A Crier's second phase will start when it loses 90% of its health.
 
-It will create one last explosion with 4.5 power, it will scream and it will get stronger.
+It will create one last explosion with 2.5 power, it will scream and it will get stronger.
 
 - Its scale becomes 3.
-- Its movement speed is increased by 66%.
 - It can step up 5 full blocks.
 - It deals 5 extra damage.
 - It becomes immune to fire.
@@ -164,17 +198,64 @@ Crier will also attack these mobs:
 - Iron Golems
 - Snow Golems
 
+## Furball
+- Hardness: 0
+- Blast Resistance: 0
+- Can be broken with: Anything
+- Stackable: No
+
+Furball is a block that can be mined instantly with any tool or fist. Its only purpose is to spawn a **Crying Cat**. It can be crafted with 9 **strings**.
+
+![](https://i.ibb.co/TBqyRNzC/Ekran-g-r-nt-s-2025-03-16-203704.png)
+
+### Using 
+To use a Furball to spawn a Crying Cat, you need 4 Crying Ingots.
+With four or more Crying Ingots in any hand, use the ingots on the Furball and a Crying Cat will spawn.
+
+![](https://i.ibb.co/B5nSLW65/gif.gif)
+
+## Crying Cat
+The **Crying Cat** is a special kind of cat than can be put on head, and will drop herself as an item when her owner hits her once. She will be immediately tamed on spawn and her owner will be the player who spawned her.
+
+She cannot get fed, breed or have her collar color changed (which is always yellow). She will always spawn an adult and she'll never drop any other item than herself as an item.
+
+She is immune to all types of damage and will never despawn unless her owner takes her as an item. Her item entity will also never despawn, no matter the chunk or condition.
+She can only be attached leash by her owner.
+
+She can be put on her owner's head, and when on head, she'll give her owner a status effect called **Love of The Feline**.
+
+![](https://i.ibb.co/n8jnpj2x/Ekran-g-r-nt-s-2025-03-16-214154.png)
+
+Love of The Feline grants these positive effects for the owner:
+- Immunity to fall damage
+- %80 damage protection
+- 6.18 more attack damage
+- Jump boost
+- Full health when waking up
+
+She has her own loot table of morning gifts, if the player sleeps through the night with her on head there is a 95% chance that she will give gifts to her owner.
+
+She may give 1 to 4 items or only one item or nothing at all.
+
+These are the items she will gift:
+- **Cooked Salmon** (16 to 32) (13.9% chance)
+- **Block of Crying** (1 to 7) (13.9% chance)
+- **Netherite Scrap** (1 to 8) (13.9% chance)
+- **Block of Diamond** (1 to 7) (13.9% chance)
+- **Block of Raw Gold** (1 to 7) (13.9 % chance)
+- **Crying Residue** (1 to 8) (12.5% chance)
+- **Crying Apple** (9.8% chance)
+- **Enchanted Golden Apple** (7% chance)
+- **Block of Crying** (1.3% chance)
+
 ## Upgrading to Crying
 To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade Smithing Template**, one **Crying Ingot** and any Netherite equipment.
 
-![399583384-eca771e9-41c9-4942-8890-c150f24926eb](https://github.com/user-attachments/assets/26f82b84-d177-4092-bc1d-7fdf15408e83)
+![399583384-eca771e9-41c9-4942-8890-c150f24926eb](https://i.ibb.co/GXdsHNm/404689909-26f82b84-d177-4092-bc1d-7fdf15408e83-1.png)
 
-## Crying Tools
-Crying Tools are tools that are much stronger than Netherite Tools.
+## Tool Values
 
-### Tool Values
-
-#### **Mining Speed**
+### **Mining Speed**
 - **Crying Axe**: 60
 - **Crying Hoe**: 45
 - **Crying Pickaxe**: 43
@@ -182,12 +263,12 @@ Crying Tools are tools that are much stronger than Netherite Tools.
 
 Knives and Crying Sword is the same with all the other swords.
 
-#### **Durability**
+### **Durability**
 - **All Crying Tools (except knives):** 14,622
 - **Crying Knife**: 6498
 - **Knife**: 150
 
-#### **Attack Damage**
+### **Attack Damage**
 - **Crying Axe**: 25  
 - **Crying Sword**: 20
 - **Crying Knife**: 12
@@ -196,14 +277,14 @@ Knives and Crying Sword is the same with all the other swords.
 - **Crying Hoe**: 1
 - **Knife**: 3  
 
-#### **Attack speeds**
+### **Attack speeds**
 - **Crying Knife**: 2.8
 - **Knife**: 2.3
 - **All Other**: Same as Netherite ones
   
 **Crying Sword** and **Crying Knife** damage **Enderman**, **Endermite** and **Ghast** twice.
 
-#### **Enchantability**
+### **Enchantability**
 - **All Crying Tools:** 50
 
 ## Knives
@@ -285,11 +366,11 @@ Your sanity will increase or decrease based on your actions, for example eating 
 
 ## Crying Apple
 Crying Apple is a food that is crafted from 4 Crying Obsidian and 1 Apple.
-Eating one takes 6.2 seconds and restores all hunger and saturation, and can be eaten even if the hunger bar is full.
+Eating one takes 6.2 seconds and restores all hunger and saturation, and can be eaten even if the hunger bar is full. It has a cooldown of 120 seconds.
 
 ![image](https://github.com/user-attachments/assets/5e0883e4-b1d2-4294-8260-1721a15be2e4)
 
-A Crying Apple will give the player **Slowness** 4 with 75% chance for 30 seconds, and **Bane of Criers** with 100% chance for 5 seconds.
+A Crying Apple will give the player **Slowness** 3 with 55% chance for 30 seconds, and **Bane of Criers** with 100% chance for 5 seconds.
 
 Eating one will make **2** sanity levels **permanent**, meaning permanent levels cannot be drained ever again unless all pieces of Crying Armor is taken off.
 
@@ -302,7 +383,107 @@ Eating **10** Crying Apples will make all sanity levels permanent, meaning no ac
 
 Dying and respawning will not reset permanent levels.
 
+## Enchantments
+### Feathered
+- Max Level: 5
+- Supported Tools: Swords and The Crying Being
+- Is treasure: Yes
+- Can be traded with Librarian villagers: No
+- Can be found on enchanting table: No
+- Where to obtain: Check **Loot** Below
+
+Feathered is an enchantment makes tool able to be used as an elytra. If a player is holding a tool enchanted with Feathered in their main hand, they can glide like an elytra without even needing one.
+
+Unlike an elytra, which needs fireworks to gain speed, the tool can be used to gain speed indefinitely. While in the air, holding right click with tool enchanted with Feathered makes you gain speed. More speed you gain the higher the enchantment level is. You will not take damage if you hit walls.
+
+![](https://i.ibb.co/fV3G7JW9/gif2.gif)
+
+### Bloodlust
+- Max Level: 3
+- Supported Tools: Leggings
+- Is treasure: Yes
+- Can be traded with Librarian villagers: No
+- Can be found on enchanting table: No
+- Where to obtain: Check **Loot** Below
+
+Bloodlust is an enchantment that gives the player Regeneration 4 for (level * 2) seconds
+every time they kill a hostile entity.
+
+![](https://i.ibb.co/N6NWBh4j/1.gif)
+
+### Aegis
+- Max Level: 1
+- Supported Tools: Chestplate
+- Is treasure: Yes
+- Can be traded with Librarian villagers: No
+- Can be found on enchanting table: No
+- Where to obtain: Check **Loot** Below
+
+Aegis is an enchantment that protects the player from these kinds of damage:
+- Projectile
+- Explosion
+- Lightning
+
+![](https://i.ibb.co/J6B7rL3/2.gif)
+
+### Bane of Criers
+- Max Level: 5
+- Supported Tools: Axes, Swords and The Crying Being
+- Is treasure: No
+- Can be traded with Librarian villagers: Yes
+- Can be found on enchanting table: Swords Only
+- Where to obtain: Enchanting tables and Librarian villagers
+
+Bane of Criers is both a **Status Effect** and an **Enchantment**.
+If a **weapon** enchanted with Bane of Criers is used on a living entity, the entity will be given the status effect. When an entity has the Bane of Criers effect, it will take 2 times more damage from all damage types. The duration of the effect depends on the enchantment level, the formula being `2.5 + 1 * (level - 1)`.
+
+When an entity has the Bane of Criers, they will cry.
+
+![crying](https://i.ibb.co/Jdk3pY5/qqq.gif "crying")
+
+### Smoothness
+- Max Level: 5
+- Supported Tools: Axes, Swords and The Crying Being
+- Is treasure: No
+- Can be traded with Librarian villagers: Yes
+- Can be found on enchanting table: Swords Only
+- Where to obtain: Enchanting tables and Librarian villagers
+
+Smoothness is an enchantment that increases attack speed of a weapon.
+For every level, it increases 0.08 attack speed.
+
+![image](https://github.com/user-attachments/assets/900b98a2-2bb4-4cd3-aa97-a5485fe4bc6f)
+
 ## Loot
+
+### Stronghold Corridor
+1 Bloodlust Book has a 100% chance to be in chests.
+1 Feathered Book has a 25% chance to be in chests.
+1 Aegis Book has a 17.5% chance to be in chests.
+
+### End City
+1 Feathered Book has a 100% chance to be in chests.
+1 Aegis Book has a 50% chance to be in chests.
+1 Bloodlust Book has a 25% chance to be in chests.
+
+### Ancient City
+1 Aegis Book has a 66% chance to be in chests.
+1 Bloodlust Book has a 15% chance to be in chests.
+
+### Woodland Mansion
+1 Feathered Book has a 15% chance to be in chests.
+1 Aegis Book has a 15% chance to be in chests.
+1 Bloodlust Book has a 15% chance to be in chests.
+
+### Ominous Vaults
+
+#### Unique loot table
+1 Feathered Book has a 4% chance to pop out of Ominous Vaults.
+
+#### Rare loot table
+1 Crying Hoe has a 8% chance to pop out of Ominous Vaults .
+1 Crying Axe has a 4% chance to pop out of Ominous Vaults.
+1 Crying Pickaxe has a 2% chance to pop out of Ominous Vaults.
 
 ### Treasure Bastions
 1 Crying Upgrade Smithing Template has a 5% chance to be in Treasure Bastions.
@@ -313,33 +494,8 @@ Dying and respawning will not reset permanent levels.
 1 or 2 Crying Ingots a 20% chance to be in Bridge Bastions.
 
 ### Ruined Portal Chests
-1 Crying Obsidian has a 33% chance to be in Ruined Portal chests.
+1 to 4 Crying Obsidian has a 66% chance to be in Ruined Portal chests.
 1 or 2 Crying Residues have a 18% chance.
-
-#### Ominous Vaults
-1 Crying Hoe has a 5% chance to pop out of Ominous Vaults (Rare loot table).
-1 Crying Axe has a 4% chance to pop out of Ominous Vaults (Rare loot table).
-1 Crying Pickaxe has a 1% chance to pop out of Ominous Vaults (Rare loot table).
-
-## Bane of Criers
-Bane of Criers (![bane](https://i.ibb.co/HgbH5Z8/bane-of-criers-effect.png "bane")) is both a **Status Effect** and an **Enchantment**.
-If a **weapon** enchanted with Bane of Criers is used on a living entity, the entity will be given the status effect. When an entity has the Bane of Criers effect, it will take 2 times more damage from all damage types. The duration of the effect depends on the enchantment level, the formula being `2.5 + 1 * (level - 1)`.
-
-When an entity has the Bane of Criers, they will cry.
-
-![crying](https://i.ibb.co/Jdk3pY5/qqq.gif "crying")
-
-The enchanted book can be traded with librarian villagers and can be found on enchantment tables.
-It can be used on **swords**, **axes** and The Crying Being.
-
-## Smoothness
-Smoothness is an enchantment that increases attack speed of a weapon.
-For every level, it increases 0.08 attack speed and the max level of the enchantment is 5.
-
-![image](https://github.com/user-attachments/assets/900b98a2-2bb4-4cd3-aa97-a5485fe4bc6f)
-
-Smoothness book can be traded with librarian villagers, can be found on enchantment tables.
-It can be used on **swords** and **axes**.
 
 ## **Advancements**
 

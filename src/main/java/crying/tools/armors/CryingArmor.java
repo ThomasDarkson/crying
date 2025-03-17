@@ -59,7 +59,8 @@ public class CryingArmor implements ArmorMaterials {
             Crying.helmet,
             Crying.chestplate,
             Crying.leggings,
-            Crying.boots
+            Crying.boots,
+            Crying.crying_cat_item
         };
         if (itemStack != null) {
             boolean returner = false;

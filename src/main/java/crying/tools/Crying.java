@@ -11,21 +11,29 @@ import crying.tools.armors.CryingChestplate;
 import crying.tools.armors.CryingHelmet;
 import crying.tools.armors.CryingLeggings;
 import crying.tools.blocks.CryingBlock;
+import crying.tools.blocks.Furball;
 import crying.tools.blocks.CryingOre;
 import crying.tools.blocks.HardCryingObsidian;
 import crying.tools.blocks.OverHardenedCore;
 import crying.tools.blocks.OverHardenedCoreWithEye;
+import crying.tools.effects.LoveOfTheFeline;
+import crying.tools.enchantments.Aegis;
 import crying.tools.enchantments.BaneOfCriers;
+import crying.tools.enchantments.Bloodlust;
+import crying.tools.enchantments.Feathered;
 import crying.tools.enchantments.Smoothness;
 import crying.tools.entities.CrierEntity;
+import crying.tools.entities.CryingCatEntity;
 import crying.tools.items.CrierSummoner;
 import crying.tools.items.CryingApple;
+import crying.tools.items.CryingCatItem;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingRod;
 import crying.tools.items.CryingUpgrade;
 import crying.tools.items.Eye;
 import crying.tools.items.Handle;
+import crying.tools.other.CryingEnchantmentTags;
 import crying.tools.other.CryingLoot;
 import crying.tools.other.CryingTags;
 import crying.tools.tools.CryingAxe;
@@ -37,16 +45,21 @@ import crying.tools.tools.CryingSword;
 import crying.tools.tools.Knife;
 import crying.tools.tools.TheCryingBeing;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentAsset;
@@ -62,6 +75,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.minecraft.world.World;
 
 public class Crying implements ModInitializer {
     public static final String ID = "crying";
@@ -79,10 +93,19 @@ public class Crying implements ModInitializer {
 		EntityType.Builder.create(CrierEntity::new, SpawnGroup.MONSTER).dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(key("crier"))
 	);
 
+	@SuppressWarnings("unchecked")
+	public static final EntityType<CryingCatEntity> CRYING_CAT = Registry.register(
+		Registries.ENTITY_TYPE,
+		key("crying_cat"),
+		EntityType.Builder.create(CryingCatEntity::new, SpawnGroup.AMBIENT).dimensions(0.6F, 0.7F).eyeHeight(0.6F).build(key("crying_cat"))
+	);
+
 	public static Item helmet = null;
 	public static Item chestplate = null;
 	public static Item leggings = null;
 	public static Item boots = null;
+	
+	public static Item crying_cat_item = null;
 
 	public static Item residue = null;
 	public static Item ingot = null;
@@ -117,9 +140,14 @@ public class Crying implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		Feathered.initialize();
+		Bloodlust.initialize();
+		Aegis.initialize();
+
 		// Block
 		new CryingBlock();
 		new HardCryingObsidian();
+		new Furball();
 
 		// Upgrade
 		ingot = new CryingIngot().item;
@@ -136,6 +164,7 @@ public class Crying implements ModInitializer {
 		hoe = new CryingHoe();
 
 		crying.tools.effects.BaneOfCriers.initialize();
+		LoveOfTheFeline.initialize();
 		sword = new CryingSword();
 
 		// Knives
@@ -159,6 +188,8 @@ public class Crying implements ModInitializer {
 		
 		THE_CRYING_BEING = new TheCryingBeing();
 
+		CryingEnchantmentTags.initialize();
+
 		CryingLoot.modifyLootTables();
 
 		CryingTags.initialize();
@@ -174,20 +205,37 @@ public class Crying implements ModInitializer {
 		new OverHardenedCoreWithEye();
 
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
+		FabricDefaultAttributeRegistry.register(CRYING_CAT, CryingCatEntity.createCatAttributes());
 
 		new CrierSummoner();
+		crying_cat_item = new CryingCatItem();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerManager().getPlayerList().forEach(player -> {
                 if (player instanceof ServerPlayerEntity serverPlayer) {
                     CryingArmor.setCount(serverPlayer);
                 }
+
+				if (player.getEquippedStack(EquipmentSlot.HEAD).getItem() == crying_cat_item) {
+					if (!player.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE)) {
+						player.addStatusEffect(new StatusEffectInstance(LoveOfTheFeline.LOVE_OF_THE_FELINE, -1, 0, false, false, false));
+					}
+				}
+				else
+					player.removeStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE);
             });
         });
 
 		FabricLoader.getInstance().getModContainer(ID).ifPresent(container -> {
 			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "c418_mice"), container, Text.translatable("resourcepack.crying.c418.name"), ResourcePackActivationType.NORMAL);
 			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "default"), container, Text.translatable("resourcepack.crying.mice.name"), ResourcePackActivationType.DEFAULT_ENABLED);
+		});
+
+		EntityElytraEvents.CUSTOM.register((entity, tick) -> {
+			World world = entity.getWorld();
+			ItemStack mainStack = entity.getMainHandStack();
+			int level = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), mainStack);
+			return level > 0;
 		});
 	}
 
@@ -202,13 +250,18 @@ public class Crying implements ModInitializer {
 		Rarity rarity = Rarity.COMMON;
 		Integer stack = 64;
 
-		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye") {
-			rarity = Rarity.EPIC;
+		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name))).rarity(rarity).maxCount(stack);
+
+		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye" || name == "furball") {
+			if (name != "furball")
+				rarity = Rarity.EPIC;
+
 			stack = 1;
+			settings = settings.fireproof();
 		}
 
 		if (shouldRegisterItem) {
-			BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name))).rarity(rarity).maxCount(stack));
+			BlockItem blockItem = new BlockItem(block, settings);
 			Registry.register(Registries.ITEM, id, blockItem);
 		}
 

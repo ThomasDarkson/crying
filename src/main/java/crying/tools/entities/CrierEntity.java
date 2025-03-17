@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 import crying.tools.Crying;
-import crying.tools.other.FastBreakDoorGoal;
+import crying.tools.goals.FastBreakDoorGoal;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -72,7 +72,7 @@ public class CrierEntity extends ZombieEntity {
     boolean summonedIllusioner = false;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public CrierEntity(EntityType<? extends ZombieEntity> entityType, World world) {
+    public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
         super(entityType, world);
 
         this.clearGoals((goal) -> {
@@ -110,7 +110,7 @@ public class CrierEntity extends ZombieEntity {
     }
 
     public static DefaultAttributeContainer.Builder createCrierAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.35500004174432513d).add(EntityAttributes.FLYING_SPEED, 0.62500004174432513d).add(EntityAttributes.MAX_HEALTH, 666d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.35500004174432513d).add(EntityAttributes.FLYING_SPEED, 0.67500004174432513d).add(EntityAttributes.MAX_HEALTH, 618d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
     }
 
     public boolean canHaveStatusEffect(StatusEffectInstance effect) {
@@ -197,7 +197,7 @@ public class CrierEntity extends ZombieEntity {
 
             if (health < 0.1F && !secondPhase) {
                 world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundCategory(), 1.0F, 1.0F);
-                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 4.5F, true, ExplosionSourceType.MOB);
+                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 2.5F, true, ExplosionSourceType.MOB);
                 switchToSecondPhase();
 
                 secondPhase = true;
@@ -209,16 +209,13 @@ public class CrierEntity extends ZombieEntity {
         EntityAttributeInstance scale = this.getAttributeInstance(EntityAttributes.SCALE);
         scale.setBaseValue(3d);
 
-        EntityAttributeInstance speed = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
-        speed.setBaseValue(speed.getBaseValue() + 0.2d);
-
         EntityAttributeInstance height = this.getAttributeInstance(EntityAttributes.STEP_HEIGHT);
         height.setBaseValue(5d);
         
         EntityAttributeInstance damage = this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
-        damage.setBaseValue(6d);
+        damage.setBaseValue(5d);
 
-        bossBar.setName(Text.translatable("crying.entity.forlorn.crier").append(this.getDefaultName()));
+        bossBar.setName(Text.translatable("entity.crying.forlorn.crier").append(this.getDefaultName()));
     }
 
     void swingBothHands() {
@@ -346,7 +343,7 @@ public class CrierEntity extends ZombieEntity {
         else {
             float f = world.getRandom().nextFloat();
             if (f < (secondPhase ? 0F : 0.045F)) {
-                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 3.5F, false, ExplosionSourceType.MOB);
+                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB);
             }
             if (f < (secondPhase ? 0F : 0.05F)) {
                 this.swingHand(Hand.MAIN_HAND);

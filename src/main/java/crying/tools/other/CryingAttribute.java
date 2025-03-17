@@ -9,9 +9,9 @@ public class CryingAttribute {
     private final transient ClampedEntityAttribute attribute;
 
     public static final Map<String, Double> attributes = Map.of(
-        "attribute.name.armor", 80d,
-        "attribute.name.armor_toughness", 48d,
-        "attribute.name.knockback_resistance", 10d,
+        "attribute.name.armor", 999d,
+        "attribute.name.armor_toughness", 999d,
+        "attribute.name.knockback_resistance", 999d,
         "attribute.name.attack_damage", ((double) Integer.MAX_VALUE)
     );
 

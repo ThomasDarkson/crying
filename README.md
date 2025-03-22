@@ -35,18 +35,18 @@ To remove the song from the game, simply disable the resourcepacks "Crying Mice"
 ## Crying Ore
 - Hardness: 50
 - Blast Resistance: 1200
-- Can be broken with: Diamond Pickaxe or higher
+- Can be broken with: Diamond Pickaxe or higher (Includes The Crying Being)
 - Stackable: 64
 
 Crying Ore is a very rare ore that generates both in the Nether and the Overworld.
 
-In the Nether; it has the identical generation properties of the Ancient Debris, meaning it generates in the form of scatter ores. However, Crying Ore **can** be fully exposed to air unlike Ancient Debris.
+In the Nether; it has similar generation properties of the Ancient Debris, meaning it generates in the form of scatter ores. However, Crying Ore **can** be fully exposed to air unlike Ancient Debris and slightly generates more.
 
-In the Overworld; it has the identical generation properites of the Diamond Ore instead and it generates as a normal ore, the only differences being Crying Ore generates 3x less and it can be fully exposed to air.
+In the Overworld; it has the identical generation properites of the Diamond Ore instead and it generates as a normal ore, the only differences being Crying Ore generates 2x less and it can be fully exposed to air.
 
 ![ore](https://i.ibb.co/sQ4mCrX/2024-12-08-14-52-57.png "ore")
 
-When mined (with a Diamond Pickaxe or better), it drops a **Crying Residue** which can be used to craft a **Crying Ingot**. The block itself can be smelted into Crying Ingots aswell.
+When mined, it drops a **Crying Residue** which can be used to craft a **Crying Ingot**. It will drop itself if the pickaxe has Silk Touch. The block itself can be smelted into Crying Ingots aswell.
 
 ![smelt](https://i.ibb.co/9ny0wQQ/Ekran-g-r-nt-s-2024-12-08-153540.png "smelt")
 
@@ -76,7 +76,7 @@ It can be duplicated with diamonds and a crying obsidian aswell.
 ## Hard Crying Obsidian
 - Hardness: 75
 - Blast Resistance: 1320
-- Can be broken with: Diamond Pickaxe or higher
+- Can be broken with: Diamond Pickaxe or higher (Includes The Crying Being)
 - Stackable: 64
 
 A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, and it only can be used to craft a **Crying Upgrade Smithing Template**. To craft it, you need 4 **Ghast Tears**, 4 Block of Iron and 1 Crying Obsidian.
@@ -86,7 +86,7 @@ A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian
 ## Block of Crying
 - Hardness: 400
 - Blast Resistance: 9600
-- Can be broken with: Diamond Pickaxe or higher
+- Can be broken with: Diamond Pickaxe or higher (Includes The Crying Being)
 - Stackable: 64
 
 A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
@@ -96,7 +96,7 @@ A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back 
 ## Over-hardened Core
 - Hardness: 900
 - Blast Resistance: 32,000,000
-- Can be broken with: Diamond Pickaxe or higher
+- Can be broken with: Diamond Pickaxe or higher (Includes The Crying Being)
 - Stackable: No
 
 Over-hardened Core is a block used to craft an **Over-hardened Core with Eye**.
@@ -148,27 +148,27 @@ It has an enchantability value of 2,147,483,647.
 ![](https://i.ibb.co/Cs0C7PyW/Ekran-g-r-nt-s-2025-03-16-221328.png)
 
 ## Crier
-The **Crier** is a boss that can be summoned by a player, they are the only sources of **Eye**.
+The **Crier** is a boss that can be summoned by a player, it is the only source of **Eye**.
 
 ![2025-02-28_22 55 27](https://github.com/user-attachments/assets/c9e8b2c8-602f-45f1-8dfe-6e4eeb8b35e4)
 
 It always spawns with a Crying Helmet, Crying Sword and shield.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock** and it will immediately start to attack the player. 
 
-It has 618 health points; is completely immune to suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 20% chance.
+It has 618 health points; is completely immune to suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 25% chance.
 
 If it's in a pit or a deep hole, it will start to fly to escape and attack its targets.
 
-If Crier loses 25% of its health points, it will summon 4 **Husks**.
-If Crier loses 50% of its health points, it will summon 1 **Witch**.
-If Crier loses 75% of its health points, it will summon 1 **Illusioner**.
-
 If a Crier feels threatened, it can do these when it takes damage:
-- It can make itself invisible for 5 seconds with 5% chance.
-- It can heal itself 8 health with 7.5% chance.
+- It can drink of a Potion of Healing III with 7.5% chance.
 - It can create an explosion with 2 power with 4.5% chance. 
 
+### Healing
+If a Crier is drinking a Potion of Healing III, it can't be damaged and it cannot move.
+Drinking takes 1.6 seconds heals 16 HP.
+
 It's permanently affected with the **Weakness II** status effect, and can't get any other status effects other than Weakness.
+If a Crier hits a player, it has a %20 chance to give the player Weakness 1 effect for 4 * ([local_difficulty](https://minecraft.wiki/w/Difficulty#Regional_difficulty)).
 
 It can break doors almost instantly and step up four full blocks, and walks faster in water than other mobs.
 
@@ -185,8 +185,8 @@ It will create one last explosion with 2.5 power, it will scream and it will get
 - It can step up 5 full blocks.
 - It deals 5 extra damage.
 - It becomes immune to fire.
-- It can block attacks with its shield 40% more.
-- It will never become invisible.
+- It can block attacks with its shield 50% more (%75 chance in total).
+- It will drink Potion of Healing %12.5 more (%20 chance total).
 - It will never create an explosion again.
 
 At this point, it has become forlorn.

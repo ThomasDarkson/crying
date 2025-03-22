@@ -1,3 +1,8 @@
+# 4.0.1 - YACHT (Yet Another Crier Heavy Trade-off)
+- Reworked Crier's healing mechanic, removed its summoning ability, it won't make itself invisible anymore and more balances
+- Crying Ore generates more now
+- Fixed Over-hardened Core, Over-hardened Core With Eye and Furball being stackable and their rarities
+
 # 4.0.0 - Crying Cat says meow
 - New Mob: Crying Cat, can be put on head
 - New Block: Crying Furball, used to spawn Crying Cat

@@ -250,7 +250,7 @@ public class Crying implements ModInitializer {
 		Rarity rarity = Rarity.COMMON;
 		Integer stack = 64;
 
-		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name))).rarity(rarity).maxCount(stack);
+		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name)));
 
 		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye" || name == "furball") {
 			if (name != "furball")
@@ -259,6 +259,9 @@ public class Crying implements ModInitializer {
 			stack = 1;
 			settings = settings.fireproof();
 		}
+
+		settings = settings.rarity(rarity);
+		settings = settings.maxCount(stack);
 
 		if (shouldRegisterItem) {
 			BlockItem blockItem = new BlockItem(block, settings);

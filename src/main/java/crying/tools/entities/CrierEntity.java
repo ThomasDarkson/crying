@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import crying.tools.Crying;
 import crying.tools.goals.FastBreakDoorGoal;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -32,10 +33,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.HuskEntity;
-import net.minecraft.entity.mob.IllusionerEntity;
 import net.minecraft.entity.mob.WardenEntity;
-import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -46,6 +44,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.potion.Potions;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -66,10 +65,8 @@ public class CrierEntity extends ZombieEntity {
 
     boolean secondPhase = false;
     boolean initializedExplosion = false;
-
-    boolean summonedHusk = false;
-    boolean summonedWitch = false;
-    boolean summonedIllusioner = false;
+    boolean healing = false;
+    int healingTicks = 0;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
@@ -110,11 +107,11 @@ public class CrierEntity extends ZombieEntity {
     }
 
     public static DefaultAttributeContainer.Builder createCrierAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.35500004174432513d).add(EntityAttributes.FLYING_SPEED, 0.67500004174432513d).add(EntityAttributes.MAX_HEALTH, 618d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.355d).add(EntityAttributes.FLYING_SPEED, 2d).add(EntityAttributes.MAX_HEALTH, 618d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
     }
 
     public boolean canHaveStatusEffect(StatusEffectInstance effect) {
-        return effect.equals(StatusEffects.WEAKNESS) || effect.equals(StatusEffects.INVISIBILITY);
+        return effect.equals(StatusEffects.WEAKNESS);
     }
 
     @Override
@@ -176,31 +173,38 @@ public class CrierEntity extends ZombieEntity {
         this.bossBar.setPercent(health);
 
         if (health > 0F) {
-            if (health < 0.75F) {
-                if (!summonedHusk) {
-                    summonHusks(world, 4);
-                    summonedHusk = true;
-                }
-            }
-            if (health < 0.5F) {
-                if (!summonedWitch) {
-                    summonWitch(world);
-                    summonedWitch = true;
-                }
-            }
-            if (health < 0.25F) {
-                if (!summonedIllusioner) {
-                    summonIllusioner(world);
-                    summonedIllusioner = true;
-                }
-            }
-
             if (health < 0.1F && !secondPhase) {
                 world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundCategory(), 1.0F, 1.0F);
                 world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 2.5F, true, ExplosionSourceType.MOB);
                 switchToSecondPhase();
 
                 secondPhase = true;
+            }
+        }
+
+        if (healing) {
+            healingTicks++;
+            this.setHealth(this.getHealth() + 0.5F);
+
+            if ((healingTicks - 1) % 4 == 0 || healingTicks >= 32)
+            {
+                getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_DRINK, this.getSoundCategory(), 1.0F, 1.0F);          
+            }
+            if ((healingTicks - 1) % 8 == 0 || healingTicks >= 32)
+            {
+                this.swingHand(Hand.MAIN_HAND);   
+            }
+
+            if (healingTicks >= 32) {
+                healing = false;
+
+                this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Crying.sword));
+
+                EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+                instance.setBaseValue(0.355d);
+
+                EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
+                instance2.setBaseValue(2d);
             }
         }
     }
@@ -223,32 +227,6 @@ public class CrierEntity extends ZombieEntity {
         this.swingHand(Hand.OFF_HAND);
     }
 
-    void summonIllusioner(ServerWorld world) {
-        IllusionerEntity illusioner = new IllusionerEntity(EntityType.ILLUSIONER, world);
-        illusioner.setPos(getX(), getY(), getZ());
-        world.spawnEntity(illusioner);
-
-        swingBothHands();
-    }
-    
-    void summonWitch(ServerWorld world) {
-        WitchEntity witch = new WitchEntity(EntityType.WITCH, world);
-        witch.setPos(getX(), getY(), getZ());
-        world.spawnEntity(witch);
-
-        swingBothHands();
-    }
-
-    void summonHusks(ServerWorld world, int count) {
-        for (int i = 0; i < count; i++) {
-            HuskEntity husk = new HuskEntity(EntityType.HUSK, world);
-            husk.setPos(getX(), getY(), getZ());
-            world.spawnEntity(husk);
-        }
-
-        swingBothHands();
-    }
-
     @Override
     public void onStartedTrackingBy(ServerPlayerEntity player) {
         super.onStartedTrackingBy(player);
@@ -267,11 +245,10 @@ public class CrierEntity extends ZombieEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
 
-        nbt.putBoolean("summonedHusk", summonedHusk);
-        nbt.putBoolean("summonedWitch", summonedWitch);
-        nbt.putBoolean("summonedIllusioner", summonedIllusioner);
         nbt.putBoolean("secondPhase", secondPhase);
         nbt.putBoolean("initializedExplosion", initializedExplosion);
+        nbt.putBoolean("healing", healing);
+        nbt.putInt("healingTicks", healingTicks);
     }
 
     @Override
@@ -282,11 +259,14 @@ public class CrierEntity extends ZombieEntity {
             this.bossBar.setName(this.getDisplayName());
         }
 
-        summonedHusk = nbt.getBoolean("summonedHusk");
-        summonedWitch = nbt.getBoolean("summonedWitch");
-        summonedIllusioner = nbt.getBoolean("summonedIllusioner");
         secondPhase = nbt.getBoolean("secondPhase");
         initializedExplosion = nbt.getBoolean("initializedExplosion");
+        healing = nbt.getBoolean("healing");
+
+        if (healing)
+            heal();
+
+        healingTicks = nbt.getInt("healingTicks");
 
         if (secondPhase)
             switchToSecondPhase();
@@ -309,7 +289,7 @@ public class CrierEntity extends ZombieEntity {
         boolean bl = super.tryAttack(world, target);
         if (bl && target instanceof PlayerEntity) {
             float chance = Math.abs(world.getRandom().nextFloat());
-            if (chance < 0.045F) {
+            if (chance < 0.2F) {
                 float f = this.getWorld().getLocalDifficulty(this.getBlockPos()).getLocalDifficulty();
                 ((PlayerEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 80 * (int)f), this);
             }
@@ -321,6 +301,8 @@ public class CrierEntity extends ZombieEntity {
     @Override
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
         if (isInsideWall()) 
+            return false;
+        else if (healing)
             return false;
         else if (source.isIn(DamageTypeTags.IS_FIRE) && secondPhase)
             return false;
@@ -335,7 +317,7 @@ public class CrierEntity extends ZombieEntity {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             return false;
         }
-        else if (world.getRandom().nextFloat() < (secondPhase ? 0.6F : 0.2F) && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
+        else if (world.getRandom().nextFloat() < (secondPhase ? 0.75F : 0.25F) && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             this.swingHand(Hand.OFF_HAND);
             return false;
@@ -345,17 +327,28 @@ public class CrierEntity extends ZombieEntity {
             if (f < (secondPhase ? 0F : 0.045F)) {
                 world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB);
             }
-            if (f < (secondPhase ? 0F : 0.05F)) {
-                this.swingHand(Hand.MAIN_HAND);
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 100, 0, false, false, false));
-            }
-            if (f < (secondPhase ? 0.15F : 0.075F)) {
-                this.swingHand(Hand.MAIN_HAND);
-                this.setHealth(getHealth() + 8F);
+            if (f < (secondPhase ? 0.2F : 0.075F)) {
+                heal();
             }
 
             return super.damage(world, source, amount);
         }
+    }
+
+    void heal() {
+        if (healing)
+            return;
+            
+        healing = true;
+        healingTicks = 0;
+
+        this.equipStack(EquipmentSlot.MAINHAND, PotionContentsComponent.createStack(Items.POTION, Potions.HEALING));
+
+        EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+        instance.setBaseValue(0.001d);
+
+        EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
+        instance2.setBaseValue(0.001d);
     }
 
     boolean tryAttackT(ServerWorld world, Entity target) {

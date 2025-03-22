@@ -23,10 +23,9 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 
 public class CryingOre extends CryingObsidianBlock 
 {
-    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_LARGE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of("crying", "crying_ore_large"));
-    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_SMALL = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of("crying", "crying_ore_small"));
-    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_MEDIUM = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of("crying", "crying_ore_medium"));
-
+    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_LARGE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_large"));
+    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_SMALL = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_small"));
+    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_MEDIUM = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_medium"));
     public CryingOre() {
         super(
             Settings.create().

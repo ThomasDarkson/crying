@@ -52,7 +52,7 @@ public class Furball extends Block {
                 cat.setPos(pos.getX(), pos.getY(), pos.getZ());
                 cat.setOgOwner(player);
                 cat.setOwner(player);
-                cat.setTamed(true, true);
+                cat.setTamedBy(player);
                 cat.setPersistent();
                 world.spawnEntity(cat);
                 world.playSound((PlayerEntity) null, pos, SoundEvents.ENTITY_CAT_AMBIENT, SoundCategory.AMBIENT);

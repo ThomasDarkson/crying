@@ -150,24 +150,22 @@ public class SanityManager {
     }
 
     public void readNbt(NbtCompound nbt) {
-        if (nbt.contains("sanityLevel", 99)) {
-            this.sanityLevel = nbt.getFloat("sanityLevel");
-            this.sanityTickTimer = nbt.getInt("sanityTickTimer");
-            this.maxLevel = nbt.getInt("maxLevel");
-            this.permanentMaxLevel = nbt.getInt("permanentMaxLevel");
-            this.cryingArmorCount = nbt.getInt("cryingArmorCount");
-            this.shouldRegen = nbt.getBoolean("shouldRegen");
-            this.ticksHalfHealth = nbt.getInt("ticksHalfHealth");
+        this.sanityLevel = nbt.getFloat("sanityLevel", 0F);
+        this.sanityTickTimer = nbt.getInt("sanityTickTimer", 0);
+        this.maxLevel = nbt.getInt("maxLevel", 0);
+        this.permanentMaxLevel = nbt.getInt("permanentMaxLevel", 0);
+        this.cryingArmorCount = nbt.getInt("cryingArmorCount", 0);
+        this.shouldRegen = nbt.getBoolean("shouldRegen", false);
+        this.ticksHalfHealth = nbt.getInt("ticksHalfHealth", 0);
             
-            if (this.sanityLevel < (float) this.permanentMaxLevel)
-                this.sanityLevel = (float) this.permanentMaxLevel;
+        if (this.sanityLevel < (float) this.permanentMaxLevel)
+            this.sanityLevel = (float) this.permanentMaxLevel;
 
-            else if (this.sanityLevel > this.maxLevel)
-                this.sanityLevel = this.maxLevel;
+        else if (this.sanityLevel > this.maxLevel)
+            this.sanityLevel = this.maxLevel;
 
-            if (this.permanentMaxLevel > FINAL_MAX_INT)
-                this.permanentMaxLevel = FINAL_MAX_INT;
-        }
+        if (this.permanentMaxLevel > FINAL_MAX_INT)
+            this.permanentMaxLevel = FINAL_MAX_INT;
 
         updateThis();
     }

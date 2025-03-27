@@ -25,11 +25,9 @@ import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.PhantomEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.CatVariant;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
@@ -88,9 +86,11 @@ public class CryingCatEntity extends CatEntity {
     }
 
     @Override
-    public void setOwner(PlayerEntity player) {
-        if (this.ogOwner == player) {
-            super.setOwner(player);
+    public void setOwner(@Nullable LivingEntity entity) {
+        if (entity instanceof PlayerEntity player) {
+            if (this.ogOwner == player) {
+                super.setOwner(player);
+            }
         }
     }
 
@@ -193,10 +193,6 @@ public class CryingCatEntity extends CatEntity {
     @Override
     public void tick() {
         super.tick();
-    }
-
-    @Override
-    public void setVariant(RegistryEntry<CatVariant> registryEntry) {
     }
 
     @Nullable

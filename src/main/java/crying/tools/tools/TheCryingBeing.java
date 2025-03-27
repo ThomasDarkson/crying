@@ -2,6 +2,8 @@ package crying.tools.tools;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
+
 import crying.tools.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
@@ -10,6 +12,7 @@ import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.ToolComponent;
 import net.minecraft.component.type.ToolComponent.Rule;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -48,7 +51,7 @@ public class TheCryingBeing extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
         Random r = new Random();
         int low = 0;
         int high = 5;
@@ -63,7 +66,7 @@ public class TheCryingBeing extends Item {
             ""
         };
 
-        tooltip.add(Text.literal(literals[result]).fillStyle(Style.EMPTY.withObfuscated(true)));
+        textConsumer.accept(Text.literal(literals[result]).fillStyle(Style.EMPTY.withObfuscated(true)));
     }
 
     public static AttributeModifiersComponent createAttributeModifiers() {
@@ -72,7 +75,7 @@ public class TheCryingBeing extends Item {
 
     public static ToolComponent createToolComponent() {
         RegistryEntryLookup<Block> registryEntryLookup = Registries.createEntryLookup(Registries.BLOCK);
-        return new ToolComponent(List.of(Rule.ofAlwaysDropping(registryEntryLookup.getOrThrow(TagKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "mineable/the_crying_being"))), 2147483647F)), 1.0F, 1);
+        return new ToolComponent(List.of(Rule.ofAlwaysDropping(registryEntryLookup.getOrThrow(TagKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "mineable/the_crying_being"))), 2147483647F)), 1.0F, 1, true);
     }
 
     @Override

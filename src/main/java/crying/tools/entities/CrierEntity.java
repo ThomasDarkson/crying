@@ -1,17 +1,14 @@
 package crying.tools.entities;
 
-import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 import crying.tools.Crying;
 import crying.tools.goals.FastBreakDoorGoal;
 import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.NavigationConditions;
 import net.minecraft.entity.ai.control.FlightMoveControl;
@@ -52,7 +49,6 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -259,14 +255,14 @@ public class CrierEntity extends ZombieEntity {
             this.bossBar.setName(this.getDisplayName());
         }
 
-        secondPhase = nbt.getBoolean("secondPhase");
-        initializedExplosion = nbt.getBoolean("initializedExplosion");
-        healing = nbt.getBoolean("healing");
+        secondPhase = nbt.getBoolean("secondPhase", false);
+        initializedExplosion = nbt.getBoolean("initializedExplosion", false);
+        healing = nbt.getBoolean("healing", false);
 
         if (healing)
             heal();
 
-        healingTicks = nbt.getInt("healingTicks");
+        healingTicks = nbt.getInt("healingTicks", 0);
 
         if (secondPhase)
             switchToSecondPhase();
@@ -349,37 +345,6 @@ public class CrierEntity extends ZombieEntity {
 
         EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
         instance2.setBaseValue(0.001d);
-    }
-
-    boolean tryAttackT(ServerWorld world, Entity target) {
-        float f = (float)this.getAttributeValue(EntityAttributes.ATTACK_DAMAGE);
-        ItemStack itemStack = this.getWeaponStack();
-        if (itemStack == null)
-            return false;
-        DamageSource damageSource = (DamageSource)Optional.ofNullable(itemStack.getItem().getDamageSource(this)).orElse(this.getDamageSources().mobAttack(this));
-        f = EnchantmentHelper.getDamage(world, itemStack, target, damageSource, f);
-        f += itemStack.getItem().getBonusAttackDamage(target, f, damageSource);
-        boolean bl = target.damage(world, damageSource, f);
-        if (bl) {
-            float g = this.getKnockbackAgainst(target, damageSource);
-            LivingEntity livingEntity;
-            if (g > 0.0F && target instanceof LivingEntity) {
-                livingEntity = (LivingEntity)target;
-                livingEntity.takeKnockback((double)(g * 0.5F), (double)MathHelper.sin(this.getYaw() * 0.017453292F), (double)(-MathHelper.cos(this.getYaw() * 0.017453292F)));
-                this.setVelocity(this.getVelocity().multiply(0.6, 1.0, 0.6));
-            }
-
-            if (target instanceof LivingEntity) {
-                livingEntity = (LivingEntity)target;
-                itemStack.postHit(livingEntity, this);
-            }
-
-            EnchantmentHelper.onTargetDamaged(world, target, damageSource);
-            this.onAttacking(target);
-            this.playAttackSound();
-        }
-
-        return bl;
     }
 
     @Override

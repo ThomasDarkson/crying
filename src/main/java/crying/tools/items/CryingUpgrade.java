@@ -1,9 +1,10 @@
 package crying.tools.items;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 import crying.tools.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
@@ -28,16 +29,16 @@ public class CryingUpgrade extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
         MutableText ingredient = Text.translatable("item.minecraft.smithing_template.ingredients");
         ingredient.getSiblings().addFirst(Text.of(" "));
         ingredient.formatted(Formatting.GRAY);
 
-        tooltip.add(Text.translatable("item.minecraft.smithing_template").formatted(Formatting.GRAY));
-        tooltip.add(Text.of(""));
-        tooltip.add(Text.translatable("item.minecraft.smithing_template.applies_to").formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("item.crying.netherite_equipment").formatted(Formatting.BLUE)); 
-        tooltip.add(ingredient); 
-        tooltip.add(Text.translatable("item.crying.crying_ingot_space").formatted(Formatting.BLUE));
+        textConsumer.accept(Text.translatable("item.minecraft.smithing_template").formatted(Formatting.GRAY));
+        textConsumer.accept(Text.of(""));
+        textConsumer.accept(Text.translatable("item.minecraft.smithing_template.applies_to").formatted(Formatting.GRAY));
+        textConsumer.accept(Text.translatable("item.crying.netherite_equipment").formatted(Formatting.BLUE)); 
+        textConsumer.accept(ingredient); 
+        textConsumer.accept(Text.translatable("item.crying.crying_ingot_space").formatted(Formatting.BLUE));
     }
 }

@@ -2,6 +2,8 @@ package crying.tools.items;
 
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
+
 import crying.tools.Crying;
 import crying.tools.entities.CryingCatEntity;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -62,16 +64,19 @@ public class CryingCatItem extends SpawnEggItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        if (selected) {
-            if (world.getRandom().nextFloat() < 0.02F) {
-                world.playSound((PlayerEntity) null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_CAT_PURR, entity.getSoundCategory());
-            }
-        }
-        else if (entity instanceof PlayerEntity player) {
-            if (player.getEquippedStack(EquipmentSlot.HEAD) == stack) {
-                if (world.getRandom().nextFloat() < 0.0025F) 
+    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+        if (slot != null)
+        {
+            if (slot.equals(EquipmentSlot.MAINHAND)) {
+                if (world.getRandom().nextFloat() < 0.02F) {
                     world.playSound((PlayerEntity) null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_CAT_PURR, entity.getSoundCategory());
+                }
+            }
+            else if (entity instanceof PlayerEntity) {
+                if (slot.equals(EquipmentSlot.HEAD)) {
+                    if (world.getRandom().nextFloat() < 0.0025F) 
+                        world.playSound((PlayerEntity) null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_CAT_PURR, entity.getSoundCategory());
+                }
             }
         }
     }
@@ -108,7 +113,7 @@ public class CryingCatItem extends SpawnEggItem {
                     if (entity instanceof CryingCatEntity cat) {
                         cat.setOgOwner(context.getPlayer());
                         cat.setOwner(context.getPlayer());
-                        cat.setTamed(true, true);
+                        cat.setTamedBy(context.getPlayer());
                         cat.setPersistent();
                     }
                 }
@@ -129,7 +134,7 @@ public class CryingCatItem extends SpawnEggItem {
             BlockPos blockPos = blockHitResult.getBlockPos();
             if (!(world.getBlockState(blockPos).getBlock() instanceof FluidBlock)) {
                 return ActionResult.PASS;
-            } else if (world.canPlayerModifyAt(user, blockPos) && user.canPlaceOn(blockPos, blockHitResult.getSide(), itemStack)) {
+            } else if (world.canEntityModifyAt(user, blockPos) && user.canPlaceOn(blockPos, blockHitResult.getSide(), itemStack)) {
                 EntityType<?> entityType = this.getEntityType(serverWorld.getRegistryManager(), itemStack);
                 Entity entity = entityType.spawnFromItemStack(serverWorld, itemStack, user, blockPos, SpawnReason.SPAWN_ITEM_USE, false, false);
                 if (entity == null) {
@@ -142,7 +147,7 @@ public class CryingCatItem extends SpawnEggItem {
                     if (entity instanceof CryingCatEntity cat) {
                         cat.setOgOwner(user);
                         cat.setOwner(user);
-                        cat.setTamed(true, true);
+                        cat.setTamedBy(user);
                         cat.setPersistent();
                     }
                     return ActionResult.SUCCESS;

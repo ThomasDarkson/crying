@@ -60,7 +60,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
 import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentType;
@@ -119,10 +118,10 @@ public class Crying implements ModInitializer {
 	public static Item hoe = null;
 	public static Item pickaxe = null;
 	public static Item axe = null;
-	public static SwordItem sword = null;
+	public static Item sword = null;
 
-	public static SwordItem knife = null;
-	public static SwordItem crying_knife = null;
+	public static Item knife = null;
+	public static Item crying_knife = null;
 
 	public static Item THE_CRYING_BEING = null;
 
@@ -172,14 +171,10 @@ public class Crying implements ModInitializer {
 		knife = new Knife();
 		crying_knife = new CryingKnife();
 
-        new CryingBoots();
-        new CryingLeggings();
-        new CryingChestplate();
-        helmet = new CryingHelmet().item;
-
-		boots = CryingBoots.item;
-		chestplate = CryingChestplate.item;
-		leggings = CryingLeggings.item;
+        boots = new CryingBoots();
+        leggings = new CryingLeggings();
+        chestplate = new CryingChestplate();
+        helmet = new CryingHelmet();
 
 		crying_apple = new CryingApple();
 

@@ -3,13 +3,10 @@ package crying.tools.tools;
 
 import crying.tools.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -17,10 +14,8 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
-public class CryingKnife extends SwordItem {
+public class CryingKnife extends Item {
     private static int durability = 6498;
 
     private static float speed = 5F;
@@ -30,18 +25,15 @@ public class CryingKnife extends SwordItem {
     private static int enchantability = 50;
 
     public CryingKnife() {
-        super(new ToolMaterial(BlockTags.INCORRECT_FOR_IRON_TOOL, durability, speed, attackDamageBonus, enchantability, ItemTags.IRON_TOOL_MATERIALS), 11F, -1.2F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_knife")))
-        .fireproof()
-        .enchantable(enchantability));
+        super(
+            new Item.Settings().sword(new ToolMaterial(BlockTags.INCORRECT_FOR_IRON_TOOL, durability, speed, attackDamageBonus, enchantability, ItemTags.IRON_TOOL_MATERIALS), 11F, -1.2F)
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_knife")))
+            .fireproof()
+            .enchantable(enchantability)
+        );
 
         Crying.register(this, "crying_knife");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> itemGroup.addAfter(Crying.knife, this));
-    }
-
-    @Override
-    public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        return true;
     }
 
     @Override

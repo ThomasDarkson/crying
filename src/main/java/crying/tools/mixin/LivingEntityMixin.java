@@ -1,6 +1,7 @@
 package crying.tools.mixin;
 
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -53,7 +54,7 @@ public abstract class LivingEntityMixin {
         int level = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Aegis.AEGIS), chestplate);
         if (level > 0) {
             if (source.isIn(DamageTypeTags.IS_PROJECTILE) || source.isIn(DamageTypeTags.IS_EXPLOSION) || source.isIn(DamageTypeTags.IS_LIGHTNING)) {
-                world.playSound((PlayerEntity) null, entity.getX(), entity.getY(), entity.getZ(), source.isIn(DamageTypeTags.IS_FALL) ? SoundEvents.ENTITY_GENERIC_SPLASH : SoundEvents.ITEM_SHIELD_BLOCK, entity.getSoundCategory(), 1.0F, 1.0F);
+                world.playSound((Entity) null, entity.getX(), entity.getY(), entity.getZ(), source.isIn(DamageTypeTags.IS_FALL) ? SoundEvents.ENTITY_GENERIC_SPLASH : SoundEvents.ITEM_SHIELD_BLOCK.value(), entity.getSoundCategory(), 1.0F, 1.0F);
                 info.setReturnValue(false);
             }
         }

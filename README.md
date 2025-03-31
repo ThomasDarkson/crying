@@ -136,14 +136,19 @@ To craft one, you need one **Blaze Rod** and one Crying Obsidian.
 ## The Crying Being
 - Stackable: No
 
-The Crying Being is an **universal** end-game item, meaning it's a sword and pickaxe.
+The Crying Being is an **universal** end-game item, meaning it's a sword and pickaxe, and a hoe.
 It can break any breakable block **instantly**, it deals a maximum of 2,147,483,647 damage and has an attack speed of 618. 
+It also can till blocks like a hoe.
 
-To craft one, you need a **Crying Pickaxe**, **Crying Rod**, **Over-hardened Core with Eye** and a smithing table.
+To craft one, you need a **Crying Pickaxe**, **Crying Rod**, **Over-hardened Core with Eye** and a smithing table. After crafting, all of the enchantments on the pickaxe will disappear. But don't worry, Fortune and Silk Touch are combined.
+
+If a player breaks a block with The Crying Being while NOT sneaking, The Crying Being "acts" like it has Fortune III.
+If player IS crouching, it "acts" like it has Silk Touch. For example, breaking a Deepslate Emerald Ore with The Crying being while sneaking will make it drop the block itself. While not sneaking, it will drop between 1 and 4 four emeralds (due to it "having" Fortune III).
+This will work even if the pickaxe it was made with didn't have Fortune or Silk Touch.
 
 The Crying Being will never damage any players, no matter if a player of a mob uses it.
 
-It has an enchantability value of 2,147,483,647.
+It has an enchantability value of 2,147,483,647 and can only be applied sword enchantments.
 
 ![](https://i.ibb.co/Cs0C7PyW/Ekran-g-r-nt-s-2025-03-16-221328.png)
 
@@ -233,9 +238,9 @@ Love of The Feline grants these positive effects for the owner:
 - Jump boost
 - Full health when waking up
 
-She has her own loot table of morning gifts, if the player sleeps through the night with her on head there is a 95% chance that she will give gifts to her owner.
+She has her own loot table of morning gifts, if the player sleeps through the night with her on head she will give gifts to her owner.
 
-She may give 1 to 4 items or only one item or nothing at all.
+She may give 1 to 4 items.
 
 These are the items she will gift:
 - **Cooked Salmon** (16 to 32) (13.9% chance)

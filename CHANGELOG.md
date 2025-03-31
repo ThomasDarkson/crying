@@ -1,3 +1,11 @@
+# 4.0.2 - The Happy Being
+- The Crying Being now can be enchanted with only sword enchantments
+- The Crying Being now can break any block except bedrock, including modded blocks
+- The Crying Being now acts like it has Fortune III if player holding it isn't crouching
+- The Crying Being now acts like it has Silk Touch if player holding it is crouching
+- The Crying Being now can till blocks like a hoe
+- Crying Cat will always at least give one gift to her owner
+
 # 4.0.1 - YACHT (Yet Another Crier Heavy Trade-off)
 - Reworked Crier's healing mechanic, removed its summoning ability, it won't make itself invisible anymore and more balances
 - Crying Ore generates more now

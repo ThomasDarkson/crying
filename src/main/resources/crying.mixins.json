@@ -14,7 +14,9 @@
 		"ItemMixin",
 		"CreeperEntityMixin",
 		"ItemEntityMixin",
-		"CatEntityMixin"
+		"CatEntityMixin",
+		"BlockMixin",
+		"AbstractBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

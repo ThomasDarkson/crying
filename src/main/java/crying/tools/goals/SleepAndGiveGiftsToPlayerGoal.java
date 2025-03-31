@@ -90,8 +90,7 @@ public class SleepAndGiveGiftsToPlayerGoal extends Goal {
     @Override
     public void stop() {
         this.cat.setInSleepingPose(false);
-        float f = this.cat.getWorld().getSkyAngle(1.0f);
-        if (this.owner.getSleepTimer() >= 100 && (double) f > 0.77 && (double) f < 0.8 && (double)((World) this.cat.getWorld()).getRandom().nextFloat() < 0.95F) {
+        if (this.owner.getSleepTimer() >= 100) {
             this.dropMorningGifts();
         }
         this.ticksOnBed = 0;

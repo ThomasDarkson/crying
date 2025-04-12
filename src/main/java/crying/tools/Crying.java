@@ -48,9 +48,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -71,7 +68,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
@@ -220,11 +216,6 @@ public class Crying implements ModInitializer {
 					player.removeStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE);
             });
         });
-
-		FabricLoader.getInstance().getModContainer(ID).ifPresent(container -> {
-			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "c418_mice"), container, Text.translatable("resourcepack.crying.c418.name"), ResourcePackActivationType.NORMAL);
-			ResourceManagerHelper.registerBuiltinResourcePack(Identifier.of(ID, "default"), container, Text.translatable("resourcepack.crying.mice.name"), ResourcePackActivationType.DEFAULT_ENABLED);
-		});
 
 		EntityElytraEvents.CUSTOM.register((entity, tick) -> {
 			World world = entity.getWorld();

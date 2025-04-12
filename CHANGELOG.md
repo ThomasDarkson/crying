@@ -1,3 +1,6 @@
+# 4.0.3
+- Removed Crying Mice
+
 # 4.0.2 - The Happy Being
 - The Crying Being now can be enchanted with only sword enchantments
 - The Crying Being now can break any block except bedrock, including modded blocks

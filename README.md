@@ -21,17 +21,6 @@ with new mechanics!
 
 You may use this mod in modpacks with credit.
 
-## Crying Mice
-[![mice](https://i.ibb.co/6c4cBf17/Yeni-Proje-2-1.png)](https://youtu.be/Zwu8JVXwEss "Crying Mice")
-
-Crying Mice is a track inspired by C418's **Living Mice** made by me, it can play in **Bamboo Jungles**, **Forests**, **Flower Forests**, **Sparse Jungles**, **Old Growth Taigas**, **Stony Peaks** and **Meadows**.
-
-It can also play in creative mode.
-
-If you want nostalgia, Crying Tools comes with an optional resource pack that replaces all songs with C418 songs + Crying Mice. You can enable it in resource packs menu in game.
-
-To remove the song from the game, simply disable the resourcepacks "Crying Mice" and the resource pack mentioned above.
-
 ## Crying Ore
 - Hardness: 50
 - Blast Resistance: 1200
@@ -238,7 +227,7 @@ Love of The Feline grants these positive effects for the owner:
 - Jump boost
 - Full health when waking up
 
-She has her own loot table of morning gifts, if the player sleeps through the night with her on head she will give gifts to her owner.
+She has her own loot table of morning gifts, if the player sleeps through the night with her sleeping on them she will give gifts to her owner.
 
 She may give 1 to 4 items.
 
@@ -247,7 +236,7 @@ These are the items she will gift:
 - **Block of Crying** (1 to 7) (13.9% chance)
 - **Netherite Scrap** (1 to 8) (13.9% chance)
 - **Block of Diamond** (1 to 7) (13.9% chance)
-- **Block of Raw Gold** (1 to 7) (13.9 % chance)
+- **Block of Raw Gold** (1 to 7) (13.9% chance)
 - **Crying Residue** (1 to 8) (12.5% chance)
 - **Crying Apple** (9.8% chance)
 - **Enchanted Golden Apple** (7% chance)

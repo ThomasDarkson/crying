@@ -1,3 +1,8 @@
+# 4.0.4
+- Reinforced Deepslate is now guaranteed to drop when it's mined with Crying Pickaxe or The Crying Being
+- Upated Crying Cat model
+- Buffed Crying Pickaxe
+
 # 4.0.3
 - Removed Crying Mice
 

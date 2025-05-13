@@ -91,7 +91,7 @@ A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back 
 Over-hardened Core is a block used to craft an **Over-hardened Core with Eye**.
 To craft one, you need 7 **Reinforced Deepslate (check note)**, one **Crying Ingot** and one **Heavy Core**.
 
-Note: A Crying Pickaxe has a 1 in 28 chance of dropping a reinforced deepslate when it breaks one, therefore making it obtainable in survival.
+Note: A Crying Pickaxe and The Crying Being can mine reinforced deepslate and block will drop itself guaranteed, therefore making it obtainable in survival.
 
 ![image](https://i.ibb.co/ZpXVvCx2/Ekran-g-r-nt-s-2025-03-16-222632.png)
 
@@ -250,9 +250,9 @@ To upgrade Netherite equipment you need a smithing table, one **Crying Upgrade S
 ## Tool Values
 
 ### **Mining Speed**
+- **Crying Pickaxe**: 133
 - **Crying Axe**: 60
 - **Crying Hoe**: 45
-- **Crying Pickaxe**: 43
 - **Crying Shovel**: 45
 
 Knives and Crying Sword is the same with all the other swords.

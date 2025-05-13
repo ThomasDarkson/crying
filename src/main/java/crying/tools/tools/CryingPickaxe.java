@@ -18,7 +18,7 @@ import net.minecraft.util.Identifier;
 public class CryingPickaxe extends Item {
     private static int durability = 14622;
 
-    private static float speed = 43F;
+    private static float speed = 133F;
 
     private static float attackDamageBonus = 0F;
 

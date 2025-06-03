@@ -87,11 +87,15 @@ public abstract class LivingEntityMixin {
         if (!source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) {
             var entity = (LivingEntity) (Object) this;
             float dmg = info.getReturnValue();
-            if (entity.hasStatusEffect(BaneOfCriers.EFFECT))
+            if (entity.hasStatusEffect(BaneOfCriers.EFFECT)) {
                 dmg = dmg * 2F;
+                info.setReturnValue(dmg);
+            }
             
-            if (entity.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE))
+            if (entity.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE)) {
                 dmg = dmg - (dmg * 0.8F);
+                info.setReturnValue(dmg);
+            }
 
             if (CryingArmor.setCount(entity) > 0 && !source.isIn(DamageTypeTags.BYPASSES_RESISTANCE)) {
                 float i = ((float) CryingArmor.setCount(entity)) * 5F;
@@ -126,8 +130,6 @@ public abstract class LivingEntityMixin {
                     info.setReturnValue(dmg + 20F);
                 }
             }
-
-            info.setReturnValue(dmg);
         }
     }
 }

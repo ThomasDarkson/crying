@@ -122,7 +122,7 @@ public abstract class LivingEntityMixin {
             }
             if (source.getWeaponStack() != null) {
                 Item weapon = source.getWeaponStack().getItem();
-                if ((weapon == Crying.sword || weapon == Crying.crying_knife) && (
+                if ((weapon == Crying.sword) && (
                     entity.getType() == EntityType.ENDERMAN ||
                     entity.getType() == EntityType.ENDERMITE ||
                     entity.getType() == EntityType.GHAST

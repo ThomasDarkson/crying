@@ -15,16 +15,14 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 import net.minecraft.util.math.Vec3d;
 
-public class CrierSummoner extends SpawnEggItem {
-    public CrierSummoner() {
+public class CrierSpawnEgg extends SpawnEggItem {
+    public CrierSpawnEgg() {
         super(Crying.CRIER, new Item.Settings()
-            .rarity(Rarity.UNCOMMON)
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crier_summoner"))));
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crier_spawn_egg"))));
 
-        Crying.register(this, "crier_summoner");
+        Crying.register(this, "crier_spawn_egg");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register((itemGroup) -> itemGroup.add(this));
     }
 

@@ -18,7 +18,7 @@ public class CryingHelmet extends Item {
             .fireproof()
             .enchantable(50)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_helmet")))
-            .maxDamage(EquipmentType.HELMET.getMaxDamage(32))
+            .maxDamage(EquipmentType.HELMET.getMaxDamage(591))
         );
             
         Crying.register(this, "crying_helmet");

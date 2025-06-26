@@ -35,7 +35,7 @@ public abstract class FoodComponentMixin {
                 item == Items.CHICKEN ||
                 item == Items.SPIDER_EYE
             ) {
-                manager.decreaseLevel(item == Items.PUFFERFISH ? 20F : 4F);
+                manager.decreaseLevel(item == Items.PUFFERFISH ? 20F : 6F);
             }
             else if (item == Items.HONEY_BOTTLE) {
                 manager.decreaseLevel(-20F);
@@ -45,7 +45,7 @@ public abstract class FoodComponentMixin {
                 item == Items.COOKED_PORKCHOP ||
                 item == Items.COOKED_MUTTON
             ) {
-                if (world.getRandom().nextFloat() < 0.3F) {
+                if (world.getRandom().nextFloat() < 0.6F) {
                     manager.decreaseLevel(-4F);
                 }
             }

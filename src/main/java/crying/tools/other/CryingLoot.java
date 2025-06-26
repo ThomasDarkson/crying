@@ -39,7 +39,7 @@ public class CryingLoot {
             if (source.isBuiltin() && BASTION_TREASURE.equals(key.getValue())) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(1.0F))
-                        .with(ItemEntry.builder(Crying.upgrade)
+                        .with(ItemEntry.builder(Crying.HARD_CRYING_OBSIDIAN.asItem())
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0F, 1.0F)))
                         .conditionally(RandomChanceLootCondition.builder(0.05f)));
 
@@ -57,7 +57,7 @@ public class CryingLoot {
             if (source.isBuiltin() && BASTION_BRIDGE.equals(key.getValue())) {
                 LootPool.Builder poolBuilder = LootPool.builder()
                         .rolls(ConstantLootNumberProvider.create(6.0F))
-                        .with(ItemEntry.builder(Crying.upgrade)
+                        .with(ItemEntry.builder(Crying.HARD_CRYING_OBSIDIAN.asItem())
                         .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0F, 1.0F)))
                         .conditionally(RandomChanceLootCondition.builder(0.0103f)));
 

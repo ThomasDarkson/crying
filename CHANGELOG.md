@@ -1,3 +1,53 @@
+# 4.1.0 - Major Changes
+## Crier
+- Crier Summoner is replaced with Crier Spawn Egg and it's not craftable
+- Criers are now summoned with placing two crying obsidians vertically and a hard crying obsidian on top 
+- Crier's model is reworked and it'll change appearance when it becomes forlorn
+- Crier's initial explosion now won't do any damage
+- Crier will now fly faster
+- Crier's now won't die unless the fatal hit was from a player
+- Crier is now immune to fire and lava
+
+### Forlorn Stage
+- A Crier will become forlorn when it's below 20% HP instead of 10%
+- Its scale will now stay the same
+- Slightly nerfed the last explosion before becoming forlorn
+
+## Changes
+### Crying Ore
+- Now also generates on the surface between Y level 56 and 72 in the Overworld (biased to bottom)
+
+### Recipes
+- Crying Tools and armors now all use Hard Crying Obsidian instead of Crying Upgrade Smithing Template
+- Crying Apple is now crafted with one apple and one crying obsidian
+- Replaced the iron blocks in Hard Crying Obsidian's recipe with iron ingots
+- Replaced the netherite scrap in Crying Ingot's recipe with iron ingots
+- Over Hardened Core now requires 3 Reinforced Deepslates instead of 7
+- Added a recipe to duplicate Hard Crying Obsidian
+
+### Sanity
+- Cooked beef, cooked porkchop and cooked mutton now has a 60% chance instead of 30% to increase sanity
+- Rotten flesh, poisonous potato, raw chicken and spider eye now decreases sanity by 6 instead of 4
+
+### Crying Apple
+- Crying Apple now has a cooldown of 60 seconds instead 120
+
+### Models
+- Reworked Eye's model
+- Tweaked The Crying Being's model
+
+## Removals
+- Knives and Handle item
+Knives didn't really fit the mod and had no purpose, so they are removed
+- Crying Upgrade Smithing Template
+Is replaced with Hard Crying Obsidian
+
+## Fixes
+- Fixed wrong armor durability
+- Fixed a bug with Feathered
+
+This update drops 1.21.4 support, I will ignore any issues with 1.21.4 versions of Crying Tools.
+
 # 4.0.5
 - Fixed a bug that could break other mods
 

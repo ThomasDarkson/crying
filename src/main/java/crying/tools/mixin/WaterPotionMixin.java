@@ -23,7 +23,7 @@ public abstract class WaterPotionMixin {
             SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
             PotionContentsComponent potion = (PotionContentsComponent) (Object) this;
             if (potion.matches(Potions.WATER)) {
-                manager.decreaseLevel(-10F);
+                manager.decreaseLevel(-15F);
             }
         }
     }

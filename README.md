@@ -5,7 +5,7 @@ https://thomasdarkson.com
 
 [<img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">](https://fabricmc.net/)
 
-![Yeni Proje (2)](https://github.com/user-attachments/assets/f836d15a-ea12-4e22-8038-7dfa78a72773)
+![Yeni Proje (2)](https://i.ibb.co/zVKJf472/409995807-f836d15a-ea12-4e22-8038-7dfa78a72773.png)
 
 Description for version 4.0.5 (last version to support 1.21.4) is available [here](https://github.com/ThomasDarkson/crying/blob/966d94b819d8a30046a029c1ccccc417bbbd15db/README.md).
 
@@ -40,7 +40,7 @@ In the Overworld; it has the identical generation properites of the Diamond Ore 
 It can also generate in the surface in the overworld, between Y levels 56 and 72 (it's biased to bottom). It can only replace the dirt or grass on surface. It can be fully exposed to air.
 
 ![ore](https://i.ibb.co/sQ4mCrX/2024-12-08-14-52-57.png "ore")
-![2025-06-26_16 55 22](https://github.com/user-attachments/assets/0dd593e5-1c03-406a-bc88-f47e80fcd535)
+![2025-06-26_16 55 22](https://i.ibb.co/v83FMY6/459541936-0dd593e5-1c03-406a-bc88-f47e80fcd535.png)
 
 When mined, it drops a **Crying Residue** which can be used to craft a **Crying Ingot**. It will drop itself if the pickaxe has Silk Touch. The block itself can be smelted into Crying Ingots aswell.
 
@@ -51,7 +51,7 @@ When mined, it drops a **Crying Residue** which can be used to craft a **Crying 
 
 Crying Residue is an item obtained from Crying Ore, it can be used to craft a **Crying Ingot** with Netherite Scraps.
 
-![image](https://github.com/user-attachments/assets/63135383-18ed-41b7-87d7-90674b16b471)
+![image](https://i.ibb.co/ZRsCSYMB/459543861-63135383-18ed-41b7-87d7-90674b16b471.png)
 
 ## Crying Ingot
 - Stackable: 64
@@ -66,11 +66,11 @@ Crying Ingot is an item to upgrade Netherite equipment to Crying ones, it's also
 
 A Hard Crying Obsidian is a block that cries 4 times more than **Crying Obsidian**, it can be used to upgrade netherite tools to Crying ones or it can be used to summon a Crier. To craft it, you need 4 **Ghast Tears**, 4 Iron Ingots and 1 Crying Obsidian.
  
-![image](https://github.com/user-attachments/assets/64f4c8e3-2c02-4275-85db-e21055cca2c6)
+![image](https://i.ibb.co/wZsLM9Qq/459543154-64f4c8e3-2c02-4275-85db-e21055cca2c6.png)
 
 It can be duplicated with 8 Iron Ingots.
 
-![image](https://github.com/user-attachments/assets/91c9314d-39ee-487c-9d38-6493806f8ce6)
+![image](https://i.ibb.co/tntNxFV/459559191-91c9314d-39ee-487c-9d38-6493806f8ce6.png)
 
 ## Block of Crying
 - Hardness: 400
@@ -80,12 +80,12 @@ It can be duplicated with 8 Iron Ingots.
 
 A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
 
-![image](https://github.com/user-attachments/assets/3ff12e05-af67-4578-b5bc-58602f849a2f)
+![image](https://i.ibb.co/WNDB3Nhr/411574623-3ff12e05-af67-4578-b5bc-58602f849a2f.png)
 
 ## Upgrading to Crying
 To upgrade Netherite equipment you need a smithing table, one **Hard Crying Obsidian**, one **Crying Ingot** and any Netherite equipment.
 
-![image](https://github.com/user-attachments/assets/08435346-6b6b-4236-b46a-37f23542626d)
+![image](https://i.ibb.co/XrndwDwL/459546890-08435346-6b6b-4236-b46a-37f23542626d.png)
 
 ## Tool Values
 
@@ -121,7 +121,7 @@ Else if it has lost between %33 and %66 of its durability, it will be **Damaged*
 
 Damage has no effect on the tool's attack damage and speed, just an indicator that it's lost a considerable amount of durability.
 
-![image](https://github.com/user-attachments/assets/18d027fa-405b-497f-b27b-cb8e74dee25a)
+![image](https://i.ibb.co/W4Qr9cP3/410015435-18d027fa-405b-497f-b27b-cb8e74dee25a.png)
 
 ## Crying Armor
 Crying Armor is also 8 times stronger than Netherite Armor.
@@ -149,13 +149,13 @@ To craft one, you need 3 **Reinforced Deepslate (check note)**, one **Crying Ing
 
 Note: A Crying Pickaxe and The Crying Being can mine reinforced deepslate and block will drop itself guaranteed, therefore making it obtainable in survival.
 
-![image](https://github.com/user-attachments/assets/65619407-d4db-4aa9-b08b-ac3fcf6049ba)
+![image](https://i.ibb.co/Jwk4MgJK/459544169-65619407-d4db-4aa9-b08b-ac3fcf6049ba.png)
 
 ## Eye
 - Stackable: No
 Eye is an item used to craft an **Over-hardened Core with Eye**. It is only obtainable by killing a **Crier**.
 
-![2025-06-26_20 12 27](https://github.com/user-attachments/assets/83366f63-4286-473e-8478-d3f86dab1dbb)
+![2025-06-26_20 12 27](https://i.ibb.co/XZT5WcfN/459544339-83366f63-4286-473e-8478-d3f86dab1dbb.png)
 
 ## Over-hardened Core with Eye
 - Hardness: -1
@@ -169,7 +169,7 @@ If it gets placed on any block, it will instantly break and drop itself. Item fr
 
 To craft one, you need 1 **Eye** and 1 **Over-hardened Core**.
 
-![image](https://github.com/user-attachments/assets/31fdf1c2-e7a8-4503-b0d1-1f2e06b0e56c)
+![image](https://i.ibb.co/pr6TM6N0/418150913-31fdf1c2-e7a8-4503-b0d1-1f2e06b0e56c.png)
 
 ## Crying Rod
 - Stackable: 64
@@ -178,7 +178,7 @@ Crying Rod is a kind of rod needed to craft The Crying Being.
 
 To craft one, you need one **Blaze Rod** and one Crying Obsidian.
 
-![image](https://github.com/user-attachments/assets/dd5902b3-febb-4456-b4b6-5ba67f089efa)
+![image](https://i.ibb.co/FLBnvJk9/413630233-dd5902b3-febb-4456-b4b6-5ba67f089efa.png)
 
 ## The Crying Being
 - Stackable: No
@@ -197,13 +197,13 @@ The Crying Being will never damage any players, no matter if a player of a mob u
 
 It has an enchantability value of 2,147,483,647 and can only be applied sword enchantments.
 
-![image](https://github.com/user-attachments/assets/798d6d64-e505-4ebf-89ee-225fbbfa1973)
+![image](https://i.ibb.co/svbVfNPp/459547474-798d6d64-e505-4ebf-89ee-225fbbfa1973.png)
 
 ## Crier
 The **Crier** is a boss that can be summoned by a player, it is the only source of **Eye**.
 To summon one, a player must place two crying obsidians vertically and a hard crying obsidian on top. 
 
-![2025-06-26_20 24 28](https://github.com/user-attachments/assets/c9ce4365-3d29-46f0-a035-7742778f030e)
+![2025-06-26_20 24 28](https://i.ibb.co/dFTFD9f/459548864-c9ce4365-3d29-46f0-a035-7742778f030e.png)
 
 It always spawns with a Crying Helmet, Crying Sword and a shield with Unbreaking 3.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock**. This explosion won't do any damage.
@@ -299,7 +299,7 @@ These are the items she will gift:
 
 ## Sanity
 
-![image](https://github.com/user-attachments/assets/dc567a09-cb7b-442f-a6fb-7b4689f2fc37)
+![image](https://i.ibb.co/cVksK6w/418131788-dc567a09-cb7b-442f-a6fb-7b4689f2fc37.png)
 
 When you wear any piece of Crying Armor, you need to control your Sanity so the armor can give you more protection. You need to control your Sanity unless you don't wear any Crying Armor.
 
@@ -341,7 +341,7 @@ Crying Apple is a food that is crafted from 4 Crying Obsidian and 1 Apple.
 Eating one takes 6.2 seconds and restores all hunger and saturation, and can be eaten even if the hunger bar is full.
 It has a cooldown of 60 seconds.
 
-![image](https://github.com/user-attachments/assets/5e0883e4-b1d2-4294-8260-1721a15be2e4)
+![image](https://i.ibb.co/vxqKj7Qd/Ekran-g-r-nt-s-2025-06-26-224019.png)
 
 A Crying Apple will give the player **Slowness** 3 with 55% chance for 30 seconds, and **Bane of Criers** with 100% chance for 5 seconds.
 
@@ -349,7 +349,7 @@ Eating one will make **2** sanity levels **permanent**, meaning permanent levels
 
 Permanent levels will be shown with a yellow part in sanity bars.
 
-![image](https://github.com/user-attachments/assets/11629166-580f-4492-bfbe-a3628c178673)
+![image](https://i.ibb.co/mV5XjVvy/418143062-11629166-580f-4492-bfbe-a3628c178673.png)
 
 The permanent levels will come back when any piece of Crying Armor is worn. 
 Eating **10** Crying Apples will make all sanity levels permanent, meaning no action can drain it.
@@ -382,7 +382,7 @@ Unlike an elytra, which needs fireworks to gain speed, the tool can be used to g
 Bloodlust is an enchantment that gives the player Regeneration 4 for (level * 2) seconds
 every time they kill a hostile entity.
 
-![](https://github.com/user-attachments/assets/306db158-13eb-41c3-a3a1-890fffa05cf4)
+![](https://i.ibb.co/sJXVDxLh/459565614-306db158-13eb-41c3-a3a1-890fffa05cf4.gif)
 
 ### Aegis
 - Max Level: 1
@@ -425,7 +425,7 @@ When an entity has the Bane of Criers, they will cry.
 Smoothness is an enchantment that increases attack speed of a weapon.
 For every level, it increases 0.08 attack speed.
 
-![image](https://github.com/user-attachments/assets/900b98a2-2bb4-4cd3-aa97-a5485fe4bc6f)
+![image](https://i.ibb.co/PZfQRN7H/413630702-900b98a2-2bb4-4cd3-aa97-a5485fe4bc6f.png)
 
 ## Loot
 

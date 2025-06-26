@@ -8,11 +8,11 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,7 +33,7 @@ public abstract class PlayerEntityMixin implements SanityInterface {
     SanityManager SanityManager;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo info) {
+    public void init(World world, GameProfile profile, CallbackInfo info) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         SanityManager = new SanityManager(player.getUuidAsString());
     }
@@ -106,13 +106,13 @@ public abstract class PlayerEntityMixin implements SanityInterface {
         }
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    public void readCustomDataFromNbt(NbtCompound nbt, CallbackInfo info) {
+    @Inject(method = "readCustomData", at = @At("TAIL"))
+    protected void readCustomData(ReadView nbt, CallbackInfo info) {
         this.SanityManager.readNbt(nbt);
     }
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    public void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo info) {
+    @Inject(method = "writeCustomData", at = @At("TAIL"))
+    protected void writeCustomData(WriteView nbt, CallbackInfo info) {
         this.SanityManager.writeNbt(nbt);
     }
 

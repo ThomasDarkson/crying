@@ -42,7 +42,6 @@ import net.minecraft.entity.passive.SnowGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.tag.DamageTypeTags;
@@ -50,6 +49,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.random.Random;
@@ -251,8 +252,8 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
+    protected void writeCustomData(WriteView nbt) {
+        super.writeCustomData(nbt);
 
         nbt.putBoolean("secondPhase", getSecondPhase());
         nbt.putBoolean("initializedExplosion", initializedExplosion);
@@ -261,8 +262,8 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
+    protected void readCustomData(ReadView nbt) {
+        super.readCustomData(nbt);
         
         if (this.hasCustomName()) {
             this.bossBar.setName(this.getDisplayName());
@@ -364,7 +365,7 @@ public class CrierEntity extends HostileEntity {
 
     public void setCanBreakDoors(boolean canBreakDoors) {
         if (NavigationConditions.hasMobNavigation(this)) {
-            ((MobNavigation)this.getNavigation()).setCanPathThroughDoors(true);
+            ((MobNavigation)this.getNavigation()).setCanOpenDoors(true);
             this.goalSelector.add(1, new FastBreakDoorGoal(this, (difficulty) -> {
                 return true;
             }));

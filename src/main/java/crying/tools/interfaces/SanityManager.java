@@ -3,9 +3,10 @@ package crying.tools.interfaces;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 
@@ -68,7 +69,7 @@ public class SanityManager {
     
     public void update(ServerPlayerEntity player)
     {
-        ServerWorld serverWorld = player.getServerWorld();
+        ServerWorld serverWorld = player.getWorld();
         Difficulty difficulty = serverWorld.getDifficulty();
 
         boolean bl = serverWorld.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
@@ -149,7 +150,7 @@ public class SanityManager {
         updateThis();
     }
 
-    public void readNbt(NbtCompound nbt) {
+    public void readNbt(ReadView nbt) {
         this.sanityLevel = nbt.getFloat("sanityLevel", 0F);
         this.sanityTickTimer = nbt.getInt("sanityTickTimer", 0);
         this.maxLevel = nbt.getInt("maxLevel", 0);
@@ -170,7 +171,7 @@ public class SanityManager {
         updateThis();
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public void writeNbt(WriteView nbt) {
         nbt.putFloat("sanityLevel", this.sanityLevel);
         nbt.putInt("sanityTickTimer", this.sanityTickTimer);
         nbt.putInt("permanentMaxLevel", this.permanentMaxLevel);

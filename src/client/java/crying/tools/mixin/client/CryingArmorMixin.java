@@ -1,8 +1,8 @@
 package crying.tools.mixin.client;
 
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.Identifier;
@@ -59,14 +59,14 @@ public class CryingArmorMixin {
                     m = i - (j - 1) * k - 20;
                 }
                 if (n * 2 + 1 < armor) {
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_FULL_TEXTURE, o, m, 9, 9);
+                    context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_FULL_TEXTURE, o, m, 9, 9);
                 }
                 if (n * 2 + 1 == armor) {
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, n >= 20 ? ARMOR_HALF_TEXTURE_2 : ARMOR_HALF_TEXTURE, o, m, 9, 9);
+                    context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, n >= 20 ? ARMOR_HALF_TEXTURE_2 : ARMOR_HALF_TEXTURE, o, m, 9, 9);
                 }
 
                 if (n * 2 + 1 > armor) {
-                    context.drawGuiTexture(RenderLayer::getGuiTextured, ARMOR_EMPTY_TEXTURE, o, m, 9, 9);
+                    context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ARMOR_EMPTY_TEXTURE, o, m, 9, 9);
                 }
             }
         }
@@ -118,13 +118,13 @@ public class CryingArmorMixin {
             }
 
             if (j * 2F + 1F < i) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, full, l, k, 9, 9);
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, full, l, k, 9, 9);
             }
             else if (j * 2F + 1F == i) {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, half, l, k, 9, 9);
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, half, l, k, 9, 9);
             }
             else {
-                context.drawGuiTexture(RenderLayer::getGuiTextured, empty, l, k, 9, 9);
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, empty, l, k, 9, 9);
             }
         }
     }

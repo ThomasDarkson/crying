@@ -4,7 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 import crying.tools.Crying;
 import crying.tools.goals.FastBreakDoorGoal;
+import crying.tools.other.CrierExplosionBehavior;
 import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -16,7 +18,7 @@ import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.ZombieAttackGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -26,16 +28,17 @@ import net.minecraft.entity.boss.BossBar.Style;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.WardenEntity;
-import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.SnowGolemEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -56,15 +59,19 @@ import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
 import net.minecraft.world.explosion.Explosion;
 
-public class CrierEntity extends ZombieEntity {
+public class CrierEntity extends HostileEntity {
     ServerBossBar bossBar = null;
 
-    boolean secondPhase = false;
+    static TrackedData<Boolean> secondPhase;
     boolean initializedExplosion = false;
     boolean healing = false;
     int healingTicks = 0;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    static {
+        secondPhase = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    }
+
+    @SuppressWarnings({ "unchecked" })
     public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
         super(entityType, world);
 
@@ -79,15 +86,15 @@ public class CrierEntity extends ZombieEntity {
         this.moveControl = new FlightMoveControl(this, 1, false);
 
         this.targetSelector.add(6, new ActiveTargetGoal(this, SnowGolemEntity.class, false));
-        this.targetSelector.add(5, new ActiveTargetGoal(this, IronGolemEntity.class, false));
         this.targetSelector.add(4, new ActiveTargetGoal(this, EndermanEntity.class, false));
         this.targetSelector.add(3, new ActiveTargetGoal(this, CatEntity.class, false));
+        this.targetSelector.add(2, new ActiveTargetGoal(this, IronGolemEntity.class, false));
         this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
         this.targetSelector.add(1, new ActiveTargetGoal(this, WardenEntity.class, false));
-        this.goalSelector.add(3, new FlyGoal(this, 1.0));
+        this.goalSelector.add(3, new FlyGoal(this, 2.0));
         this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(8, new LookAroundGoal(this));
-        this.goalSelector.add(2, new ZombieAttackGoal(this, 1.0, false));
+        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, false));
 
         EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.SCALE);
         if (world.getRandom().nextFloat() < 0.005F) {
@@ -100,24 +107,23 @@ public class CrierEntity extends ZombieEntity {
         bossBar.setPercent(0.0F);
 
         this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 1, false, false, false), this);
+
+        setCanBreakDoors(true);
     }
 
     public static DefaultAttributeContainer.Builder createCrierAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.355d).add(EntityAttributes.FLYING_SPEED, 2d).add(EntityAttributes.MAX_HEALTH, 618d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.345d).add(EntityAttributes.FLYING_SPEED, 3.4d).add(EntityAttributes.MAX_HEALTH, 618d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
     }
 
+    @Override
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(secondPhase, false);
+    }
+
+    @Override
     public boolean canHaveStatusEffect(StatusEffectInstance effect) {
-        return effect.equals(StatusEffects.WEAKNESS);
-    }
-
-    @Override
-    protected ItemStack getSkull() {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
-    protected boolean burnsInDaylight() {
-        return false;
+        return effect.equals(StatusEffects.WEAKNESS) && effect.getAmplifier() == 1;
     }
 
     @Override
@@ -136,11 +142,6 @@ public class CrierEntity extends ZombieEntity {
     }
 
     @Override
-    protected SoundEvent getStepSound() {
-        return SoundEvents.ENTITY_WARDEN_STEP;
-    }
-
-    @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
         Random r = world.getRandom();
         this.initEquipment(r, difficulty);
@@ -148,11 +149,18 @@ public class CrierEntity extends ZombieEntity {
         return entityData;
     }
 
+    void addShield() {
+        ItemStack stack = new ItemStack(Items.SHIELD);
+        stack.addEnchantment(getWorld().getRegistryManager().getEntryOrThrow(Enchantments.UNBREAKING), 255);
+
+        this.equipStack(EquipmentSlot.OFFHAND, stack);
+    }
+
     @Override
     protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
         this.equipStack(EquipmentSlot.HEAD, new ItemStack(Crying.helmet));
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Crying.sword));
-        this.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+        addShield();
     }
 
     @Override
@@ -160,7 +168,7 @@ public class CrierEntity extends ZombieEntity {
         super.mobTick(world);
 
         if (!initializedExplosion) {
-            world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+            world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(false), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
             initializedExplosion = true;
         }
 
@@ -169,12 +177,12 @@ public class CrierEntity extends ZombieEntity {
         this.bossBar.setPercent(health);
 
         if (health > 0F) {
-            if (health < 0.1F && !secondPhase) {
+            if (health < 0.2F && !getSecondPhase()) {
                 world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundCategory(), 1.0F, 1.0F);
-                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 2.5F, true, ExplosionSourceType.MOB);
+                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2.25F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
                 switchToSecondPhase();
 
-                secondPhase = true;
+                setSecondPhase(true);
             }
         }
 
@@ -200,15 +208,12 @@ public class CrierEntity extends ZombieEntity {
                 instance.setBaseValue(0.355d);
 
                 EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
-                instance2.setBaseValue(2d);
+                instance2.setBaseValue(4d);
             }
         }
     }
 
     void switchToSecondPhase() {
-        EntityAttributeInstance scale = this.getAttributeInstance(EntityAttributes.SCALE);
-        scale.setBaseValue(3d);
-
         EntityAttributeInstance height = this.getAttributeInstance(EntityAttributes.STEP_HEIGHT);
         height.setBaseValue(5d);
         
@@ -221,6 +226,14 @@ public class CrierEntity extends ZombieEntity {
     void swingBothHands() {
         this.swingHand(Hand.MAIN_HAND);
         this.swingHand(Hand.OFF_HAND);
+    }
+
+    public boolean getSecondPhase() {
+        return this.getDataTracker().get(secondPhase);
+    }
+
+    public void setSecondPhase(boolean phase) {
+        this.getDataTracker().set(secondPhase, phase);
     }
 
     @Override
@@ -241,7 +254,7 @@ public class CrierEntity extends ZombieEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
 
-        nbt.putBoolean("secondPhase", secondPhase);
+        nbt.putBoolean("secondPhase", getSecondPhase());
         nbt.putBoolean("initializedExplosion", initializedExplosion);
         nbt.putBoolean("healing", healing);
         nbt.putInt("healingTicks", healingTicks);
@@ -255,7 +268,6 @@ public class CrierEntity extends ZombieEntity {
             this.bossBar.setName(this.getDisplayName());
         }
 
-        secondPhase = nbt.getBoolean("secondPhase", false);
         initializedExplosion = nbt.getBoolean("initializedExplosion", false);
         healing = nbt.getBoolean("healing", false);
 
@@ -264,7 +276,8 @@ public class CrierEntity extends ZombieEntity {
 
         healingTicks = nbt.getInt("healingTicks", 0);
 
-        if (secondPhase)
+        setSecondPhase(nbt.getBoolean("secondPhase", false));
+        if (getSecondPhase())
             switchToSecondPhase();
     }
 
@@ -277,7 +290,7 @@ public class CrierEntity extends ZombieEntity {
 
     @Override
     public boolean isCustomNameVisible() {
-        return super.isCustomNameVisible() && !secondPhase;
+        return super.isCustomNameVisible() && !getSecondPhase();
     }
     
     @Override
@@ -296,11 +309,13 @@ public class CrierEntity extends ZombieEntity {
 
     @Override
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
+        if ((getHealth() - amount) <= 0 && !(source.getAttacker() instanceof PlayerEntity))
+            return false;
         if (isInsideWall()) 
             return false;
         else if (healing)
             return false;
-        else if (source.isIn(DamageTypeTags.IS_FIRE) && secondPhase)
+        else if (source.isIn(DamageTypeTags.IS_FIRE))
             return false;
         else if (source.getWeaponStack() != null && source.getWeaponStack().getItem() == Items.MACE) {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
@@ -313,17 +328,17 @@ public class CrierEntity extends ZombieEntity {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             return false;
         }
-        else if (world.getRandom().nextFloat() < (secondPhase ? 0.75F : 0.25F) && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
+        else if (world.getRandom().nextFloat() < (getSecondPhase() ? 0.75F : 0.25F) && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             this.swingHand(Hand.OFF_HAND);
             return false;
         }
         else {
             float f = world.getRandom().nextFloat();
-            if (f < (secondPhase ? 0F : 0.045F)) {
-                world.createExplosion(this, this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB);
+            if (f < (getSecondPhase() ? 0F : 0.045F)) {
+                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
             }
-            if (f < (secondPhase ? 0.2F : 0.075F)) {
+            if (f < (getSecondPhase() ? 0.2F : 0.075F)) {
                 heal();
             }
 
@@ -347,26 +362,6 @@ public class CrierEntity extends ZombieEntity {
         instance2.setBaseValue(0.001d);
     }
 
-    @Override
-    protected boolean canConvertInWater() {
-        return false;
-    }
-  
-    @Override
-    protected void convertInWater() {
-    }
-
-    @Override
-    public boolean isConvertingInWater() {
-        return false;
-    }
-
-    @Override
-    public boolean canBreakDoors() {
-        return true;
-    }
-
-    @Override
     public void setCanBreakDoors(boolean canBreakDoors) {
         if (NavigationConditions.hasMobNavigation(this)) {
             ((MobNavigation)this.getNavigation()).setCanPathThroughDoors(true);
@@ -391,15 +386,6 @@ public class CrierEntity extends ZombieEntity {
     }
 
     @Override
-    protected void convertTo(EntityType<? extends ZombieEntity> entityType) {
-    }
-
-    @Override
-    public boolean infectVillager(ServerWorld world, VillagerEntity villager) {
-        return false;
-    }
-
-    @Override
     public boolean canPickupItem(ItemStack stack) {
         return false;
     }
@@ -407,15 +393,6 @@ public class CrierEntity extends ZombieEntity {
     @Override
     public boolean canGather(ServerWorld world, ItemStack stack) {
         return false;
-    }
-
-    @Override
-    protected void applyAttributeModifiers(float chanceMultiplier) {
-    }
-
-    @Override
-    protected void initAttributes() {
-        
     }
 
     @Override

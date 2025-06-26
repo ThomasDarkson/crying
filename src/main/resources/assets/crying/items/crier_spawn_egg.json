@@ -1,6 +1,6 @@
 {
     "model": {
         "type": "minecraft:model",
-        "model": "crying:item/crier_summoner"
+        "model": "crying:item/crier_spawn_egg"
     }
 }

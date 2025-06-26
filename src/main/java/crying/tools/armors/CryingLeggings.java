@@ -18,7 +18,7 @@ public class CryingLeggings extends Item {
             .fireproof()
             .enchantable(50)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_leggings")))
-            .maxDamage(EquipmentType.LEGGINGS.getMaxDamage(32))
+            .maxDamage(EquipmentType.LEGGINGS.getMaxDamage(591))
         );
         Crying.register(this, "crying_leggings");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_BOOTS, this));

@@ -19,7 +19,7 @@ public class CryingApple extends Item {
     public CryingApple() {
         super(new Item.Settings()
         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_apple")))
-        .useCooldown(120f)
+        .useCooldown(60f)
         .food(new FoodComponent(20, 20F, true), ConsumableComponents.food()
         .consumeSeconds(6.2F)
         .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 540, 2), 0.55f))

@@ -24,25 +24,21 @@ import crying.tools.enchantments.Feathered;
 import crying.tools.enchantments.Smoothness;
 import crying.tools.entities.CrierEntity;
 import crying.tools.entities.CryingCatEntity;
-import crying.tools.items.CrierSummoner;
+import crying.tools.items.CrierSpawnEgg;
 import crying.tools.items.CryingApple;
 import crying.tools.items.CryingCatItem;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingRod;
-import crying.tools.items.CryingUpgrade;
 import crying.tools.items.Eye;
-import crying.tools.items.Handle;
 import crying.tools.other.CryingEnchantmentTags;
 import crying.tools.other.CryingLoot;
 import crying.tools.other.CryingTags;
 import crying.tools.tools.CryingAxe;
 import crying.tools.tools.CryingHoe;
-import crying.tools.tools.CryingKnife;
 import crying.tools.tools.CryingPickaxe;
 import crying.tools.tools.CryingShovel;
 import crying.tools.tools.CryingSword;
-import crying.tools.tools.Knife;
 import crying.tools.tools.TheCryingBeing;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
@@ -105,8 +101,6 @@ public class Crying implements ModInitializer {
 	public static Item residue = null;
 	public static Item ingot = null;
 
-	public static Item upgrade = null;
-
 	public static Item overhardenedcore = null;
 
 	public static Item crying_apple = null;
@@ -116,10 +110,9 @@ public class Crying implements ModInitializer {
 	public static Item axe = null;
 	public static Item sword = null;
 
-	public static Item knife = null;
-	public static Item crying_knife = null;
-
 	public static Item THE_CRYING_BEING = null;
+
+	public static Block HARD_CRYING_OBSIDIAN = null;
 
 	public static final Identifier CRIER_IDLE = Identifier.of(ID, "crier_idle");
     public static SoundEvent CRIER_IDLE_EVENT = SoundEvent.of(CRIER_IDLE);
@@ -141,12 +134,10 @@ public class Crying implements ModInitializer {
 
 		// Block
 		new CryingBlock();
-		new HardCryingObsidian();
+		HARD_CRYING_OBSIDIAN = new HardCryingObsidian();
 		new Furball();
 
-		// Upgrade
 		ingot = new CryingIngot().item;
-		upgrade = new CryingUpgrade();
 
 		// Ore
 		new CryingOre();
@@ -161,11 +152,6 @@ public class Crying implements ModInitializer {
 		crying.tools.effects.BaneOfCriers.initialize();
 		LoveOfTheFeline.initialize();
 		sword = new CryingSword();
-
-		// Knives
-		new Handle();
-		knife = new Knife();
-		crying_knife = new CryingKnife();
 
         boots = new CryingBoots();
         leggings = new CryingLeggings();
@@ -198,30 +184,40 @@ public class Crying implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
 		FabricDefaultAttributeRegistry.register(CRYING_CAT, CryingCatEntity.createCatAttributes());
 
-		new CrierSummoner();
+		new CrierSpawnEgg();
 		crying_cat_item = new CryingCatItem();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
-            server.getPlayerManager().getPlayerList().forEach(player -> {
-                if (player instanceof ServerPlayerEntity serverPlayer) {
-                    CryingArmor.setCount(serverPlayer);
-                }
-
-				if (player.getEquippedStack(EquipmentSlot.HEAD).getItem() == crying_cat_item) {
-					if (!player.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE)) {
-						player.addStatusEffect(new StatusEffectInstance(LoveOfTheFeline.LOVE_OF_THE_FELINE, -1, 0, false, false, false));
+			try {
+				server.getPlayerManager().getPlayerList().forEach(player -> {
+					if (player instanceof ServerPlayerEntity serverPlayer) {
+						CryingArmor.setCount(serverPlayer);
 					}
-				}
-				else
-					player.removeStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE);
-            });
+
+					if (player.getEquippedStack(EquipmentSlot.HEAD).getItem() == crying_cat_item) {
+						if (!player.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE)) {
+							player.addStatusEffect(new StatusEffectInstance(LoveOfTheFeline.LOVE_OF_THE_FELINE, -1, 0, false, false, false));
+						}
+					}
+					else
+						player.removeStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE);
+				});
+			}
+			catch(Exception e) {
+
+			}
         });
 
 		EntityElytraEvents.CUSTOM.register((entity, tick) -> {
-			World world = entity.getWorld();
-			ItemStack mainStack = entity.getMainHandStack();
-			int level = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), mainStack);
-			return level > 0;
+			try {
+				World world = entity.getWorld();
+				ItemStack mainStack = entity.getMainHandStack();
+				int level = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), mainStack);
+				return level > 0;
+			}
+			catch(Exception e) {
+				return false;
+			}
 		});
 	}
 

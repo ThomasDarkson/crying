@@ -5,7 +5,7 @@
       "crying:crying_ingot"
     ],
     "template": [
-      "crying:crying_upgrade_smithing_template"
+      "crying:hard_crying_obsidian"
     ],
     "result": {
       "id": "crying:crying_boots"

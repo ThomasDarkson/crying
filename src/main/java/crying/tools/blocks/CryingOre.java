@@ -26,6 +26,8 @@ public class CryingOre extends CryingObsidianBlock
     public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_LARGE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_large"));
     public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_SMALL = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_small"));
     public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_MEDIUM = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_medium"));
+    public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_MEDIUM_OVERWORLD = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_medium_overworld"));
+
     public CryingOre() {
         super(
             Settings.create().
@@ -65,5 +67,6 @@ public class CryingOre extends CryingObsidianBlock
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_SMALL);
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_LARGE);
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_MEDIUM);
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_MEDIUM_OVERWORLD);
     }
 }

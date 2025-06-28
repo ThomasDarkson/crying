@@ -37,7 +37,7 @@ In the Nether; it has similar generation properties of the Ancient Debris, meani
 
 In the Overworld; it has the identical generation properites of the Diamond Ore instead and it generates as a normal ore, the only differences being Crying Ore generates 2x less and it can be fully exposed to air.
 
-It can also generate in the surface in the overworld, between Y levels 56 and 72 (it's biased to bottom). It can only replace the dirt or grass on surface. It can be fully exposed to air.
+It can also generate in the surface in the overworld, between Y levels 60 and 72 (it's very biased to bottom). It can only replace the dirt or grass on surface. It has a 20% chance to not generate if it's exposed to air (water is not considered air).
 
 ![ore](https://i.ibb.co/sQ4mCrX/2024-12-08-14-52-57.png "ore")
 ![2025-06-26_16 55 22](https://i.ibb.co/v83FMY6/459541936-0dd593e5-1c03-406a-bc88-f47e80fcd535.png)
@@ -95,7 +95,7 @@ To upgrade Netherite equipment you need a smithing table, one **Hard Crying Obsi
 - **Crying Hoe**: 45
 - **Crying Shovel**: 45
 
-Knives and Crying Sword is the same with all the other swords.
+Crying Sword is the same with all the other swords.
 
 ### **Durability**
 - **All Crying Tools:** 14,622
@@ -169,7 +169,7 @@ If it gets placed on any block, it will instantly break and drop itself. Item fr
 
 To craft one, you need 1 **Eye** and 1 **Over-hardened Core**.
 
-![image](https://i.ibb.co/pr6TM6N0/418150913-31fdf1c2-e7a8-4503-b0d1-1f2e06b0e56c.png)
+![image](https://i.ibb.co/hJS7x8dJ/Ekran-g-r-nt-s-2025-06-27-125058.png)
 
 ## Crying Rod
 - Stackable: 64

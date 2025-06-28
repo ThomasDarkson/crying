@@ -1,3 +1,12 @@
+# 4.1.1
+## Changes
+- ### Crying Ore
+	- Slightly reworked Crying Ore generation on Overworld's surface.
+		- It has a now 20% chance to not generate if exposed to air (water is not considered air)
+		- Minimum generation height is now 60
+        - It's now very biased to bottom between 60 and 72
+		- Will generate 33% more in general
+
 # 4.1.0 - Major Changes
 ## Crier
 - Crier Summoner is replaced with Crier Spawn Egg and it's not craftable

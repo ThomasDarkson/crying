@@ -7,9 +7,9 @@
     {
       "type": "minecraft:height_range",
       "height": {
-        "type": "minecraft:biased_to_bottom",
+        "type": "minecraft:very_biased_to_bottom",
         "min_inclusive": {
-          "absolute": 56
+          "absolute": 60
         },
         "max_inclusive": {
           "absolute": 72

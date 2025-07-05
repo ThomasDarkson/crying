@@ -19,19 +19,24 @@ import net.minecraft.world.World;
 public class ItemMixin {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     public void use(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<ActionResult> info) {
-        int level = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), user.getMainHandStack());
-        if (level > 0) {
-            if (user != null) {
-                if (user.isGliding()) {
-                    double a = 1.25;
-                    a += (double) (level / 4.5);
+        try {
+            int level = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), user.getMainHandStack());
+            if (level > 0) {
+                if (user != null) {
+                    if (user.isGliding()) {
+                        double a = 1.25;
+                        a += (double) (level / 4.5);
 
-                    Vec3d vec3d = user.getRotationVector();
-                    Vec3d vec3d2 = user.getVelocity();
-                    user.setVelocity(vec3d2.add(vec3d.x * 0.1 + (vec3d.x * a - vec3d2.x) * 0.5, vec3d.y * 0.1 + (vec3d.y * a - vec3d2.y) * 0.5, vec3d.z * 0.1 + (vec3d.z * a - vec3d2.z) * 0.5));
-                    info.setReturnValue(ActionResult.SUCCESS);
+                        Vec3d vec3d = user.getRotationVector();
+                        Vec3d vec3d2 = user.getVelocity();
+                        user.setVelocity(vec3d2.add(vec3d.x * 0.1 + (vec3d.x * a - vec3d2.x) * 0.5, vec3d.y * 0.1 + (vec3d.y * a - vec3d2.y) * 0.5, vec3d.z * 0.1 + (vec3d.z * a - vec3d2.z) * 0.5));
+                        info.setReturnValue(ActionResult.SUCCESS);
+                    }
                 }
             }
+        }
+        catch (Exception e) {
+            
         }
     }
 }

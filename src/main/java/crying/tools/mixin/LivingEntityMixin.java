@@ -59,11 +59,16 @@ public abstract class LivingEntityMixin {
             }
         }
 
-        int mainl = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), main);
-        if (mainl > 0) {
-            if (source.isIn(DamageTypeTags.IS_FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
-                info.setReturnValue(false);
+        try {
+            int mainl = EnchantmentHelper.getLevel(world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT).getOrThrow(Feathered.FEATHERED), main);
+            if (mainl > 0) {
+                if (source.isIn(DamageTypeTags.IS_FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
+                    info.setReturnValue(false);
+                }
             }
+        }
+        catch (Exception e) {
+            
         }
     }
 

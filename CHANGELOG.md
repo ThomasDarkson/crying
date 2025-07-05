@@ -1,3 +1,6 @@
+# 4.1.2
+- Fixed the error `Missing element ResourceKey[minecraft:enchantment / crying:feathered]`
+
 # 4.1.1
 ## Changes
 - ### Crying Ore

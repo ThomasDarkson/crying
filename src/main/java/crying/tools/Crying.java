@@ -11,7 +11,6 @@ import crying.tools.armors.CryingChestplate;
 import crying.tools.armors.CryingHelmet;
 import crying.tools.armors.CryingLeggings;
 import crying.tools.blocks.CryingBlock;
-import crying.tools.blocks.Furball;
 import crying.tools.blocks.CryingOre;
 import crying.tools.blocks.HardCryingObsidian;
 import crying.tools.blocks.OverHardenedCore;
@@ -23,10 +22,8 @@ import crying.tools.enchantments.Bloodlust;
 import crying.tools.enchantments.Feathered;
 import crying.tools.enchantments.Smoothness;
 import crying.tools.entities.CrierEntity;
-import crying.tools.entities.CryingCatEntity;
 import crying.tools.items.CrierSpawnEgg;
 import crying.tools.items.CryingApple;
-import crying.tools.items.CryingCatItem;
 import crying.tools.items.CryingIngot;
 import crying.tools.items.CryingResidue;
 import crying.tools.items.CryingRod;
@@ -47,9 +44,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -84,19 +79,10 @@ public class Crying implements ModInitializer {
 		EntityType.Builder.create(CrierEntity::new, SpawnGroup.MONSTER).dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(key("crier"))
 	);
 
-	@SuppressWarnings("unchecked")
-	public static final EntityType<CryingCatEntity> CRYING_CAT = Registry.register(
-		Registries.ENTITY_TYPE,
-		key("crying_cat"),
-		EntityType.Builder.create(CryingCatEntity::new, SpawnGroup.AMBIENT).dimensions(0.6F, 0.7F).eyeHeight(0.6F).build(key("crying_cat"))
-	);
-
 	public static Item helmet = null;
 	public static Item chestplate = null;
 	public static Item leggings = null;
 	public static Item boots = null;
-	
-	public static Item crying_cat_item = null;
 
 	public static Item residue = null;
 	public static Item ingot = null;
@@ -111,6 +97,8 @@ public class Crying implements ModInitializer {
 	public static Item sword = null;
 
 	public static Item THE_CRYING_BEING = null;
+
+	public static Item EYE = null;
 
 	public static Block HARD_CRYING_OBSIDIAN = null;
 
@@ -135,7 +123,6 @@ public class Crying implements ModInitializer {
 		// Block
 		new CryingBlock();
 		HARD_CRYING_OBSIDIAN = new HardCryingObsidian();
-		new Furball();
 
 		ingot = new CryingIngot().item;
 
@@ -178,14 +165,12 @@ public class Crying implements ModInitializer {
 		Registry.register(Registries.SOUND_EVENT, CRIER_HURT, CRIER_HURT_EVENT);
 		Registry.register(Registries.SOUND_EVENT, CRIER_DIES, CRIER_DIES_EVENT);
 
-		new Eye();
+		EYE = new Eye();
 		new OverHardenedCoreWithEye();
 
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
-		FabricDefaultAttributeRegistry.register(CRYING_CAT, CryingCatEntity.createCatAttributes());
 
 		new CrierSpawnEgg();
-		crying_cat_item = new CryingCatItem();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
 			try {
@@ -193,14 +178,6 @@ public class Crying implements ModInitializer {
 					if (player instanceof ServerPlayerEntity serverPlayer) {
 						CryingArmor.setCount(serverPlayer);
 					}
-
-					if (player.getEquippedStack(EquipmentSlot.HEAD).getItem() == crying_cat_item) {
-						if (!player.hasStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE)) {
-							player.addStatusEffect(new StatusEffectInstance(LoveOfTheFeline.LOVE_OF_THE_FELINE, -1, 0, false, false, false));
-						}
-					}
-					else
-						player.removeStatusEffect(LoveOfTheFeline.LOVE_OF_THE_FELINE);
 				});
 			}
 			catch(Exception e) {
@@ -234,10 +211,7 @@ public class Crying implements ModInitializer {
 
 		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name)));
 
-		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye" || name == "furball") {
-			if (name != "furball")
-				rarity = Rarity.EPIC;
-
+		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye") {
 			stack = 1;
 			settings = settings.fireproof();
 		}

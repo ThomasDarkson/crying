@@ -72,7 +72,7 @@ public class CrierEntity extends HostileEntity {
         secondPhase = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
         super(entityType, world);
 
@@ -102,6 +102,14 @@ public class CrierEntity extends HostileEntity {
             instance.setBaseValue(6d);
         }
 
+        double extra = 0d;
+        if (world.getPlayers().size() > 1)
+            extra = 50d * (world.getPlayers().size() - 1);
+        
+        double health = 618d + extra;
+        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(health);
+        this.setHealth((float) health);
+
         this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), Color.PURPLE, Style.PROGRESS));
         bossBar.setVisible(true);
         bossBar.setDragonMusic(false);
@@ -113,7 +121,7 @@ public class CrierEntity extends HostileEntity {
     }
 
     public static DefaultAttributeContainer.Builder createCrierAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.345d).add(EntityAttributes.FLYING_SPEED, 3.4d).add(EntityAttributes.MAX_HEALTH, 618d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.345d).add(EntityAttributes.FLYING_SPEED, 3.4d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.STEP_HEIGHT, 3d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
     }
 
     @Override
@@ -235,6 +243,13 @@ public class CrierEntity extends HostileEntity {
 
     public void setSecondPhase(boolean phase) {
         this.getDataTracker().set(secondPhase, phase);
+    }
+
+    @Override
+    protected void dropLoot(ServerWorld world, DamageSource damageSource, boolean causedByPlayer) {
+        ItemStack stack = new ItemStack(Crying.EYE);
+        stack.setCount(world.getPlayers().size());
+        this.dropStack(world, stack);
     }
 
     @Override

@@ -114,15 +114,6 @@ Crying Sword is the same with all the other swords.
 ### **Enchantability**
 - **All Crying Tools:** 50
 
-## Damaged Tools
-Like all tools, Crying Tools also lose durability when they are being used. However; unlike other tools, Crying Tools will be damaged over time.
-If a Crying Tool has lost %66 or more of its durability, it will be **Heavily Damaged**.
-Else if it has lost between %33 and %66 of its durability, it will be **Damaged**.
-
-Damage has no effect on the tool's attack damage and speed, just an indicator that it's lost a considerable amount of durability.
-
-![image](https://i.ibb.co/W4Qr9cP3/410015435-18d027fa-405b-497f-b27b-cb8e74dee25a.png)
-
 ## Crying Armor
 Crying Armor is also 8 times stronger than Netherite Armor.
 
@@ -208,7 +199,7 @@ To summon one, a player must place two crying obsidians vertically and a hard cr
 It always spawns with a Crying Helmet, Crying Sword and a shield with Unbreaking 3.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock**. This explosion won't do any damage.
 
-It has 618 health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 25% chance.
+It has `618 + (playerCount * 50)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 25% chance.
 
 If it's in a pit or a deep hole, it will start to fly to escape and attack its targets.
 
@@ -247,58 +238,9 @@ Crier will also attack these mobs:
 - Endermen
 - Snow Golems
 
-## Furball
-- Hardness: 0
-- Blast Resistance: 0
-- Can be broken with: Anything
-- Stackable: No
-
-Furball is a block that can be mined instantly with any tool or fist. Its only purpose is to spawn a **Crying Cat**. It can be crafted with 9 **strings**.
-
-![](https://i.ibb.co/TBqyRNzC/Ekran-g-r-nt-s-2025-03-16-203704.png)
-
-### Using 
-To use a Furball to spawn a Crying Cat, you need 4 Crying Ingots.
-With four or more Crying Ingots in any hand, use the ingots on the Furball and a Crying Cat will spawn.
-
-![](https://i.ibb.co/B5nSLW65/gif.gif)
-
-## Crying Cat
-The **Crying Cat** is a special kind of cat than can be put on head, and will drop herself as an item when her owner hits her once. She will be immediately tamed on spawn and her owner will be the player who spawned her.
-
-She cannot get fed, breed or have her collar color changed (which is always yellow). She will always spawn an adult and she'll never drop any other item than herself as an item.
-
-She is immune to all types of damage and will never despawn unless her owner takes her as an item. Her item entity will also never despawn, no matter the chunk or condition.
-She can only be attached leash by her owner.
-
-She can be put on her owner's head, and when on head, she'll give her owner a status effect called **Love of The Feline**.
-
-![](https://i.ibb.co/n8jnpj2x/Ekran-g-r-nt-s-2025-03-16-214154.png)
-
-Love of The Feline grants these positive effects for the owner:
-- Immunity to fall damage
-- %80 damage protection
-- 6.18 more attack damage
-- Jump boost
-- Full health when waking up
-
-She has her own loot table of morning gifts, if the player sleeps through the night with her sleeping on them she will give gifts to her owner.
-
-She may give 1 to 4 items.
-
-These are the items she will gift:
-- **Cooked Salmon** (16 to 32) (13.9% chance)
-- **Block of Emerald** (1 to 7) (13.9% chance)
-- **Netherite Scrap** (1 to 8) (13.9% chance)
-- **Block of Diamond** (1 to 7) (13.9% chance)
-- **Block of Raw Gold** (1 to 7) (13.9% chance)
-- **Crying Residue** (1 to 8) (12.5% chance)
-- **Crying Apple** (9.8% chance)
-- **Enchanted Golden Apple** (7% chance)
-- **Block of Crying** (1.3% chance)
+Crier will drop Eye items when it dies, the count depending on how many players are in the world.
 
 ## Sanity
-
 ![image](https://i.ibb.co/cVksK6w/418131788-dc567a09-cb7b-442f-a6fb-7b4689f2fc37.png)
 
 When you wear any piece of Crying Armor, you need to control your Sanity so the armor can give you more protection. You need to control your Sanity unless you don't wear any Crying Armor.

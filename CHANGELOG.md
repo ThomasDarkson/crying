@@ -1,3 +1,11 @@
+# 4.1.3
+## Changes
+- Crier will now have more HP if there are more players in the world
+- Crier will drop Eyes equal to the number of players in the world when it dies
+
+## Removals
+- Removed Crying Cat and Furball block, for a mod with very similar features check [Cats on Head](https://www.curseforge.com/minecraft/mc-mods/cats-on-head)
+
 # 4.1.2
 - Fixed the error `Missing element ResourceKey[minecraft:enchantment / crying:feathered]`
 

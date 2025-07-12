@@ -12,9 +12,6 @@
 		"FoodComponentMixin",
 		"TameableEntityMixin",
 		"ItemMixin",
-		"CreeperEntityMixin",
-		"ItemEntityMixin",
-		"CatEntityMixin",
 		"BlockMixin",
 		"AbstractBlockMixin"
 	],

@@ -199,7 +199,7 @@ To summon one, a player must place two crying obsidians vertically and a hard cr
 It always spawns with a Crying Helmet, Crying Sword and a shield with Unbreaking 3.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock**. This explosion won't do any damage.
 
-It has `618 + (playerCount * 50)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 25% chance.
+It has `618 + ((playerCount - 1) * 50)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 25% chance.
 
 If it's in a pit or a deep hole, it will start to fly to escape and attack its targets.
 
@@ -224,7 +224,7 @@ A Crier's second phase will start when it loses 80% of its health.
 It will create one last explosion with 2.25 power, it will scream and it will get stronger.
 
 - It can step up 5 full blocks.
-- It deals 5 extra damage.
+- It deals 4 extra damage.
 - It can block attacks with its shield 50% more (%75 chance in total).
 - It will drink Potion of Healing %12.5 more (%20 chance total).
 - It will never create an explosion again.

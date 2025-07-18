@@ -1,3 +1,7 @@
+# 4.1.4
+- Crier can now crouch to fit in one block gaps when the player it's attacking to is crawling
+- Forlorn Crier attack damage is reduced by 1
+
 # 4.1.3
 ## Changes
 - Crier will now have more HP if there are more players in the world

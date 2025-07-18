@@ -9,6 +9,7 @@ import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnReason;
@@ -64,6 +65,7 @@ public class CrierEntity extends HostileEntity {
 
     static TrackedData<Boolean> secondPhase;
     boolean initializedExplosion = false;
+    boolean isSmall = false;
     boolean healing = false;
     int healingTicks = 0;
 
@@ -175,6 +177,11 @@ public class CrierEntity extends HostileEntity {
     protected void mobTick(ServerWorld world) {
         super.mobTick(world);
 
+        if (this.getTarget() != null && this.getTarget() instanceof PlayerEntity player) {
+            isSmall = player.isInSwimmingPose() && !player.isSubmergedInWater();
+            changeScale();
+        }
+
         if (!initializedExplosion) {
             world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(false), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
             initializedExplosion = true;
@@ -221,12 +228,19 @@ public class CrierEntity extends HostileEntity {
         }
     }
 
+    void changeScale() {
+        EntityAttributeInstance scale = this.getAttributeInstance(EntityAttributes.SCALE);
+        scale.setBaseValue(isSmall ? 0.495d : 1);
+        
+        this.setPose(isSmall ? EntityPose.CROUCHING : EntityPose.STANDING);
+    }
+
     void switchToSecondPhase() {
         EntityAttributeInstance height = this.getAttributeInstance(EntityAttributes.STEP_HEIGHT);
         height.setBaseValue(5d);
         
         EntityAttributeInstance damage = this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
-        damage.setBaseValue(5d);
+        damage.setBaseValue(4d);
 
         bossBar.setName(Text.translatable("entity.crying.forlorn.crier").append(this.getDefaultName()));
     }
@@ -272,6 +286,7 @@ public class CrierEntity extends HostileEntity {
         nbt.putBoolean("secondPhase", getSecondPhase());
         nbt.putBoolean("initializedExplosion", initializedExplosion);
         nbt.putBoolean("healing", healing);
+        nbt.putBoolean("isSmall", isSmall);
         nbt.putInt("healingTicks", healingTicks);
     }
 
@@ -294,6 +309,9 @@ public class CrierEntity extends HostileEntity {
         setSecondPhase(nbt.getBoolean("secondPhase", false));
         if (getSecondPhase())
             switchToSecondPhase();
+        
+        isSmall = nbt.getBoolean("isSmall", false);
+        changeScale();
     }
 
     @Override

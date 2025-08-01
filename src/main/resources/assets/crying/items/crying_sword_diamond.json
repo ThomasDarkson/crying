@@ -1,0 +1,7 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "crying:item/sword/crying_sword_diamond"
+  },
+  "hand_animation_on_swap": true
+}

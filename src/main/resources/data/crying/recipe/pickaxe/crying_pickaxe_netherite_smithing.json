@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:netherite_pickaxe",
+  "addition": "minecraft:netherite_ingot",
+  "template": "crying:crying_ingot",
+  "result": {
+    "id": "crying:crying_pickaxe_netherite"
+  }
+}

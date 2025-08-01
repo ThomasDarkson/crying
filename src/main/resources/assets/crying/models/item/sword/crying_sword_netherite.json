@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "crying:item/sword/crying_sword_netherite"
+    }
+}

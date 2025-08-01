@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "crying:crying_axe"
+    "crying:crying_axe",
+    "crying:crying_axe_netherite",
+    "crying:crying_axe_iron",
+    "crying:crying_axe_diamond",
+    "crying:crying_axe_gold"
   ]
 }

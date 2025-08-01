@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "crying:crying_pickaxe",
+  "addition": "crying:over-hardened_core_with_eye",
+  "template": "minecraft:gold_ingot",
+  "result": {
+    "id": "crying:crying_pickaxe_over-hardened_core_with_eye"
+  }
+}

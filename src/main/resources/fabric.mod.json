@@ -3,7 +3,7 @@
 	"id": "crying",
 	"version": "${version}",
 	"name": "Crying Tools",
-	"description": "Crying Tools is a Minecraft mod that expands upon the Crying Obsidian.",
+	"description": "Crying Tools is a Minecraft mod that expands upon the Crying Obsidian with new items, tools and blocks.",
 	"authors": [
 		"Thomas Darkson"
 	],
@@ -16,13 +16,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"server": [
-			"crying.tools.CryingServer"
+			"crying.CryingServer"
 		],
 		"client": [
-			"crying.tools.CryingClient"
+			"crying.CryingClient"
 		],
 		"main": [
-			"crying.tools.Crying"
+			"crying.Crying"
 		]
 	},
 	"mixins": [

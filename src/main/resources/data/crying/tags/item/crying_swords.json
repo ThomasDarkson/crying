@@ -1,0 +1,10 @@
+{
+    "replace": false,
+    "values": [
+        "crying:crying_sword",
+        "crying:crying_sword_netherite",
+        "crying:crying_sword_iron",
+        "crying:crying_sword_diamond",
+        "crying:crying_sword_gold"
+    ]
+}

@@ -1,3 +1,70 @@
+# 5.0.0 - How did we get here?
+## Additions
+### Tools
+- Added 6 tool variants, also known as *Core Ingredient* of the tool; 
+	- Over-hardened Core With Eye (only for Crying Pickaxe and Sword)
+	- Crying
+	- Netherite
+	- Diamond
+	- Iron
+	- Gold
+
+Every Crying Tool type (Pickaxe, Axe, Sword, Shovel, Hoe) can be crafted the Ingredients listed above, resulting in 25+2 unique tools. 
+
+A Crying Tool's damage, durability, mining speed, enchantability, and attack damage bonus depend on its Core Ingredient. While Gold is the lowest tier, it has two perks—unlike every other tier, which has only one—and it's the only way to spawn a Granter Entity.
+
+The Core Ingredient of a Crying Tool is specified by the addition material in its recipe. The recipe for a Crying Tool consists of the addition material (Core Ingredient), a Netherite Tool, and a Crying Ingot.
+
+### Armors
+
+- Added Crying Horse Armor
+
+You can make your horse even stronger with this, and it's craftable! You need a Diamond Horse Armor, an Iron Ingot and a Crying Ingot to craft it.
+
+- Added Crying Chestplate with Elytra
+
+This item combines Crying Chestplate and Elytra into a single item. You need a Crying Chestplate, an Elytra and a Phantom Membrane to craft it.
+
+### Entities
+- Added a Granter entity, which spawns above the player's head when they take damage from a hostile mob if they are holding any Crying Tool with **Gold** Core Ingredient
+
+### Items
+- Added Crier's Heart, a trophy item dropped by killing a Crier
+- Added Granter, which is unobtainable without cheats, it's only purpose is to spawn a Granter Entity
+
+### Sanity
+- Added Collapsing mechanic to Sanity, your sanity will collapse if you do certain things
+	- When collapsed, you can't regenerate Sanity and you will not get the extra protection Sanity grants you until it recovers
+		- Drinking water will speed up the recovering process
+
+## Changes
+
+### Crier
+- Crier now flaps its arms to fly 
+- Crier will now give players 5 seconds of Weakness II instead of 4
+- Changed Crier's step height to 1 since it caused Crier to move oddly
+
+### Sanity
+- Any food (except snacks and another few) will now regenerate (or drain if it is bad for you) `nutrition / 2` sanity
+- Water now will regenerate 20 sanity, also speeds up the recovering process
+- Keeping HP under 50% (changed from 40%) will drain 1 sanity every 10 seconds
+
+### Crying Ore
+- Crying Ore's hardness is now random, between 10 and 100
+- Will now generate less in the Overworld
+
+## Removals
+- Removed Smoothness, Aegis, Bloodlust and Feathered
+	- They did not fit the mod
+	- They are replaced with perks and Crying Chestplate with Elytra
+	
+- Removed Crying Rod since with the new tool variants, it was unused
+- Removed Love of The Feline effect, check [Cats on Head](https://www.curseforge.com/minecraft/mc-mods/cats-on-head) instead
+
+## Other
+- Bug fixes
+- Source refactor and cleanup
+
 # 4.1.4
 - Crier can now crouch to fit in one block gaps when the player it's attacking to is crawling
 - Forlorn Crier attack damage is reduced by 1

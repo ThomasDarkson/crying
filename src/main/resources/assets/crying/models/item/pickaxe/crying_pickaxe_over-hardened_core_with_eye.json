@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "crying:item/pickaxe/crying_pickaxe_over-hardened_core_with_eye"
+    }
+}

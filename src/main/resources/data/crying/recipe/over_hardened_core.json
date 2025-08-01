@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "group": "crying",
   "pattern": [
-    " # ",
+    "###",
     "#*#",
-    " / "
+    "#/#"
   ],
   "key": {
     "#": [
-      "minecraft:reinforced_deepslate"
+      "minecraft:crying_obsidian"
     ],
     "*": [
       "minecraft:heavy_core"

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:netherite_shovel",
+  "addition": "minecraft:diamond",
+  "template": "crying:crying_ingot",
+  "result": {
+    "id": "crying:crying_shovel_diamond"
+  }
+}

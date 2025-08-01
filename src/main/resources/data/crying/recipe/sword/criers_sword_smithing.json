@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "crying:crying_sword_gold",
+  "addition": "crying:over-hardened_core_with_eye",
+  "template": "minecraft:gold_ingot",
+  "result": {
+    "id": "crying:criers_sword"
+  }
+}

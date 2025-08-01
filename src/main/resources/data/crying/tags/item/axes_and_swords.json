@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "#minecraft:swords",
-    "#minecraft:axes",
-    "crying:the_crying_being"
+    "#minecraft:axes"
   ]
 }

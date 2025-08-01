@@ -24,5 +24,11 @@
         "sounds": [
             "crying:crier_scream"
         ]
+    },
+    "granter_heal": {
+        "subtitle": "subtitles.crying.granter_heal",
+        "sounds": [
+            "crying:granter_heal"
+        ]
     }
 }

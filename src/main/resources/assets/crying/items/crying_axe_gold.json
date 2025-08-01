@@ -1,0 +1,7 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "crying:item/axe/crying_axe_gold"
+  },
+  "hand_animation_on_swap": true
+}

@@ -1,5 +1,10 @@
 {
   "layers": {
+    "horse_body": [
+      {
+        "texture": "crying:crying"
+      }
+    ],
     "humanoid": [
       {
         "texture": "crying:crying"

@@ -30,7 +30,9 @@ public class CryingBlock extends Block {
                 return 10;
             })
         );
-        create();
+        
+        Crying.registerBlock(this, "crying_block");
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_BLOCK, this.asItem()));
     }
 
     @Override
@@ -48,11 +50,5 @@ public class CryingBlock extends Block {
                 }
             }
         }
-    }
-
-    public void create() {
-        Crying.registerBlock(this, "crying_block");
-      
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_BLOCK, this.asItem()));
     }
 }

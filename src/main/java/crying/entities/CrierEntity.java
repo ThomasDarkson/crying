@@ -1,12 +1,13 @@
 package crying.entities;
 
+import java.util.ArrayList;
+
 import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
 import crying.goals.FastBreakDoorGoal;
 import crying.other.CrierExplosionBehavior;
 import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityPose;
@@ -62,18 +63,22 @@ import net.minecraft.world.explosion.Explosion;
 
 public class CrierEntity extends HostileEntity {
     ServerBossBar bossBar = null;
+    ServerBossBar shieldBar = null;
 
-    static TrackedData<Boolean> secondPhase;
-    boolean initializedExplosion = false;
-    boolean isSmall = false;
-    boolean healing = false;
-    int healingTicks = 0;
+    private static final float shieldMaxHealth = 336F;
+    private float shieldHealth = 336F;
+    private static TrackedData<Boolean> secondPhase;
+    private boolean initializedExplosion = false;
+    private boolean isSmall = false;
+    private boolean healing = false;
+    private int healingTicks = 0;
+    private ArrayList<String> gotAttackedByPlayer = new ArrayList<>();
 
     static {
         secondPhase = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
         super(entityType, world);
 
@@ -93,7 +98,7 @@ public class CrierEntity extends HostileEntity {
         this.targetSelector.add(2, new ActiveTargetGoal(this, IronGolemEntity.class, false));
         this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
         this.targetSelector.add(1, new ActiveTargetGoal(this, WardenEntity.class, false));
-        this.goalSelector.add(3, new FlyGoal(this, 2.0));
+        this.goalSelector.add(3, new FlyGoal(this, 1.0));
         this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(8, new LookAroundGoal(this));
         this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, false));
@@ -111,13 +116,17 @@ public class CrierEntity extends HostileEntity {
         this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(health);
         this.setHealth((float) health);
 
-        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), Color.PURPLE, Style.PROGRESS));
+        this.bossBar = new ServerBossBar(this.getDisplayName(), Color.PURPLE, Style.PROGRESS);
         bossBar.setVisible(true);
         bossBar.setDragonMusic(false);
         bossBar.setPercent(0.0F);
 
-        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 1, false, false, false), this);
+        this.shieldBar = new ServerBossBar(Text.translatable("bar.shield.health"), Color.PURPLE, Style.PROGRESS);
+        shieldBar.setVisible(true);
+        shieldBar.setDragonMusic(false);
+        shieldBar.setPercent(0.0F);
 
+        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 1, false, false, false), this);
         setCanBreakDoors(true);
     }
 
@@ -161,8 +170,6 @@ public class CrierEntity extends HostileEntity {
 
     void addShield() {
         ItemStack stack = new ItemStack(Items.SHIELD);
-        stack.addEnchantment(getWorld().getRegistryManager().getEntryOrThrow(Enchantments.UNBREAKING), 255);
-
         this.equipStack(EquipmentSlot.OFFHAND, stack);
     }
 
@@ -193,8 +200,9 @@ public class CrierEntity extends HostileEntity {
         }
 
         float health = this.getHealth() / this.getMaxHealth();
-
         this.bossBar.setPercent(health);
+
+        this.shieldBar.setPercent(this.shieldHealth / shieldMaxHealth);
 
         if (health > 0F) {
             if (health < 0.2F && !getSecondPhase()) {
@@ -228,9 +236,30 @@ public class CrierEntity extends HostileEntity {
                 instance.setBaseValue(0.355d);
 
                 EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
-                instance2.setBaseValue(4d);
+                instance2.setBaseValue(3d);
             }
         }
+    }
+
+    void damageShield(float amount) {
+        if (amount < 3F) 
+            shieldHealth--;
+        else 
+            shieldHealth -= Math.round(amount);
+
+        this.getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
+        this.swingHand(Hand.OFF_HAND);
+        if (shieldHealth <= 0)
+            breakShield(true);
+    }
+
+    void breakShield(boolean playSound) {
+        this.shieldBar.setVisible(false);
+        this.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
+        shieldHealth = 0;
+
+        if (playSound)
+            this.getWorld().playSound(null, getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), getSoundCategory());
     }
 
     void changeScale() {
@@ -264,7 +293,7 @@ public class CrierEntity extends HostileEntity {
     @Override
     protected void dropLoot(ServerWorld world, DamageSource damageSource, boolean causedByPlayer) {
         ItemStack stack = new ItemStack(Crying.EYE);
-        stack.setCount(world.getPlayers().size());
+        stack.setCount(gotAttackedByPlayer.size());
         this.dropStack(world, stack);
 
         ItemStack heart = new ItemStack(Crying.HEART);
@@ -277,6 +306,7 @@ public class CrierEntity extends HostileEntity {
         super.onStartedTrackingBy(player);
 
         this.bossBar.addPlayer(player);
+        this.shieldBar.addPlayer(player);
     }
 
     @Override
@@ -284,6 +314,7 @@ public class CrierEntity extends HostileEntity {
         super.onStoppedTrackingBy(player);
 
         this.bossBar.removePlayer(player);
+        this.shieldBar.removePlayer(player);
     }
 
     @Override
@@ -294,12 +325,23 @@ public class CrierEntity extends HostileEntity {
         nbt.putBoolean("initializedExplosion", initializedExplosion);
         nbt.putBoolean("healing", healing);
         nbt.putBoolean("isSmall", isSmall);
+        nbt.putFloat("shieldHealth", shieldHealth);
         nbt.putInt("healingTicks", healingTicks);
+
+        for (String s : gotAttackedByPlayer) {
+            nbt.putBoolean("UUID_SET_BY_CRYING_" + s, true);
+        }
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
+
+        nbt.forEach((string, element) -> {
+            if (string.startsWith("UUID_SET_BY_CRYING_") && element.asBoolean().orElse(false)) {
+                gotAttackedByPlayer.add(string.replace("UUID_SET_BY_CRYING_", ""));
+            }
+        });
         
         if (this.hasCustomName()) {
             this.bossBar.setName(this.getDisplayName());
@@ -319,6 +361,10 @@ public class CrierEntity extends HostileEntity {
         
         isSmall = nbt.getBoolean("isSmall", false);
         changeScale();
+
+        shieldHealth = nbt.getFloat("shieldHealth", shieldMaxHealth);
+        if (shieldHealth <= 0)
+            breakShield(false);
     }
 
     @Override
@@ -372,9 +418,8 @@ public class CrierEntity extends HostileEntity {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             return false;
         }
-        else if (world.getRandom().nextFloat() < (getSecondPhase() ? 0.75F : 0.25F) && !source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD) {
-            world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
-            this.swingHand(Hand.OFF_HAND);
+        else if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD && shieldHealth > 0) {
+            damageShield(amount);
             return false;
         }
         else {
@@ -382,10 +427,14 @@ public class CrierEntity extends HostileEntity {
             if (f < (getSecondPhase() ? 0F : 0.045F)) {
                 world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
             }
-            if (f < (getSecondPhase() ? 0.2F : 0.075F)) {
+            if (f < (getSecondPhase() ? 0.25F : 0.05F)) {
                 heal();
             }
 
+            if (source.getAttacker() instanceof PlayerEntity player) {
+                if (!gotAttackedByPlayer.contains(player.getUuidAsString()))
+                    gotAttackedByPlayer.add(player.getUuidAsString());
+            }
             return super.damage(world, source, amount);
         }
     }

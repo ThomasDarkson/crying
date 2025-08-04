@@ -15,10 +15,6 @@ public class CryingIngotItem extends Item {
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_ingot")))
             .fireproof());
 
-        create();
-    }
-
-    public void create() {
         Crying.register(this, "crying_ingot");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_INGOT, this));
     }

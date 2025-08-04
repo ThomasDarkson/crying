@@ -126,9 +126,10 @@ public class HardCryingObsidianBlock extends Block {
 
     private BlockPattern getCrierPattern() {
         if (this.crierPattern == null) {
-            this.crierPattern = BlockPatternBuilder.start().aisle(new String[]{"^", "#", "#"}).where('^', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Crying.HARD_CRYING_OBSIDIAN))).where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.CRYING_OBSIDIAN))).build();
+                this.crierPattern = BlockPatternBuilder.start().aisle(new String[]{"~^~", "###", "?#?"}).where('^', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Crying.HARD_CRYING_OBSIDIAN))).where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.CRYING_OBSIDIAN))).where('~', (pos) -> {
+                return pos.getBlockState().isAir();
+            }).where('?', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.CHAIN))).build();
         }
-
         return this.crierPattern;
     }
 }

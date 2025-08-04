@@ -192,6 +192,17 @@ If you have a Crying Tool with a Core Ingredient that's not Over-hardened Core W
 
 ![](https://i.ibb.co/np5j3W8/Ekran-g-r-nt-s-2025-08-02-021927.png)
 
+## Crying Shield
+Crying Shield is a special kind of armor that blocks damage on its own but it's its effectiveness depends on whether the player is sneaking. It is crafted with 6 Iron Ingots, 2 Crying Ingots and 1 **Eye**.
+
+![](https://i.ibb.co/Y4T4VPS9/Ekran-g-r-nt-s-2025-08-04-222328.png)
+
+When equipped it will spin around the player. For convenience, it is not visible in first person perspective.
+
+![](https://i.ibb.co/Kj8Mn0sf/javaw2025-08-0422-26-38-296-ezgif-com-video-to-gif-converter.gif)
+
+If the player is sneaking while having Crying Shield equipped, the shield will have 100% damage protection and it'll reflect half of the damage it blocked. However if they are not sneaking, damage protection is 25% and shield will not reflect any damage.
+
 ## Crying Armor
 Crying Armor is strongest tier of there is for armor. Wearing any Crying Armor will enable the **Sanity** mechanic.
 
@@ -328,21 +339,23 @@ To craft one, you need 1 **Eye** and 1 **Over-hardened Core**.
 
 ## Crier
 The **Crier** is a boss that can be summoned by a player, it is the only source of **Eye**.
-To summon one, a player must place two crying obsidians vertically and a hard crying obsidian on top. 
+To summon one, a player must place 4 Crying Obsidian, 2 Chains and 1 Hard Crying Obsidian like this.
+
+![](https://i.ibb.co/XkZXwJ4B/javaw2025-08-0422-41-08-562-ezgif-com-optimize.gif)
 
 ![2025-06-26_20 24 28](https://i.ibb.co/dFTFD9f/459548864-c9ce4365-3d29-46f0-a035-7742778f030e.png)
 
-It always spawns with a Crying Helmet, Crying Sword and a shield with Unbreaking 3.
+It always spawns with a Crying Helmet, Crier's Sword and a shield.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock**. This explosion won't do any damage.
 
-It has `618 + ((playerCount - 1) * 50)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks attacks with its shield with a 25% chance.
+It has `618 + ((playerCount - 1) * 50)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks all attacks with its shield until the shield breaks. The shield has 336 durability.
 
-If it's in a pit or a deep hole, it will start to fly to escape and attack its targets.
+If it's in a pit or a deep hole, it will start to fly to escape and attack its target.
 
 It won't die unless the fatal hit was from a player.
 
 If a Crier feels threatened, it can do these when it takes damage:
-- It can drink of a Potion of Healing III with 7.5% chance.
+- It can drink of a Potion of Healing III with 5% chance.
 - It can create an explosion with 2 power with 4.5% chance. 
 
 ### Healing
@@ -350,7 +363,7 @@ If a Crier is drinking a Potion of Healing III, it can't be damaged and it canno
 Drinking takes 1.6 seconds and it heals 16 HP.
 
 It's permanently affected with the **Weakness II** status effect, and can't get any other status effects other than Weakness II.
-If a Crier hits a player, it has a %20 chance to give the player Weakness 1 effect for 4 * ([local_difficulty](https://minecraft.wiki/w/Difficulty#Regional_difficulty)).
+If a Crier hits a player, it has a %20 chance to give the player Weakness 1 effect for 5 * ([local_difficulty](https://minecraft.wiki/w/Difficulty#Regional_difficulty)).
 
 It can break doors almost instantly and walks faster in water than other mobs.
 
@@ -359,9 +372,9 @@ A Crier's second phase will start when it loses 80% of its health.
 
 It will create one last explosion with 2.25 power, it will scream and get stronger.
 
-- It deals 4 extra damage.
+- It deals 3 extra damage.
 - It can block attacks with its shield 50% more (%75 chance in total).
-- It will drink Potion of Healing %12.5 more (%20 chance total).
+- It will drink Potion of Healing 20% more (%25 chance total).
 - It will never create an explosion again.
 
 At this point, it has become forlorn.
@@ -373,7 +386,7 @@ Crier will also attack these mobs:
 - Endermen
 - Snow Golems
 
-Crier will drop Eye items when it dies, the count depending on how many players are in the world.
+Crier will drop Eye items when it dies, the number of Eyes dropped depending on how many players attacked it.
 
 ### Crier's Heart
 - Hardness: 0

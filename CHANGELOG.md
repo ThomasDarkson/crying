@@ -1,3 +1,32 @@
+# 5.1.0 - How did we get here? Part 2
+## Additions
+### Tools
+- Crying Shield
+
+The Crying Shield is no ordinary shield. When equipped, it blocks attacks automatically. However, its effectiveness depends on whether the player is sneaking:
+
+If player is sneaking:
+- 100% damage protection
+- Reflects half the incoming damage back to the attacker
+
+If player is NOT sneaking:
+- 25% damage protection
+- Does not reflect damage
+
+## Changes
+### Crier
+- Crier now will always block attacks with its shield
+	- However, players can break its shield by attacking it
+- Removed Unbreaking III enchantment from Crier's shield
+- The number of Eyes dropped by a Crier upon death now depends on how many players attacked it
+- Changed Crier spawning pattern to 4 Crying Obsidian, 1 Hard Crying Obsidian and 2 chains
+- Crier will now heal more in second phase but less in first
+- Fixed Crier moving 2 times as fast when there are no players around
+
+## Other
+- Optimized Sanity mechanic
+- Fixed achievement names and description
+
 # 5.0.0 - How did we get here?
 ## Additions
 ### Tools

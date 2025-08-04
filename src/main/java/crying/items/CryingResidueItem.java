@@ -14,10 +14,7 @@ public class CryingResidueItem extends Item {
         super(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_residue")))
             .fireproof());
-        create();
-    }
-
-    public void create() {
+        
         Crying.register(this, "crying_residue");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_SCRAP, this));
     }

@@ -4,7 +4,10 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"InGameHudMixin",
-		"HeldItemRendererMixin"
+		"HeldItemRendererMixin",
+		"PlayerEntityStateMixin",
+		"PlayerEntityRendererMixin",
+		"HeldItemFeatureRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

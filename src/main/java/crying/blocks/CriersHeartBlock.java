@@ -43,15 +43,10 @@ public class CriersHeartBlock extends BlockWithEntity {
     public CriersHeartBlock(Settings settings) {
         super(settings);
 
-        create();
-    }
-
-    public void create() {
         Crying.registerBlock(this, "criers_heart");
-      
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((itemGroup) -> itemGroup.add(this.asItem()));
     }
-
+    
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;

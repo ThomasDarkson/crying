@@ -42,7 +42,10 @@ public class CryingOreBlock extends Block
                 return 10;
             })
         );
-        create();
+        Crying.registerBlock(this, "crying_ore");
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> itemGroup.addAfter(Items.ANCIENT_DEBRIS, this.asItem()));
+
+        addFeatures();
     }
 
     @Override
@@ -78,10 +81,7 @@ public class CryingOreBlock extends Block
         return Crying.floorDecimal(Crying.nextBetween(10F, 100F), 2);
     }
 
-    public void create() {
-        Crying.registerBlock(this, "crying_ore");
-      
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> itemGroup.addAfter(Items.ANCIENT_DEBRIS, this.asItem()));
+    public void addFeatures() {
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_SMALL);
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_LARGE);
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_MEDIUM);

@@ -8,12 +8,14 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +30,7 @@ import crying.Crying;
 import crying.entities.CrierEntity;
 import crying.entities.GranterEntity;
 import crying.interfaces.SanityManager;
+import crying.tools.CryingShieldItem;
 import crying.interfaces.CryingTool;
 import crying.interfaces.SanityInterface;
 
@@ -52,12 +55,21 @@ public abstract class PlayerEntityMixin implements SanityInterface {
             && !source.isIn(DamageTypeTags.IS_FALL)
             && !source.isIn(DamageTypeTags.IS_FIRE)
             && !source.isIn(DamageTypeTags.IS_DROWNING)
-            && !source.isIn(DamageTypeTags.IS_FREEZING)
-            /*&& player.getMainHandStack().getItem() != Crying.THE_CRYING_BEING*/
-            && ((source.getAttacker() instanceof HostileEntity) || (source.getAttacker() instanceof Angerable))
-            ) {
-                SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
-                manager.damage(amount);
+            && !source.isIn(DamageTypeTags.IS_FREEZING)) {
+                if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD)) {
+                    Hand hand = Crying.getHandThatHasCryingShield(player);
+                    if (hand != null) {
+                        ItemStack stack = player.getStackInHand(hand);
+                        if (stack.getItem() instanceof CryingShieldItem item) {
+                            item.useShield(stack, hand, player, source.getAttacker(), source, Math.round(amount));
+                        }
+                    }
+                }
+
+                if ((source.getAttacker() instanceof HostileEntity) || (source.getAttacker() instanceof Angerable)) {
+                    SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
+                    manager.damage(amount);
+                }
         }
         if (player.getMainHandStack().getItem() instanceof CryingTool tool) {
             if (tool.getCoreIngredient() == Items.NETHERITE_INGOT) {
@@ -67,7 +79,8 @@ public abstract class PlayerEntityMixin implements SanityInterface {
                 }
             }
             else if (tool.getCoreIngredient() == Items.GOLD_INGOT || Crying.isTheCriersSword(player.getMainHandStack())) {
-                GranterEntity.summonGranterEntity(world, player);
+                if (!player.isCreative())
+                    GranterEntity.summonGranterEntity(world, player);
             }
         }
     }

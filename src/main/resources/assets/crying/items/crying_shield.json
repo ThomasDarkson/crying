@@ -1,0 +1,23 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:display_context",
+    "cases": [
+      {
+        "when": [
+          "thirdperson_righthand",
+          "thirdperson_lefthand"
+        ],
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_shield_spin"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "crying:item/crying_shield"
+    }
+  },
+  "hand_animation_on_swap": false
+}

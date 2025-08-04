@@ -4,6 +4,9 @@
   "addition": "crying:over-hardened_core_with_eye",
   "template": "minecraft:gold_ingot",
   "result": {
-    "id": "crying:crying_pickaxe_over-hardened_core_with_eye"
+    "id": "crying:crying_pickaxe_over-hardened_core_with_eye",
+    "components": {
+      "!minecraft:enchantments": {}
+    }
   }
 }

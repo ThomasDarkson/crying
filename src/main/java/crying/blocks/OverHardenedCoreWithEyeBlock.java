@@ -27,12 +27,7 @@ public class OverHardenedCoreWithEyeBlock extends HeavyCoreBlock {
             .resistance((float) Integer.MAX_VALUE)
         );
 
-        create();
-    }
-
-    public void create() {
         Crying.registerBlock(this, "over-hardened_core_with_eye");
-      
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.OVER_HARDENED_CORE, this.asItem()));
     }
 

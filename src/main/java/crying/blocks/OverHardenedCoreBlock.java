@@ -26,12 +26,8 @@ public class OverHardenedCoreBlock extends HeavyCoreBlock {
             .resistance(3200000F)
             .requiresTool()
         );
-        create();
-    }
-
-    public void create() {
+        
         Crying.registerBlock(this, "over-hardened_core");
-      
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.HEAVY_CORE, this.asItem()));
     }
 }

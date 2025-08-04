@@ -30,6 +30,7 @@ import crying.items.EyeItem;
 import crying.items.GranterItem;
 import crying.other.CryingLoot;
 import crying.other.CryingTags;
+import crying.tools.CryingShieldItem;
 import crying.tools.axe.*;
 import crying.tools.hoe.*;
 import crying.tools.pickaxe.*;
@@ -46,6 +47,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -65,6 +67,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
@@ -95,6 +98,8 @@ public class Crying implements ModInitializer {
 		"criers_heart", 
 		FabricBlockEntityTypeBuilder.<CriersHeartBlockEntity>create(CriersHeartBlockEntity::new, HEART).build()
 	);
+
+	public static final Item CRYING_SHIELD;
 
 	public static final Item CRYING_HELMET;
 	public static final Item CRYING_CHESTPLATE;
@@ -216,6 +221,8 @@ public class Crying implements ModInitializer {
 		CRYING_HOE_IRON = new CryingHoeIronItem();
 		CRYING_HOE_GOLD = new CryingHoeGoldItem();
 
+		CRYING_SHIELD = new CryingShieldItem();
+
 		// Armors
 		CRYING_BOOTS = new CryingBootsItem();
         CRYING_LEGGINGS = new CryingLeggingsItem();
@@ -301,6 +308,16 @@ public class Crying implements ModInitializer {
         ArmorMaterial material = new ArmorMaterial(durability, defensePoints, enchantability, equipSound, toughness, knockbackResistance, tagKey, registr);
 		return material;
     }
+	
+	public static Hand getHandThatHasCryingShield(PlayerEntity entity) {
+		Hand[] hands = {Hand.MAIN_HAND, Hand.OFF_HAND};
+		for (Hand hand : hands) {
+			ItemStack stack = entity.getStackInHand(hand);
+			if (stack != null && stack.getItem() instanceof CryingShieldItem) 
+				return hand;
+		}
+		return null;
+	}
 
 	public static Item getCoreIngredient(ItemStack stack) {
 		if (stack.isEmpty())

@@ -9,7 +9,6 @@ import crying.Crying;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
@@ -215,7 +214,7 @@ public class SanityManager {
         updateThis();
 
         if (entity != null) {
-            entity.getWorld().playSound(entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_PLAYER_HURT, SoundCategory.PLAYERS);
+            entity.getWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_PLAYER_HURT, entity.getSoundCategory());
         }
     }
 

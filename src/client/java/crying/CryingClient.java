@@ -9,6 +9,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.util.Arm;
+import net.minecraft.util.Hand;
 
 public class CryingClient implements ClientModInitializer
 {
@@ -37,5 +39,11 @@ public class CryingClient implements ClientModInitializer
         EntityRendererRegistry.register(Crying.CRIER, CrierEntityRenderer::new);
         EntityRendererRegistry.register(Crying.GRANTER_ENTITY, FlyingItemEntityRenderer::new);
         BlockEntityRendererFactories.register(Crying.CRIERS_HEART, CriersHeartBlockEntityRenderer::new);
+    }
+
+    public static Boolean compareHandtoArm(Hand hand, Arm arm, Arm mainArm) {
+        if (hand == Hand.OFF_HAND) 
+            return arm == (mainArm == Arm.LEFT ? Arm.RIGHT : Arm.LEFT);
+        return arm == (mainArm == Arm.LEFT ? Arm.LEFT : Arm.RIGHT);
     }
 }

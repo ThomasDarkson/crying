@@ -12,7 +12,8 @@
 		"FoodComponentMixin",
 		"TameableEntityMixin",
 		"BlockMixin",
-		"AbstractBlockMixin"
+		"AbstractBlockMixin",
+		"NbtReadViewMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

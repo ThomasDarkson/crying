@@ -110,7 +110,7 @@ public class CrierEntity extends HostileEntity {
 
         double extra = 0d;
         if (world.getPlayers().size() > 1)
-            extra = 50d * (world.getPlayers().size() - 1);
+            extra = 25d * (world.getPlayers().size() - 1);
         
         double health = 618d + extra;
         this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(health);

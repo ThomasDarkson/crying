@@ -1,3 +1,11 @@
+# 5.1.1
+## Changes
+- Reduced the Crier's varying extra health based on player count by 50%
+- Replaced the Crying Ingot in the Crying Shield's recipe with Iron Ingot
+
+## Fixes
+- Fixed a bug where players would get knockbacked when hit while holding a Crying Shield
+
 # 5.1.0 - How did we get here? Part 2
 ## Additions
 ### Tools

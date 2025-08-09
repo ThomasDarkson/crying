@@ -144,10 +144,10 @@ Each Core Ingredient has one perk of its own, except Gold which has two perks. T
 #### Diamond Core Ingredient
 - Carry any Crying Tool with Diamond Core Ingredient in your inventory, and suddenly every food looks like it was made by Gordon Ramsay. (Food will restore 2x hunger and saturation)
 
-#### Iron
+#### Iron Core Ingredient
 - Any Crying Tool except Sword with Iron Core Ingredient can interact with any block to extract an iron ingot from it with 33% chance. If the block doesn't drop any iron ingots after interacting with it after 3 (12 for Block of Iron) times, the block will break and drop nothing, even if it normally would.
 
-#### Gold
+#### Gold Core Ingredient
 - If you hit an enemy with a Crying Sword with Gold Core Ingredient, they will drop one gold ingot.
 - If you take damage while holding any Crying Tool with Gold Core Ingredient and don’t already have a Granter, one will be summoned for you.
 
@@ -193,9 +193,9 @@ If you have a Crying Tool with a Core Ingredient that's not Over-hardened Core W
 ![](https://i.ibb.co/np5j3W8/Ekran-g-r-nt-s-2025-08-02-021927.png)
 
 ## Crying Shield
-Crying Shield is a special kind of armor that blocks damage on its own but it's its effectiveness depends on whether the player is sneaking. It is crafted with 6 Iron Ingots, 2 Crying Ingots and 1 **Eye**.
+Crying Shield is a special kind of armor that blocks damage on its own but it's its effectiveness depends on whether the player is sneaking. It is crafted with 8 Iron Ingots and 1 **Eye**.
 
-![](https://i.ibb.co/Y4T4VPS9/Ekran-g-r-nt-s-2025-08-04-222328.png)
+![](https://i.ibb.co/FLq9DV3R/Ekran-g-r-nt-s-2025-08-09-082243.png)
 
 When equipped it will spin around the player. For convenience, it is not visible in first person perspective.
 
@@ -348,7 +348,7 @@ To summon one, a player must place 4 Crying Obsidian, 2 Chains and 1 Hard Crying
 It always spawns with a Crying Helmet, Crier's Sword and a shield.
 When summoned, it will initialize an explosion that can break ALL blocks except **bedrock**. This explosion won't do any damage.
 
-It has `618 + ((playerCount - 1) * 50)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks all attacks with its shield until the shield breaks. The shield has 336 durability.
+It has `618 + ((playerCount - 1) * 25)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks all attacks with its shield until the shield breaks. The shield has 336 durability.
 
 If it's in a pit or a deep hole, it will start to fly to escape and attack its target.
 

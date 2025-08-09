@@ -62,6 +62,7 @@ public abstract class PlayerEntityMixin implements SanityInterface {
                         ItemStack stack = player.getStackInHand(hand);
                         if (stack.getItem() instanceof CryingShieldItem item) {
                             item.useShield(stack, hand, player, source.getAttacker(), source, Math.round(amount));
+                            info.cancel();
                         }
                     }
                 }

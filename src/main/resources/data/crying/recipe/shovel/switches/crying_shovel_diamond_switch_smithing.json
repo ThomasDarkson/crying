@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smithing_transform",
-  "base": "#crying:crying_shovels",
-  "addition": "minecraft:diamond",
-  "template": "minecraft:gold_ingot",
-  "result": {
-    "id": "crying:crying_shovel_diamond"
-  }
-}

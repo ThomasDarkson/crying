@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smithing_transform",
-  "base": "#crying:crying_swords",
-  "addition": "minecraft:netherite_ingot",
-  "template": "minecraft:gold_ingot",
-  "result": {
-    "id": "crying:crying_sword_netherite"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:model",
-    "model": "crying:item/pickaxe/crying_pickaxe"
-  },
-  "hand_animation_on_swap": true
-}

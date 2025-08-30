@@ -1,7 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:model",
-    "model": "crying:item/hoe/crying_hoe_iron"
-  },
-  "hand_animation_on_swap": true
-}

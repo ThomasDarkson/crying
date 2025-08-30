@@ -1,6 +1,0 @@
-{
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "crying:item/hoe/crying_hoe_netherite"
-    }
-}

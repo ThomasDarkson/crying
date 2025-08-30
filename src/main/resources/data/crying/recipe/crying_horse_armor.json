@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smithing_transform",
-  "base": "minecraft:diamond_horse_armor",
-  "addition": "minecraft:iron_ingot",
-  "template": "crying:crying_ingot",
-  "result": {
-    "id": "crying:crying_horse_armor"
-  }
-}

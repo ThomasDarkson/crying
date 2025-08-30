@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smithing_transform",
-  "base": "minecraft:netherite_axe",
-  "addition": "crying:crying_ingot",
-  "template": "crying:crying_ingot",
-  "result": {
-    "id": "crying:crying_axe"
-  }
-}

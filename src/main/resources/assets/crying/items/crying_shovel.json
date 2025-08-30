@@ -1,7 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:model",
-    "model": "crying:item/shovel/crying_shovel"
-  },
-  "hand_animation_on_swap": true
-}

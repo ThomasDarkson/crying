@@ -1,7 +1,0 @@
-{
-  "model": {
-    "type": "minecraft:model",
-    "model": "crying:item/pickaxe/crying_pickaxe_over-hardened_core_with_eye"
-  },
-  "hand_animation_on_swap": true
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "crying:block/hard_crying_obsidian_bottom",
-    "side": "crying:block/hard_crying_obsidian_side",
-    "top": "crying:block/hard_crying_obsidian_top"
-  }
-}

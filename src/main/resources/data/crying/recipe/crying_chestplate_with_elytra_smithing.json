@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smithing_transform",
-  "base": "crying:crying_chestplate",
-  "addition": "minecraft:elytra",
-  "template": "minecraft:phantom_membrane",
-  "result": {
-    "id": "crying:crying_chestplate_with_elytra"
-  }
-}

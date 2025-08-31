@@ -11,7 +11,7 @@
       "minecraft:crying_obsidian"
     ],
     "*": [
-      "minecraft:heavy_core"
+      "crying:hardened_core"
     ],
     "/": [
       "crying:crying_ingot"

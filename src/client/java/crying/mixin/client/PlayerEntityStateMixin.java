@@ -4,12 +4,14 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import crying.PlayerEntityRenderStateVarsInterface;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
+import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 
 @Mixin(PlayerEntityRenderState.class)
 public class PlayerEntityStateMixin implements PlayerEntityRenderStateVarsInterface {
     Hand cryingShieldHand = null;
     int realAge = 0;
+    Arm isUsingAscender = null;
 
     @Override
     public Hand get_cryingShieldHand() {

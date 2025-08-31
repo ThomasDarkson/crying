@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import crying.Crying;
 import crying.goals.FastBreakDoorGoal;
 import crying.other.CrierExplosionBehavior;
+import net.minecraft.block.Blocks;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -59,6 +60,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.World.ExplosionSourceType;
+import net.minecraft.world.dimension.DimensionTypes;
 import net.minecraft.world.explosion.Explosion;
 
 public class CrierEntity extends HostileEntity {
@@ -67,7 +69,7 @@ public class CrierEntity extends HostileEntity {
 
     private static final float shieldMaxHealth = 336F;
     private float shieldHealth = 336F;
-    private static TrackedData<Boolean> secondPhase;
+    private static final TrackedData<Boolean> secondPhase;
     private boolean initializedExplosion = false;
     private boolean isSmall = false;
     private boolean healing = false;
@@ -126,8 +128,15 @@ public class CrierEntity extends HostileEntity {
         shieldBar.setDragonMusic(false);
         shieldBar.setPercent(0.0F);
 
-        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 1, false, false, false), this);
+        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 22, false, false, false), this);
         setCanBreakDoors(true);
+
+        if (this.getWorld().getDimensionEntry().getKey().get() != DimensionTypes.OVERWORLD) {
+            this.getWorld().setBlockState(this.getBlockPos(), Blocks.CRYING_OBSIDIAN.getDefaultState());
+            this.getWorld().addParticleClient(ParticleTypes.FALLING_OBSIDIAN_TEAR, this.getX(), this.getX(), this.getZ(), 1d, 1d, 1d);
+            this.playSound(getDeathSound());
+            this.discard();
+        }
     }
 
     public static DefaultAttributeContainer.Builder createCrierAttributes() {
@@ -142,7 +151,7 @@ public class CrierEntity extends HostileEntity {
 
     @Override
     public boolean canHaveStatusEffect(StatusEffectInstance effect) {
-        return effect.equals(StatusEffects.WEAKNESS) && effect.getAmplifier() == 1;
+        return effect.equals(StatusEffects.WEAKNESS) && effect.getAmplifier() == 22;
     }
 
     @Override
@@ -292,13 +301,15 @@ public class CrierEntity extends HostileEntity {
 
     @Override
     protected void dropLoot(ServerWorld world, DamageSource damageSource, boolean causedByPlayer) {
-        ItemStack stack = new ItemStack(Crying.EYE);
-        stack.setCount(gotAttackedByPlayer.size());
-        this.dropStack(world, stack);
+        if (causedByPlayer) {
+            ItemStack stack = new ItemStack(Crying.EYE);
+            stack.setCount(gotAttackedByPlayer.size());
+            this.dropStack(world, stack);
 
-        ItemStack heart = new ItemStack(Crying.HEART);
-        heart.setCount(1);
-        this.dropStack(world, heart);
+            ItemStack heart = new ItemStack(Crying.CRIERS_HEART);
+            heart.setCount(1);
+            this.dropStack(world, heart);
+        }
     }
 
     @Override
@@ -395,7 +406,7 @@ public class CrierEntity extends HostileEntity {
 
     @Override
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        if ((getHealth() - amount) <= 0 && !(source.getAttacker() instanceof PlayerEntity)) {
+        if ((getHealth() - amount) <= 0 && !(source.getAttacker() instanceof PlayerEntity || source.isOf(DamageTypes.MAGIC))) {
             this.setHealth(0.01F);
             if (!healing)
                 heal();

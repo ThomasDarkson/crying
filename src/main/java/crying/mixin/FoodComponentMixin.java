@@ -8,9 +8,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import crying.Crying;
-import crying.interfaces.SanityInterface;
+import crying.enums.CollapsingReason;
+import crying.interfaces.CryingTool;
+import crying.interfaces.FoodVars;
 import crying.interfaces.SanityManager;
-import crying.tools.hoe.AbstractCryingHoeItem;
+import crying.items.CryingFoodItem;
 import net.minecraft.component.type.ConsumableComponent;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.LivingEntity;
@@ -31,13 +33,14 @@ public abstract class FoodComponentMixin {
         if (user instanceof PlayerEntity player) {
             Item item = stack.getItem();
             FoodComponent food = (FoodComponent) (Object) this;
-            SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
-            if (item == Crying.CRYING_APPLE) {
-                manager.decreaseLevel(-2F);
-                manager.increasePermanentMaxLevel();
+            SanityManager manager = Crying.getSanityManager(player);
+            if (item instanceof CryingFoodItem foodItem) {
+                manager.decreaseLevel(foodItem.restoresSanity());
+                FoodVars foodVar = ((FoodVars) (Object) player);
+                foodVar.setEatenCryingFoodCount(foodVar.getEatenCryingFoodCount() + 1);
             }
             else if (item == Items.PUFFERFISH || item == Items.ROTTEN_FLESH) {
-                manager.setPreventRegenTicks(item == Items.PUFFERFISH ? Crying.tickSecond(1800) : Crying.tickSecond(300), player);
+                manager.collapse(item == Items.PUFFERFISH ? Crying.tickSecond(1800) : Crying.tickSecond(300), player, CollapsingReason.BAD_FOOD);
             }
             else if (item == Items.HONEY_BOTTLE) {
                 manager.decreaseLevel(-20F);
@@ -73,7 +76,7 @@ public abstract class FoodComponentMixin {
             }
 
             if (player.getInventory().contains((itemStack) -> {
-                return itemStack.getItem() instanceof AbstractCryingHoeItem tool && tool.getCoreIngredient() == Items.DIAMOND;
+                return itemStack.getItem() instanceof CryingTool tool && tool.getCoreIngredient() == Items.DIAMOND;
             })) {
                 player.getHungerManager().add(food.nutrition(), food.saturation());
             }

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import crying.interfaces.SanityInterface;
+import crying.Crying;
 import crying.interfaces.SanityManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -17,7 +17,7 @@ public class TameableEntityMixin {
     @Inject(method = "setOwner", at = @At("TAIL"))
     public void setOwner(@Nullable LivingEntity entity, CallbackInfo info) {
         if ((entity instanceof PlayerEntity player)) {
-            SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
+            SanityManager manager = Crying.getSanityManager(player);
             manager.decreaseLevel(-20F);
         }
     }

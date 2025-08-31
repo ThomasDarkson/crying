@@ -1,5 +1,6 @@
 package crying.mixin;
 
+import crying.Crying;
 import crying.interfaces.*;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,11 +21,11 @@ public abstract class WaterPotionMixin {
     @Inject(method = "onConsume", at = @At("TAIL"))
     public void onConsume(World world, LivingEntity user, ItemStack stack, ConsumableComponent consumable, CallbackInfo info) {
         if (user instanceof PlayerEntity player) {
-            SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
+            SanityManager manager = Crying.getSanityManager(player);
             PotionContentsComponent potion = (PotionContentsComponent) (Object) this;
             if (potion.matches(Potions.WATER)) {
                 manager.decreaseLevel(-20F);
-                manager.setPreventMultiplier(2);
+                manager.setCollapseMultiplier(2);
             }
         }
     }

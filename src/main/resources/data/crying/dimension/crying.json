@@ -1,0 +1,15 @@
+{
+  "type": "crying:crying",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "minecraft:floating_islands",
+    "biome_source": {
+      "type": "minecraft:checkerboard",
+      "scale": 7,
+      "biomes": [
+        "crying:somewhat_weird_island",
+        "crying:somewhat_normal_island"
+      ]
+    }
+  }
+}

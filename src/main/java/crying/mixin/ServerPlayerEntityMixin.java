@@ -7,21 +7,27 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import crying.interfaces.SanityInterface;
+import crying.Crying;
+import crying.interfaces.FoodVars;
 import crying.interfaces.SanityManager;
+import crying.interfaces.SanityVars;
 
 @Mixin(ServerPlayerEntity.class)
 public class ServerPlayerEntityMixin {
     @Inject(method = "copyFrom", at = @At("TAIL"))
     public void copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info) {
         ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
-        SanityManager oldManager = ((SanityInterface) (Object) (oldPlayer)).getManagerOverride_crying();
-        SanityManager manager = ((SanityInterface) (Object) (player)).getManagerOverride_crying();
+        SanityManager oldManager = Crying.getSanityManager(oldPlayer);
+        ((SanityVars) (Object) player).setManager(oldManager);
+        SanityManager manager = Crying.getSanityManager(player);
+        manager.updateThis();
 
-        int oldPermantLevel = oldManager.getPermanentMaxLevel();
-        manager.setPermanentMaxLevel(oldPermantLevel);
+        int oldPreventTicks = oldManager.getCollapseRegenTicks();
+        manager.collapse(oldPreventTicks, player, oldManager.getCollapsingReason());
 
-        int oldPreventTicks = oldManager.getPreventRegenTicks();
-        manager.setPreventRegenTicks(oldPreventTicks, null);
+        FoodVars oldFood = (FoodVars) (Object) oldPlayer;
+        FoodVars food = (FoodVars) (Object) player;
+
+        food.setEatenCryingFoodCount(oldFood.getEatenCryingFoodCount());
     }
 }

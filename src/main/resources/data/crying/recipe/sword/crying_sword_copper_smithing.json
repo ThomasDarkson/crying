@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:netherite_sword",
+  "addition": "minecraft:copper_ingot",
+  "template": "crying:crying_ingot_copper",
+  "result": {
+    "id": "crying:crying_sword_copper"
+  }
+}

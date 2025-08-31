@@ -6,7 +6,9 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
+import crying.enums.CollapsingReason;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -17,8 +19,9 @@ import net.minecraft.world.LightType;
 
 public class SanityManager {
     private static final Map<String, SanityManager> managers = new HashMap<>();
-    private static final int FINAL_MAX_INT = 20;
     protected String uuid;
+
+    private CollapsingReason collapsingReason = CollapsingReason.UNKNOWN;
 
     private float sanityLevel = 0;
     private int sanityTickTimer = 0;
@@ -27,13 +30,12 @@ public class SanityManager {
 
     private int ticksHalfHealth = 0;
 
-    private int permanentMaxLevel = 0;
-
-    private int preventRegenTicks = 0;
-    private int preventMultiplier = 1;
+    private int collapseRegenTicks = 0;
+    private int collapseMultiplier = 1;
 
     private int darkTicks = 0;
 
+    private boolean shouldRegenCommand = true;
     private boolean shouldRegen = true;
 
     public static SanityManager getFromUUID(String uuid) {
@@ -58,26 +60,9 @@ public class SanityManager {
 
         this.cryingArmorCount = armor;
         this.maxLevel = armor * 5;
-        if (this.sanityLevel < ((float) getPermanentMaxLevel()))
-            this.sanityLevel = (float) getPermanentMaxLevel();
-        else if (this.sanityLevel > (float) this.maxLevel)
+        if (this.sanityLevel > (float) this.maxLevel)
             this.sanityLevel = (float) this.maxLevel;
                 
-        updateThis();
-    }
-
-    public void increasePermanentMaxLevel() {
-        increasePermanentMaxLevel(2);
-    }
-
-    public void increasePermanentMaxLevel(int increase) {
-        if (getPermanentMaxLevel() >= FINAL_MAX_INT) {
-            return;
-        }
-
-        this.permanentMaxLevel += increase;
-        if (getPermanentMaxLevel() >= FINAL_MAX_INT)
-            this.permanentMaxLevel = FINAL_MAX_INT;
         updateThis();
     }
     
@@ -86,10 +71,12 @@ public class SanityManager {
         ServerWorld serverWorld = player.getServerWorld();
         Difficulty difficulty = serverWorld.getDifficulty();
 
-        if (getPreventRegenTicks() >= 1 * preventMultiplier && !player.isDead()) {
-            preventRegenTicks -= 1 * preventMultiplier;
-            if (preventRegenTicks < 1) {
-                goBackToNormal();
+        if (getCollapseRegenTicks() >= 1 && !player.isDead()) {
+            collapseRegenTicks -= 1 * collapseMultiplier;
+            if (collapseRegenTicks < 0)
+                collapseRegenTicks = 0;
+            if (collapseRegenTicks < 1) {
+                goBackToNormal(player);
             }
         }
 
@@ -112,14 +99,14 @@ public class SanityManager {
         if (serverWorld.getLightLevel(LightType.SKY, player.getBlockPos()) <= 4 && serverWorld.getLightLevel(LightType.BLOCK, player.getBlockPos()) <= 4) {
             darkTicks++;
             if (darkTicks == Crying.tickSecond(30)) {
-                setPreventRegenTicks(Crying.tickSecond(480), player);
+                collapse(Crying.tickSecond(480), player, CollapsingReason.LOW_LIGHT);
                 darkTicks = 0;
             }
         }
         else
             darkTicks = 0;
 
-        if (bl && cryingArmorCount > 0 && getCryingArmorCount() >= 1 && getMaxLevel() > 0 && shouldRegen) 
+        if (bl && cryingArmorCount > 0 && getCryingArmorCount() >= 1 && getMaxLevel() > 0 && shouldRegen && shouldRegenCommand) 
         {
             ++this.sanityTickTimer;
 
@@ -129,7 +116,7 @@ public class SanityManager {
             else if (difficulty == Difficulty.HARD)
                 ticktime = Crying.tickSecond(30);
 
-            if (difficulty == Difficulty.PEACEFUL || player.isCreative())
+            if (difficulty == Difficulty.PEACEFUL)
                 ticktime = 5;
 
             if (this.sanityTickTimer >= ticktime && ticksHalfHealth <= 0)
@@ -141,12 +128,12 @@ public class SanityManager {
     }
 
     public void decreaseLevel(float decrease) {
-        if (decrease < 0 && getPreventRegenTicks() > 0) {
+        if (decrease < 0 && getCollapseRegenTicks() > 0) {
             updateThis();
             return;
         }
         else if (decrease >= getMaxLevel() / 2F && maxLevel >= 10) {
-            setPreventRegenTicks(Crying.tickSecond(300), null);
+            collapse(Crying.tickSecond(300), null, CollapsingReason.HIGH_DAMAGE);
         }
         this.sanityLevel -= decrease;
         if (this.sanityLevel <= 0) {
@@ -154,25 +141,22 @@ public class SanityManager {
             this.sanityLevel = 0;
         }
         
-        float pmax = (float) getPermanentMaxLevel();
         float max = (float) getMaxLevel();
-        if (this.sanityLevel < pmax)
-            this.sanityLevel = pmax;
-        else if (this.sanityLevel > max)
+        if (this.sanityLevel > max)
             this.sanityLevel = max;
 
         updateThis();
     }
 
-    private void goBackToNormal() {
+    private void goBackToNormal(LivingEntity entity) {
         this.sanityLevel = 0;
-        setPreventRegenTicks(0, null);
-        setPreventMultiplier(1);
+        collapse(0, null, CollapsingReason.UNKNOWN);
+        setCollapseMultiplier(1);
         updateThis();
     }
 
     public float getSanityLevel() {
-        if (getPreventRegenTicks() > 0)
+        if (getCollapseRegenTicks() > 0)
             return 0F;
         return this.sanityLevel;
     }
@@ -185,31 +169,39 @@ public class SanityManager {
         return this.cryingArmorCount;
     }
 
-    public int getPermanentMaxLevel() {
-        return this.permanentMaxLevel;
+    public int getCollapseRegenTicks() {
+        return this.collapseRegenTicks;
     }
 
-    public int getPreventRegenTicks() {
-        return this.preventRegenTicks;
+    public int getCollapseMultiplier() {
+        return this.collapseMultiplier;
     }
 
-    public int getPreventMultiplier() {
-        return this.preventMultiplier;
+    public CollapsingReason getCollapsingReason() {
+        return this.collapsingReason;
     }
 
-    public void setPermanentMaxLevel(int level) {
-        this.permanentMaxLevel = level;
-        this.sanityLevel = (float) level;
+    public int setSanityLevel(int level) { 
+        try {
+            this.sanityLevel = level;
+            if (this.sanityLevel > this.maxLevel)
+                this.sanityLevel = this.maxLevel;
 
-        updateThis();
+            updateThis();
+            return 0;
+        }
+        catch (Exception e) {
+            return 1;
+        }
     }
 
-    public void setPreventRegenTicks(int tick, @Nullable LivingEntity entity) {
-        if (getPreventRegenTicks() > 0 || Crying.nextBetween(1, 10) <= 5) 
+    public void collapse(int tick, @Nullable LivingEntity entity, CollapsingReason reason) {
+        if (getCollapseRegenTicks() > 0 || Crying.nextBetween(1, 10) <= 8) 
             return;
 
         this.sanityLevel = 0F;
-        this.preventRegenTicks = tick;
+        this.collapseRegenTicks = tick;
+        this.collapsingReason = reason;
         updateThis();
 
         if (entity != null) {
@@ -217,11 +209,23 @@ public class SanityManager {
         }
     }
 
-    public void setPreventMultiplier(int m) {
-        if (getPreventRegenTicks() >= m)
-            this.preventMultiplier = m;
+    public int setCollapseTicks(int ticks, CollapsingReason reason, PlayerEntity player) {
+        try {
+            this.collapseRegenTicks = 0;
+            collapse(ticks, player, reason);
+            updateThis();
+            return 0;
+        }
+        catch (Exception e) {
+            return 1;
+        }
+    }
+
+    public void setCollapseMultiplier(int m) {
+        if (getCollapseRegenTicks() >= m)
+            this.collapseMultiplier = m;
         else 
-            this.preventMultiplier = 1;
+            this.collapseMultiplier = 1;
 
         updateThis();
     }
@@ -233,45 +237,66 @@ public class SanityManager {
         updateThis();
     }
 
+    public int setRegenCommand(boolean regen) {
+        try {
+            this.shouldRegenCommand = regen;
+            updateThis();
+            return 0;
+        } 
+        catch (Exception e) {
+            return 1;
+        }
+    }
 
     public void readNbt(NbtCompound nbt) {
         this.sanityLevel = nbt.getFloat("sanityLevel", 0F);
         this.sanityTickTimer = nbt.getInt("sanityTickTimer", 0);
         this.maxLevel = nbt.getInt("maxLevel", 0);
-        this.permanentMaxLevel = nbt.getInt("permanentMaxLevel", 0);
         this.cryingArmorCount = nbt.getInt("cryingArmorCount", 0);
         this.shouldRegen = nbt.getBoolean("shouldRegen", false);
+        this.shouldRegenCommand = nbt.getBoolean("shouldRegenCommand", true);
         this.ticksHalfHealth = nbt.getInt("ticksHalfHealth", 0);
-        this.preventRegenTicks = nbt.getInt("preventRegenTicks", 0);
+        this.collapseRegenTicks = nbt.getInt("collapseRegenTicks", 0);
         this.darkTicks = nbt.getInt("darkTicks", 0);
-        this.preventMultiplier = nbt.getInt("preventMultiplier", 1);
-            
-        if (this.sanityLevel < (float) this.permanentMaxLevel)
-            this.sanityLevel = (float) this.permanentMaxLevel;
+        this.collapseMultiplier = nbt.getInt("collapseMultiplier", 1);
+        this.collapsingReason = CollapsingReason.fromString(nbt.getString("collapsingReason", null));
 
-        else if (this.sanityLevel > this.maxLevel)
+        if (this.sanityLevel > this.maxLevel)
             this.sanityLevel = this.maxLevel;
-
-        if (this.permanentMaxLevel > FINAL_MAX_INT)
-            this.permanentMaxLevel = FINAL_MAX_INT;
 
         updateThis();
     }
 
     public void writeNbt(NbtCompound nbt) {
+        nbt.putBoolean("shouldRegen", this.shouldRegen);
+        nbt.putBoolean("shouldRegenCommand", this.shouldRegenCommand);
+        nbt.putString("collapsingReason", this.collapsingReason.getName());
         nbt.putFloat("sanityLevel", this.sanityLevel);
         nbt.putInt("sanityTickTimer", this.sanityTickTimer);
-        nbt.putInt("permanentMaxLevel", this.permanentMaxLevel);
         nbt.putInt("maxLevel", this.maxLevel);
         nbt.putInt("cryingArmorCount", this.cryingArmorCount);
-        nbt.putBoolean("shouldRegen", this.shouldRegen);
         nbt.putInt("ticksHalfHealth", this.ticksHalfHealth);
-        nbt.putInt("preventRegenTicks", this.preventRegenTicks);
+        nbt.putInt("collapseRegenTicks", this.collapseRegenTicks);
         nbt.putInt("darkTicks", this.darkTicks);
-        nbt.putInt("preventMultiplier", this.preventMultiplier);
+        nbt.putInt("collapseMultiplier", this.collapseMultiplier);
     }
 
-    private void updateThis() {
+    public int clear() {
+        try {
+            this.collapseMultiplier = 0;
+            this.sanityLevel = 0;
+            this.collapseRegenTicks = 0;
+            this.collapsingReason = CollapsingReason.UNKNOWN;
+            updateThis();
+
+            return 0;
+        }
+        catch (Exception e) {
+            return 1;
+        }
+    }
+
+    public void updateThis() {
         managers.put(uuid, this);
     }
 }

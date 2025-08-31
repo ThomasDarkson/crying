@@ -1,0 +1,14 @@
+{
+  "feature": "crying:floor",
+  "placement": [
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "absolute": -32
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

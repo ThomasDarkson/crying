@@ -1,3 +1,134 @@
+# 6.0.0 - The End 
+## Additions
+### Crying Dimension
+- Added a new dimension, Crying dimension, with 2 new biomes in it
+	- Somewhat Weird Island
+	- Somewhat Normal Island
+
+The Crying Dimension is an odd place consisting of floating islands with an exclusive entity, Lost Crier, and it's the only place where Crying Foods can be found. It can be travelled to using a Eye Connected To A Stick.
+
+### Crying Mice
+Crying Mice is a remix of Living Mice by C418 composed by me (Thomas Darkson) that plays in Somewhat Weird Island. It's the only track that'll play in that biome. This track was originally an extra track in older versions but it was removed. It's now remastered and used as the track for 6.0.0 update.
+
+### Items
+- Eye Connected To A Stick
+
+This item is used to travel to the Crying Dimension, or to return to the Overworld when already there. When used, it will search a 618x618 area for a solid block where the player can safely stand without suffocating. It has 1236 durability.
+
+- Crying Grappling Hook
+
+This is a grappling hook that only works in the Crying Dimension. Use the item to shoot out a hook that will pull you when it attaches to a block.
+
+- Hardened Core Piece
+
+An item that drops from Lost Crier's, used to craft Hardened Core.
+
+- Lost Crier Spawn Egg
+
+The spawn egg for the Lost Crier entity.
+
+### Tools
+- Added Copper to Core Ingredients
+
+Now you can use Copper to craft Crying Tools. 
+Just like copper blocks, tools crafted with Copper Core Ingredient will oxidize over time.
+
+Copper’s tool perk is summoning lightning on the mob it hits. The lightning summoned by the tool will not hurt its owner and it will not cause any fire. The chance of this lightning being summoned is based on the tool's oxidation level.
+
+#### Oxidation and Waxing
+
+Crying Tools with Copper Core Ingredient will always age, also known as oxidizing.
+Using a honeycomb and a copper ingot on a Crying Tool with Copper Core Ingredient will turn the tool into its waxed variant and deoxidize it, waxed tools will age 2 times slower.
+
+Waxing is the only way to deoxidize a tool.
+
+| Oxidation Level | Time (Unwaxed)    | Time (Waxed)       | Summoning Lightning Chance |
+| --------------- | ----------------- | ------------------ | ------------------ |
+| **Unaffected**  | 0 – 1,200 sec     | 0 – 2,400 sec      | 100% |
+| **Exposed**     | 1,200 – 2,400 sec | 2,400 – 4,800 sec  | 75% |
+| **Weathered**   | 2,400 – 4,800 sec | 4,800 – 9,600 sec  | 50% |
+| **Oxidized**    | 4,800 – 9,600 sec | 9,600 – 19,200 sec | 25% |
+
+### Blocks
+- Lost Crying Block
+
+Lost Crying Block is a block that spawns only in Somewhat Normal Island biome in Crying Dimension. It's used to spawn Lost Crier. If the block is interacted with gold ingot in hand, the gold ingot is consumed and the block breaks. It has a 10% chance of spawning a Lost Crier.
+
+- Void-Stained Crying Block
+
+The bedrock counterpart of Crying Dimension. It acts as the floor of the Crying Dimension and it'll always spawn at y=0. You will not take fall damage if you fall on it.
+
+- Hardened Core
+
+The unhardened version of the Over-hardened Core. It's used to craft the Over-hardened Core.
+
+### Food
+
+- Enchanted Crying Apple
+
+A better version of the Crying Apple. Very rare chance of spawning in Somewhat Weird Island biome.
+
+- Crying Carrot
+
+The carrot version of the Crying Apple. Very high chance of spawning in Somewhat Weird Island biome.
+
+### Entities
+
+- Lost Crier
+
+The Lost Crier is a passive entity that carries a single Hardened Core Piece. It has 206 health and 50% knockback resistance. When killed, it has a 10% chance to drop a Hardened Core Piece.
+
+A Lost Crier will turn into a Crier if it's in the Overworld.
+
+### Technical
+- `/crying` command
+
+`/crying` command is used to manipulate the Sanity system of a player. You can clear your sanity, set your sanity level or collapse your sanity as you wish.
+
+- Version Checker
+
+A version checker is added to the mod, so when there is new update the user will be notified on the title screen of Minecraft.
+
+## Changes
+### Sanity
+- Collapsing Reason
+
+Prior to 6.0.0, if your sanity collapsed you couldn't see why. With 6.0.0, now you can see why your sanity collapsed on the HUD.
+
+#### Food
+
+With the new Crying foods being added, their purpose is changed as well. Now instead of permanents level that cannot be drained, every player has a counter that tracks how many Crying Foods they have eaten during their journey. As players consume more Crying Foods, their sanity improves and grants extra protection. This protection is capped at 80%. The formula for the extra protection is `(eaten_crying_food_count / 9888) * 0.8`%.
+
+This extra protection is only active when the Sanity mechanic is activated.
+
+### Crying Ingot
+
+Crying Ingot now has 6 variants:
+- Crying Ingot (infused with: Netherite)
+- Crying Ingot (infused with: Diamond)
+- Crying Ingot (infused with: Iron)
+- Crying Ingot (infused with: Copper)
+- Crying Ingot (infused with: Gold)
+- Uninfused Crying Ingot
+
+While most recipes use the Uninfused Crying Ingot, crafting a Crying Tool requires the corresponding infused Crying Ingot. For example, to craft a Crying Sword with Copper Core Ingredients, it's now required to use Crying Ingotinfused with Copper. To infuse a Crying Ingot, simply put a Crying Ingot and the ingredient you're going to infuse the Crying Ingot with in a crafting table.
+
+Uninfused Crying Ingots recipe is changed to 8 Crying Residue's.
+
+### Crier
+- Crier now does one less damage
+- Crier will die if it's not in the Overworld
+
+### Over-hardened Core
+
+- Now crafted with Hardened Core instead of Heavy Core.
+
+## Removals
+### Sanity
+- Permanent Levels
+
+Permanent levels are replaced with eaten Crying Food system.
+
 # 5.1.1
 ## Changes
 - Reduced the Crier's varying extra health based on player count by 50%

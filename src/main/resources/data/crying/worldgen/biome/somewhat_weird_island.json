@@ -1,0 +1,85 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.3,
+  "temperature_modifier": "none",
+  "downfall": 0,
+  "effects": {
+    "fog_color": 15459813,
+    "sky_color": 5904064,
+    "water_color": 3145835,
+    "water_fog_color": 3211346,
+    "foliage_color": 2555991,
+    "grass_color": 6029465,
+    "dry_foliage_color": 2359324,
+    "grass_color_modifier": "dark_forest",
+    "particle": {
+      "probability": 0.01,
+      "options": {
+        "type": "minecraft:falling_obsidian_tear"
+      }
+    },
+    "music": [
+      {
+        "weight": 1,
+        "data": {
+          "sound": "crying:crying_mice",
+          "min_delay": 0,
+          "max_delay": 0,
+          "replace_current_music": true
+        }
+      }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground"
+  ],
+  "features": [
+    [
+      "minecraft:fallen_oak_tree",
+      "minecraft:seagrass_cold",
+      "minecraft:sea_pickle",
+      "minecraft:amethyst_geode",
+      "minecraft:cave_vines",
+      "minecraft:patch_grass_forest",
+      "minecraft:glowstone_extra",
+      "crying:crying_ore_crying_biome",
+      "crying:floor",
+      "crying:crying_food_feature",
+      "minecraft:ore_diamond_large",
+      "minecraft:ore_emerald",
+      "minecraft:ore_coal_upper",
+      "minecraft:dripstone_cluster",
+      "minecraft:red_mushroom_swamp",
+      "minecraft:brown_mushroom_normal",
+      "minecraft:patch_dead_bush",
+      "minecraft:patch_tall_grass",
+      "minecraft:patch_berry_common",
+      "minecraft:glow_lichen",
+      "minecraft:lake_lava_surface",
+      "minecraft:seagrass_river",
+      "minecraft:fossil_upper",
+      "minecraft:forest_flowers"
+    ]
+  ],
+  "creature_spawn_probability": 0.99,
+  "spawners": {
+    "creature": [
+      {
+        "type": "minecraft:cat",
+        "weight": 17,
+        "minCount": 4,
+        "maxCount": 8
+      }
+    ],
+    "ambient": [
+      {
+        "type": "minecraft:bat",
+        "weight": 3,
+        "minCount": 2,
+        "maxCount": 10
+      }
+    ]
+  }
+}

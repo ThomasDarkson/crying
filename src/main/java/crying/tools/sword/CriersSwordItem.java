@@ -1,6 +1,7 @@
 package crying.tools.sword;
 
 import crying.Crying;
+import crying.tools.abstracts.AbstractCryingSwordItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;

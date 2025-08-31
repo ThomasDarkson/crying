@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "crying:crying_hoe_copper",
+  "addition": "minecraft:honeycomb",
+  "template": "minecraft:copper_ingot",
+  "result": {
+    "id": "crying:crying_hoe_copper",
+    "components": {
+      "crying:was_waxed": true,
+      "crying:oxidation_seconds": 0,
+      "crying:oxidation_level": "unaffected"
+    }
+  }
+}

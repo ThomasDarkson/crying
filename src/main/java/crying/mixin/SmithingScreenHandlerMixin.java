@@ -1,10 +1,6 @@
 package crying.mixin;
 
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ForgingScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.SmithingScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
@@ -14,11 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(SmithingScreenHandler.class)
-public abstract class SmithingScreenHandlerMixin extends ForgingScreenHandler {
-    protected SmithingScreenHandlerMixin(int syncId, PlayerInventory playerInventory) {
-        super(ScreenHandlerType.SMITHING, syncId, playerInventory, ScreenHandlerContext.EMPTY, null);
-    }
-
+public class SmithingScreenHandlerMixin {
     @Inject(method = "canInsertIntoSlot", at = @At("HEAD"), cancellable = true)
     private void allowNetheriteInSecondSlot(ItemStack stack, Slot slot, CallbackInfoReturnable<Boolean> info) {
         info.setReturnValue(true);

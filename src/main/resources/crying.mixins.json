@@ -3,7 +3,6 @@
 	"package": "crying.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"SmithingScreenHandlerMixin",
 		"CryingAttributeFixer",
 		"LivingEntityMixin",
 		"PlayerEntityMixin",
@@ -12,7 +11,10 @@
 		"FoodComponentMixin",
 		"TameableEntityMixin",
 		"BlockMixin",
-		"AbstractBlockMixin"
+		"AbstractBlockMixin",
+		"LightningEntityMixin",
+		"EntityMixin",
+		"PersistentProjectileEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

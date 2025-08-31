@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import crying.Crying;
+import crying.enums.ToolType;
 import crying.interfaces.CryingTool;
-import crying.tools.sword.AbstractCryingSwordItem;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -27,13 +27,13 @@ public class AbstractBlockMixin {
     int breakCount = 0;
     @Inject(method = "calcBlockBreakingDelta", at = @At("HEAD"), cancellable = true)
     protected void calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos, CallbackInfoReturnable<Float> info) {
-        if (Crying.isTheCryingBeing(player.getMainHandStack()) && state.getBlock() != Blocks.BEDROCK)
+        if (Crying.isTheCryingBeing(player.getMainHandStack()) && state.getHardness(world, pos) > 0)
             info.setReturnValue((float) Integer.MAX_VALUE);
     }
 
     @Inject(method = "onUseWithItem", at = @At("HEAD"), cancellable = true)
     protected void onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> info) {
-        if (stack.getItem() instanceof CryingTool tool && !(tool instanceof AbstractCryingSwordItem) && tool.getCoreIngredient() == Items.IRON_INGOT) {
+        if (stack.getItem() instanceof CryingTool tool && tool.getToolType() != ToolType.SWORD && tool.getCoreIngredient() == Items.IRON_INGOT) {
             if (world.getRandom().nextFloat() < 0.33F) {
                 player.swingHand(hand);
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.IRON_INGOT));

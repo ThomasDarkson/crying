@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crying",
+  "pattern": [
+    "#  ",
+    " . ",
+    "  ?"
+  ],
+  "key": {
+    "#": [
+      "crying:eye"
+    ],
+    ".": [
+      "crying:crying_ingot"
+    ],
+    "?": [
+      "minecraft:stick"
+    ]
+  },
+  "result": {
+    "id": "crying:eye_connected_to_a_stick"
+  }
+}

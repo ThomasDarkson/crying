@@ -1,0 +1,37 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "crying:oxidation_level",
+    "cases": [
+      {
+        "when": "unaffected",
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/hoe/crying_hoe_copper"
+        }
+      },
+      {
+        "when": "exposed",
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/hoe/crying_hoe_exposed_copper"
+        }
+      },
+      {
+        "when": "weathered",
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/hoe/crying_hoe_weathered_copper"
+        }
+      },
+      {
+        "when": "oxidized",
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/hoe/crying_hoe_oxidized_copper"
+        }
+      }
+    ]
+  }
+}

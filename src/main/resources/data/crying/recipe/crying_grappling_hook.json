@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "crying",
+  "pattern": [
+    "##!",
+    "#_*",
+    "!*?"
+  ],
+  "key": {
+    "#": [
+      "crying:crying_ingot"
+    ],
+    "*": [
+      "minecraft:string"
+    ],
+    "?": [
+      "minecraft:stick"
+    ],
+    "!": [
+      "minecraft:redstone"
+    ],
+    "_": [
+      "crying:eye"
+    ]
+  },
+  "result": {
+    "id": "crying:crying_grappling_hook"
+  }
+}

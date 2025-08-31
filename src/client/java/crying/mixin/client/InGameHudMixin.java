@@ -33,12 +33,6 @@ public class InGameHudMixin {
     private static final Identifier MAX_HALF_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_half_max");
     private static final Identifier MAX_EMPTY_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_half_empty");
 
-    private static final Identifier EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_empty_permanent");
-    private static final Identifier HALF_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_half_permanent");
-    private static final Identifier FULL_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_full_permanent");
-    private static final Identifier MAX_HALF_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_half_max_permanent");
-    private static final Identifier MAX_EMPTY_TEXTURE_PERMANENT = Identifier.of(Crying.ID, "hud/sanity_half_empty_permanent");
-
     private static final Identifier INACTIVE_TEXTURE = Identifier.of(Crying.ID, "hud/sanity_inactive");
 
     @Inject(method = "renderArmor", at = @At("HEAD"))
@@ -103,29 +97,16 @@ public class InGameHudMixin {
             Identifier half = HALF_TEXTURE;
             Identifier empty = EMPTY_TEXTURE;
             Identifier full = FULL_TEXTURE;
-
-            if (j < (manager.getPermanentMaxLevel() / 2)) {
-                half = HALF_TEXTURE_PERMANENT;
-                empty = EMPTY_TEXTURE_PERMANENT;
-                full = FULL_TEXTURE_PERMANENT;
-            }
             
             if (ishalf) {
                 if (j == Math.round(max) - 1) {
-                    if (j < (manager.getPermanentMaxLevel() / 2)) {
-                        full = MAX_HALF_TEXTURE_PERMANENT;
-                        half = MAX_HALF_TEXTURE_PERMANENT;
-                        empty = MAX_EMPTY_TEXTURE_PERMANENT;
-                    }
-                    else {
-                        full = MAX_HALF_TEXTURE;
-                        half = MAX_HALF_TEXTURE;
-                        empty = MAX_EMPTY_TEXTURE;
-                    }
+                    full = MAX_HALF_TEXTURE;
+                    half = MAX_HALF_TEXTURE;
+                    empty = MAX_EMPTY_TEXTURE;
                 }
             }
 
-            if (manager.getPreventRegenTicks() > 0) {
+            if (manager.getCollapseRegenTicks() > 0) {
                 context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, INACTIVE_TEXTURE, l, k, 9, 9);
             }
             else {
@@ -141,13 +122,18 @@ public class InGameHudMixin {
             }
         }
 
-        if (manager.getPreventRegenTicks() > 0) {
+        if (manager.getCollapseRegenTicks() > 0) {
             MutableText text = Text.translatable("sanity.collapsed");
-            text.append(Text.literal(" "));
-            text.append(Text.literal(Crying.tickToString(manager.getPreventRegenTicks())).setStyle(Style.EMPTY.withColor(manager.getPreventMultiplier() > 1 ? Formatting.AQUA : Formatting.WHITE)));
+            text.append(manager.getCollapsingReason().getTranslatableName().setStyle(Style.EMPTY.withColor(Formatting.RED)));
+
+            MutableText text2 = Text.translatable("sanity.recovering");
+            text2.append(Text.literal(Crying.tickToString(manager.getCollapseRegenTicks())).setStyle(Style.EMPTY.withColor(manager.getCollapseMultiplier() > 1 ? Formatting.AQUA : Formatting.WHITE)));
 
             int ll = (context.getScaledWindowWidth() - hud.getTextRenderer().getWidth(text)) / 2;
-            context.drawTextWithBackground(hud.getTextRenderer(), text, ll, k - 20 - (bl ? -10 : 0), hud.getTextRenderer().getWidth(text), ColorHelper.getArgb(255, 255, 255));
+            context.drawTextWithBackground(hud.getTextRenderer(), text, ll, k - 30 - (bl ? -10 : 0), hud.getTextRenderer().getWidth(text), ColorHelper.getArgb(255, 255, 255));
+
+            int ll2 = (context.getScaledWindowWidth() - hud.getTextRenderer().getWidth(text2)) / 2;
+            context.drawTextWithBackground(hud.getTextRenderer(), text2, ll2, k - 20 - (bl ? -10 : 0), hud.getTextRenderer().getWidth(text2), ColorHelper.getArgb(255, 255, 255));
         }
     }
 }

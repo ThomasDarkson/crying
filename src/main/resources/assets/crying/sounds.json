@@ -30,5 +30,17 @@
         "sounds": [
             "crying:granter_heal"
         ]
+    },
+    "living_mice_crying_biome": {
+        "subtitle": "",
+        "sounds": [
+            "music/game/living_mice"
+        ]
+    },
+    "crying_mice": {
+        "subtitle": "",
+        "sounds": [
+            "crying:music/game/crying_mice"
+        ]
     }
 }

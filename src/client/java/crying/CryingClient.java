@@ -1,8 +1,11 @@
 package crying;
 
-import crying.entities.CrierEntityRenderer;
+import crying.entities.crier.CrierEntityRenderer;
+import crying.entities.lost_crier.LostCrierEntityRenderer;
 import crying.other.CryingAttribute;
 import crying.renderers.CriersHeartBlockEntityRenderer;
+import crying.renderers.CryingFoodEntityRenderer;
+import crying.renderers.GrapplingHookRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -37,8 +40,12 @@ public class CryingClient implements ClientModInitializer
         }
 
         EntityRendererRegistry.register(Crying.CRIER, CrierEntityRenderer::new);
+        EntityRendererRegistry.register(Crying.LOST_CRIER, LostCrierEntityRenderer::new);
         EntityRendererRegistry.register(Crying.GRANTER_ENTITY, FlyingItemEntityRenderer::new);
-        BlockEntityRendererFactories.register(Crying.CRIERS_HEART, CriersHeartBlockEntityRenderer::new);
+        EntityRendererRegistry.register(Crying.GRAPPLING_HOOK, GrapplingHookRenderer::new);
+
+        BlockEntityRendererFactories.register(Crying.CRYING_FOOD_BLOCK_ENTITY, CryingFoodEntityRenderer::new);
+        BlockEntityRendererFactories.register(Crying.CRIERS_HEART_BLOCK_ENTITY, CriersHeartBlockEntityRenderer::new);
     }
 
     public static Boolean compareHandtoArm(Hand hand, Arm arm, Arm mainArm) {

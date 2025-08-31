@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import crying.Crying;
 import crying.CryingClient;
 import crying.PlayerEntityRenderStateVarsInterface;
+import crying.items.CryingGrapplingHookItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -31,5 +32,7 @@ public class PlayerEntityRendererMixin {
         Hand hand = Crying.getHandThatHasCryingShield(player);
         if (hand != null && CryingClient.compareHandtoArm(hand, arm, player.getMainArm())) 
             info.setReturnValue(ArmPose.EMPTY);
+        else if ((player.getStackInArm(arm).getItem() instanceof CryingGrapplingHookItem))
+            info.setReturnValue(ArmPose.CROSSBOW_HOLD);
     }
 }

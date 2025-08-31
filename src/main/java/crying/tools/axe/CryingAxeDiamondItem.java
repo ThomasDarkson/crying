@@ -1,6 +1,7 @@
 package crying.tools.axe;
 
 import crying.tools.CryingToolItem;
+import crying.tools.abstracts.AbstractCryingAxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 

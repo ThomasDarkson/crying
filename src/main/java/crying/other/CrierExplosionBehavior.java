@@ -3,7 +3,6 @@ package crying.other;
 import java.util.Optional;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +24,6 @@ public class CrierExplosionBehavior extends ExplosionBehavior {
 
     @Override
     public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-        return blockState.isAir() && fluidState.isEmpty() ? Optional.empty() : (blockState.getBlock() == Blocks.BEDROCK ? Optional.of(blockState.getBlock().getBlastResistance()) : Optional.of(0.01F));
+        return blockState.isAir() && fluidState.isEmpty() ? Optional.empty() : (blockState.getHardness(world, pos) < 0 ? Optional.of(blockState.getBlock().getBlastResistance()) : Optional.of(0.01F));
     }
 }

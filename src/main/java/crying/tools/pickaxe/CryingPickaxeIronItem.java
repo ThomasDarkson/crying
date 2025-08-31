@@ -1,6 +1,7 @@
 package crying.tools.pickaxe;
 
 import crying.tools.CryingToolItem;
+import crying.tools.abstracts.AbstractCryingPickaxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 

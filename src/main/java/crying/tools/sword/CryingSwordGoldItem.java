@@ -1,5 +1,6 @@
 package crying.tools.sword;
 
+import crying.tools.abstracts.AbstractCryingSwordItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

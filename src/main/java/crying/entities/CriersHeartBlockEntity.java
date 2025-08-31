@@ -14,11 +14,11 @@ public class CriersHeartBlockEntity extends BlockEntity implements BlockEntityTi
     public float speedModifier = 0;
 
     public CriersHeartBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(Crying.CRIERS_HEART, pos, state);
+        super(Crying.CRIERS_HEART_BLOCK_ENTITY, pos, state);
     }
 
     public CriersHeartBlockEntity(BlockPos pos, BlockState state) {
-        super(Crying.CRIERS_HEART, pos, state);
+        super(Crying.CRIERS_HEART_BLOCK_ENTITY, pos, state);
     }
 
     @Override

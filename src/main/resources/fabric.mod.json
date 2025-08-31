@@ -41,5 +41,6 @@
 		],
 		"java": ">=21",
 		"fabric-api": "*"
-	}
+	},
+	"log_level": "debug"
 }

@@ -20,6 +20,7 @@ public class CryingChestplateItem extends Item {
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_chestplate")))
             .maxDamage(EquipmentType.CHESTPLATE.getMaxDamage(591))
         );
+
         Crying.register(this, "crying_chestplate");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_BOOTS, this));
     }

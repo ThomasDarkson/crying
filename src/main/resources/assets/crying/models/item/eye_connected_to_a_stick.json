@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "crying:item/eye_connected_to_a_stick"
+    }
+}

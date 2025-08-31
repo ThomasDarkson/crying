@@ -2,6 +2,7 @@ package crying.tools.axe;
 
 import crying.Crying;
 import crying.tools.CryingToolItem;
+import crying.tools.abstracts.AbstractCryingAxeItem;
 import net.minecraft.item.Item;
 
 public class CryingAxeItem extends AbstractCryingAxeItem {

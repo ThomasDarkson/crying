@@ -3,6 +3,7 @@ package crying.tools;
 import java.util.function.Consumer;
 
 import crying.Crying;
+import crying.enums.ToolType;
 import crying.interfaces.CryingTool;
 import crying.tools.sword.CriersSwordItem;
 import net.minecraft.component.type.TooltipDisplayComponent;
@@ -16,8 +17,8 @@ public class CryingToolItem extends Item implements CryingTool {
     public static final int OVER_HARDENED_CORE_WITH_EYE_DURABILITY = Integer.MAX_VALUE;
     public static final int OVER_HARDENED_CORE_WITH_EYE_ENCHANTABILITY = 255;
     public static final float OVER_HARDENED_CORE_WITH_EYE_SPEED = (float) Integer.MAX_VALUE;
-    public static final float OVER_HARDENED_CORE_WITH_EYE_PICKAXE_ATTACK_DAMAGE_BONUS = 7.5f;
-    public static final float OVER_HARDENED_CORE_WITH_EYE_SWORD_ATTACK_DAMAGE_BONUS = 88f;
+    public static final float OVER_HARDENED_CORE_WITH_EYE_PICKAXE_ATTACK_DAMAGE_BONUS = 12.5f;
+    public static final float OVER_HARDENED_CORE_WITH_EYE_SWORD_ATTACK_DAMAGE_BONUS = 94f;
 
     public static final int CRYING_DURABILITY = 30121;
     public static final int CRYING_ENCHANTABILITY = 90;
@@ -39,6 +40,11 @@ public class CryingToolItem extends Item implements CryingTool {
     public static final float IRON_SPEED = 150F;
     public static final int IRON_AXE_SPEED = 60;
 
+    public static final int COPPER_DURABILITY = 18066;
+    public static final int COPPER_ENCHANTABILITY = 65;
+    public static final float COPPER_SPEED = 140F;
+    public static final int COPPER_AXE_SPEED = 55;
+
     public static final int GOLD_DURABILITY = 17315;
     public static final int GOLD_ENCHANTABILITY = 100;
     public static final float GOLD_SPEED = 320F;
@@ -50,29 +56,35 @@ public class CryingToolItem extends Item implements CryingTool {
     public static final float CRYING_SHOVEL_ATTACK_DAMAGE_BONUS = 20f * 0.75f; 
     public static final float CRYING_HOE_ATTACK_DAMAGE_BONUS = 20f * 0.3f;      
 
-    public static final float NETHERITE_SWORD_ATTACK_DAMAGE_BONUS = 8f;
-    public static final float NETHERITE_AXE_ATTACK_DAMAGE_BONUS = 8f * 1.25f;     
-    public static final float NETHERITE_PICKAXE_ATTACK_DAMAGE_BONUS = 8f * 0.5f; 
-    public static final float NETHERITE_SHOVEL_ATTACK_DAMAGE_BONUS = 8f * 0.75f;  
-    public static final float NETHERITE_HOE_ATTACK_DAMAGE_BONUS = 8f * 0.3f;      
+    public static final float NETHERITE_SWORD_ATTACK_DAMAGE_BONUS = 10f;
+    public static final float NETHERITE_AXE_ATTACK_DAMAGE_BONUS = 10f * 1.25f;     
+    public static final float NETHERITE_PICKAXE_ATTACK_DAMAGE_BONUS = 10f * 0.5f; 
+    public static final float NETHERITE_SHOVEL_ATTACK_DAMAGE_BONUS = 10f * 0.75f;  
+    public static final float NETHERITE_HOE_ATTACK_DAMAGE_BONUS = 10f * 0.3f;      
 
-    public static final float DIAMOND_SWORD_ATTACK_DAMAGE_BONUS = 6f;
-    public static final float DIAMOND_AXE_ATTACK_DAMAGE_BONUS = 6f * 1.25f;     
-    public static final float DIAMOND_PICKAXE_ATTACK_DAMAGE_BONUS = 6f * 0.5f; 
-    public static final float DIAMOND_SHOVEL_ATTACK_DAMAGE_BONUS = 6f * 0.75f;  
-    public static final float DIAMOND_HOE_ATTACK_DAMAGE_BONUS = 6f * 0.3f;      
+    public static final float DIAMOND_SWORD_ATTACK_DAMAGE_BONUS = 8f;
+    public static final float DIAMOND_AXE_ATTACK_DAMAGE_BONUS = 8f * 1.25f;     
+    public static final float DIAMOND_PICKAXE_ATTACK_DAMAGE_BONUS = 8f * 0.5f; 
+    public static final float DIAMOND_SHOVEL_ATTACK_DAMAGE_BONUS = 8f * 0.75f;  
+    public static final float DIAMOND_HOE_ATTACK_DAMAGE_BONUS = 8f * 0.3f;      
 
-    public static final float IRON_SWORD_ATTACK_DAMAGE_BONUS = 5f;
-    public static final float IRON_AXE_ATTACK_DAMAGE_BONUS = 5f * 1.25f;      
-    public static final float IRON_PICKAXE_ATTACK_DAMAGE_BONUS = 5f * 0.5f;     
-    public static final float IRON_SHOVEL_ATTACK_DAMAGE_BONUS = 5f * 0.75f;    
-    public static final float IRON_HOE_ATTACK_DAMAGE_BONUS = 5f * 0.3f;      
+    public static final float IRON_SWORD_ATTACK_DAMAGE_BONUS = 7f;
+    public static final float IRON_AXE_ATTACK_DAMAGE_BONUS = 7f * 1.25f;      
+    public static final float IRON_PICKAXE_ATTACK_DAMAGE_BONUS = 7f * 0.5f;     
+    public static final float IRON_SHOVEL_ATTACK_DAMAGE_BONUS = 7f * 0.75f;    
+    public static final float IRON_HOE_ATTACK_DAMAGE_BONUS = 7f * 0.3f;      
 
-    public static final float GOLD_SWORD_ATTACK_DAMAGE_BONUS = 4f;
-    public static final float GOLD_AXE_ATTACK_DAMAGE_BONUS = 4f * 1.25f;   
-    public static final float GOLD_PICKAXE_ATTACK_DAMAGE_BONUS = 4f * 0.5f;     
-    public static final float GOLD_SHOVEL_ATTACK_DAMAGE_BONUS = 4f * 0.75f;     
-    public static final float GOLD_HOE_ATTACK_DAMAGE_BONUS = 4f * 0.3f;
+    public static final float COPPER_SWORD_ATTACK_DAMAGE_BONUS = 6.5f;
+    public static final float COPPER_AXE_ATTACK_DAMAGE_BONUS = 6.5f * 1.25f;      
+    public static final float COPPER_PICKAXE_ATTACK_DAMAGE_BONUS = 6.5f * 0.5f;     
+    public static final float COPPER_SHOVEL_ATTACK_DAMAGE_BONUS = 6.5f * 0.75f;    
+    public static final float COPPER_HOE_ATTACK_DAMAGE_BONUS = 6.5f * 0.3f; 
+
+    public static final float GOLD_SWORD_ATTACK_DAMAGE_BONUS = 6f;
+    public static final float GOLD_AXE_ATTACK_DAMAGE_BONUS = 6f * 1.25f;   
+    public static final float GOLD_PICKAXE_ATTACK_DAMAGE_BONUS = 6f * 0.5f;     
+    public static final float GOLD_SHOVEL_ATTACK_DAMAGE_BONUS = 6f * 0.75f;     
+    public static final float GOLD_HOE_ATTACK_DAMAGE_BONUS = 6f * 0.3f;
 
 
     public CryingToolItem(Settings settings) {
@@ -94,5 +106,27 @@ public class CryingToolItem extends Item implements CryingTool {
     @Override
     public Item getCoreIngredient() {
         return null;
+    }
+
+    @Override
+    public ToolType getToolType() {
+        return null;
+    }
+
+    @Override
+    public Text getName(ItemStack stack) {
+        switch (getToolType()) {
+            case PICKAXE: 
+                return Text.translatable("item.crying.crying_pickaxe");
+            case AXE: 
+                return Text.translatable("item.crying.crying_axe");
+            case SWORD: 
+                return Text.translatable("item.crying.crying_sword");
+            case SHOVEL: 
+                return Text.translatable("item.crying.crying_shovel");
+            case HOE: 
+                return Text.translatable("item.crying.crying_hoe");
+        }
+        return super.getName(stack);
     }
 }

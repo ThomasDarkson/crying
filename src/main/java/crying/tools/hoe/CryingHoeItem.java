@@ -2,6 +2,7 @@ package crying.tools.hoe;
 
 import crying.Crying;
 import crying.tools.CryingToolItem;
+import crying.tools.abstracts.AbstractCryingHoeItem;
 import net.minecraft.item.Item;
 
 public class CryingHoeItem extends AbstractCryingHoeItem {

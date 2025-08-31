@@ -1,8 +1,10 @@
 package crying.mixin;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -29,19 +31,30 @@ import com.mojang.authlib.GameProfile;
 import crying.Crying;
 import crying.entities.CrierEntity;
 import crying.entities.GranterEntity;
+import crying.entities.GrapplingHookEntity;
+import crying.enums.CollapsingReason;
 import crying.interfaces.SanityManager;
 import crying.tools.CryingShieldItem;
 import crying.interfaces.CryingTool;
-import crying.interfaces.SanityInterface;
+import crying.interfaces.FoodVars;
+import crying.interfaces.HookVars;
+import crying.interfaces.SanityVars;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin implements SanityInterface {
+public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars {
     SanityManager SanityManager;
+    GrapplingHookEntity hook;
+    int eatenCryingFoodCount = 0;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(World world, GameProfile profile, CallbackInfo info) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         SanityManager = new SanityManager(player.getUuidAsString());
+    }
+
+    @Inject(method = "initDataTracker", at = @At("TAIL"))
+    public void initDataTracker(DataTracker.Builder builder, CallbackInfo info) {
+        builder.add(Crying.FOOD_COUNT, 0);
     }
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
@@ -68,7 +81,7 @@ public abstract class PlayerEntityMixin implements SanityInterface {
                 }
 
                 if ((source.getAttacker() instanceof HostileEntity) || (source.getAttacker() instanceof Angerable)) {
-                    SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
+                    SanityManager manager = Crying.getSanityManager(player);
                     manager.damage(amount);
                 }
         }
@@ -80,7 +93,7 @@ public abstract class PlayerEntityMixin implements SanityInterface {
                 }
             }
             else if (tool.getCoreIngredient() == Items.GOLD_INGOT || Crying.isTheCriersSword(player.getMainHandStack())) {
-                if (!player.isCreative())
+                if (!player.isCreative() && source.getAttacker() instanceof Entity)
                     GranterEntity.summonGranterEntity(world, player);
             }
         }
@@ -99,7 +112,7 @@ public abstract class PlayerEntityMixin implements SanityInterface {
         @SuppressWarnings("rawtypes")
         EntityType type = other.getType();
         PlayerEntity player = (PlayerEntity) (Object) this;
-        SanityManager manager = ((SanityInterface) (Object) player).getManagerOverride_crying();
+        SanityManager manager = Crying.getSanityManager(player);
 
         if (
             type == EntityType.CAT ||
@@ -110,7 +123,7 @@ public abstract class PlayerEntityMixin implements SanityInterface {
             type == EntityType.SNOW_GOLEM ||
             type == EntityType.ALLAY
         ) {
-            manager.setPreventRegenTicks(Crying.tickSecond(900), player);
+            manager.collapse(Crying.tickSecond(900), player, CollapsingReason.MURDER);
         }
         else {
             if (manager.getMaxLevel() > 0 && (other instanceof HostileEntity || other instanceof SlimeEntity)) {
@@ -132,20 +145,51 @@ public abstract class PlayerEntityMixin implements SanityInterface {
     @Inject(method = "readCustomData", at = @At("TAIL"))
     public void readCustomData(ReadView nbt, CallbackInfo info) {
         this.SanityManager.readNbt(nbt);
+        this.setEatenCryingFoodCount(nbt.getInt("eatenCryingFoodCount", 0));
     }
 
     @Inject(method = "writeCustomData", at = @At("TAIL"))
     protected void writeCustomData(WriteView nbt, CallbackInfo info) {
         this.SanityManager.writeNbt(nbt);
+        nbt.putInt("eatenCryingFoodCount", this.getEatenCryingFoodCount());
     }
 
     @Override
-    public void setManagerOverride_crying(SanityManager manager) {
+    public void setManager(SanityManager manager) {
         this.SanityManager = manager;
     }
 
     @Override
-    public SanityManager getManagerOverride_crying() {
+    public SanityManager getManager() {
         return this.SanityManager;
+    }
+
+    @Override
+    public GrapplingHookEntity getHook() {
+        return this.hook;
+    }
+
+    @Override
+    public void setHook(GrapplingHookEntity entity) {
+        this.hook = entity;
+    }
+
+    @Override
+    public int getEatenCryingFoodCount() {
+        PlayerEntity player = (PlayerEntity) (Object) this;
+        try {
+            return player.getDataTracker().get(Crying.FOOD_COUNT);
+        }
+        catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public void setEatenCryingFoodCount(int count) {
+        this.eatenCryingFoodCount = Math.min(count, Crying.MAX_CRYING_FOOD_COUNT);
+
+        PlayerEntity player = (PlayerEntity) (Object) this;
+        player.getDataTracker().set(Crying.FOOD_COUNT, this.eatenCryingFoodCount);
     }
 }

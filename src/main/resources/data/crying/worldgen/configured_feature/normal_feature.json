@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:ore",
+  "config": {
+    "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:always_true"
+        },
+        "state": {
+          "Name": "minecraft:crying_obsidian"
+        }
+      }
+    ],
+    "size": 64,
+    "discard_chance_on_air_exposure": 0
+  }
+}

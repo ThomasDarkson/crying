@@ -1,0 +1,23 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "crying:hook_thrown",
+    "cases": [
+      {
+        "when": false,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_grappling_hook"
+        }
+      },
+      {
+        "when": true,
+        "model": {
+          "type": "minecraft:model",
+          "model": "crying:item/crying_grappling_hook_attached"
+        }
+      }
+    ]
+  }
+}

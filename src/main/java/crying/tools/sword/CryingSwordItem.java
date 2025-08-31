@@ -1,6 +1,7 @@
 package crying.tools.sword;
 
 import crying.Crying;
+import crying.tools.abstracts.AbstractCryingSwordItem;
 import net.minecraft.item.Item;
 
 public class CryingSwordItem extends AbstractCryingSwordItem {

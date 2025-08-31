@@ -1,0 +1,23 @@
+{
+  "feature": "crying:crying_ore_crying_biome",
+  "placement": [
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:biased_to_bottom",
+        "min_inclusive": {
+          "absolute": 4
+        },
+        "max_inclusive": {
+          "absolute": 206
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

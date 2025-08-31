@@ -3,7 +3,6 @@ package crying.armors;
 import java.util.Map;
 
 import crying.Crying;
-import crying.interfaces.SanityInterface;
 import crying.other.CryingTags;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -67,8 +66,7 @@ public class CryingArmor implements ArmorMaterials {
         }
 
         if (entity instanceof PlayerEntity player) {
-            SanityInterface cryingPlayer = (SanityInterface) (Object) ((PlayerEntity) player);
-            cryingPlayer.getManagerOverride_crying().adjustSanityLevel(amplifier);
+            Crying.getSanityManager(player).adjustSanityLevel(amplifier);
         }
         return amplifier;
     }

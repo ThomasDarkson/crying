@@ -1,0 +1,50 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.666,
+  "downfall": 0,
+  "effects": {
+    "fog_color": 7676856,
+    "sky_color": 5191935,
+    "water_color": 3684408,
+    "water_fog_color": 6884534,
+    "foliage_color": 5712765,
+    "grass_color": 15588351,
+    "dry_foliage_color": 3670093,
+    "grass_color_modifier": "none",
+    "music": [
+      {
+        "weight": 1,
+        "data": {
+          "sound": "crying:living_mice_crying_biome",
+          "min_delay": 0,
+          "max_delay": 0,
+          "replace_current_music": true
+        }
+      }
+    ]
+  },
+  "carvers": [],
+  "features": [
+    [
+      "minecraft:trees_birch",
+      "minecraft:fallen_oak_tree",
+      "minecraft:ore_gold_extra",
+      "minecraft:warped_forest_vegetation",
+      "crying:floor",
+      "crying:lost_crying_block_feature"
+    ],
+    [
+      "minecraft:glow_lichen",
+      "minecraft:patch_tall_grass_2",
+      "minecraft:patch_grass_plain",
+      "minecraft:flower_cherry",
+      "minecraft:trees_cherry"
+    ],
+    [
+      "minecraft:seagrass_river"
+    ]
+  ],
+  "spawners": {},
+  "spawn_costs": {},
+  "creature_spawn_probability": 0.9
+}

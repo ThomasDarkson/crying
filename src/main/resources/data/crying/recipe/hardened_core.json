@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "crying",
+  "ingredients": [
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hardened_core_piece",
+    "crying:hard_crying_obsidian"
+  ],
+  "result": {
+    "id": "crying:hardened_core"
+  }
+}

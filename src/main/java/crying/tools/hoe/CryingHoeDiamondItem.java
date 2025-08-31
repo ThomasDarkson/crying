@@ -1,6 +1,7 @@
 package crying.tools.hoe;
 
 import crying.tools.CryingToolItem;
+import crying.tools.abstracts.AbstractCryingHoeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 

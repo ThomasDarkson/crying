@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:fill_layer",
+  "config": {
+    "state": {
+      "Name": "crying:void-stained_crying_block"
+    },
+    "height": 0
+  }
+}

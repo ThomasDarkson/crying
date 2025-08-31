@@ -2,7 +2,7 @@
   "type": "minecraft:smithing_transform",
   "base": "minecraft:netherite_axe",
   "addition": "minecraft:diamond",
-  "template": "crying:crying_ingot",
+  "template": "crying:crying_ingot_diamond",
   "result": {
     "id": "crying:crying_axe_diamond"
   }

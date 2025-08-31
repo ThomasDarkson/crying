@@ -6,10 +6,10 @@
     "crying:crying_residue",
     "crying:crying_residue",
     "crying:crying_residue",
-    "minecraft:iron_ingot",
-    "minecraft:iron_ingot",
-    "minecraft:iron_ingot",
-    "minecraft:iron_ingot"
+    "crying:crying_residue",
+    "crying:crying_residue",
+    "crying:crying_residue",
+    "crying:crying_residue"
   ],
   "result": {
     "id": "crying:crying_ingot"

@@ -117,7 +117,7 @@ import net.minecraft.world.dimension.DimensionType;
 import static net.minecraft.server.command.CommandManager.*;
 
 public class Crying implements ModInitializer {
-	public static final CryingVersion VERSION = CryingVersion.version(6, 0, 0);
+	public static final CryingVersion VERSION = CryingVersion.version(6, 0, 1);
 	public static final VersionChecker CHECKER = new VersionChecker();
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
@@ -277,8 +277,8 @@ public class Crying implements ModInitializer {
 	public static final Identifier GRANTER_HEAL = Identifier.of(ID, "granter_heal");
 	public static final SoundEvent GRANTER_HEAL_EVENT = SoundEvent.of(GRANTER_HEAL);
 
-	public static final Reference LIVING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "living_mice_crying_biome"), SoundEvent.of(Identifier.of(ID, "living_mice_crying_biome")));
-	public static final Reference CRYING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "crying_mice"), SoundEvent.of(Identifier.of(ID, "crying_mice")));
+	public static final Reference<SoundEvent> LIVING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "living_mice_crying_biome"), SoundEvent.of(Identifier.of(ID, "living_mice_crying_biome")));
+	public static final Reference<SoundEvent> CRYING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "crying_mice"), SoundEvent.of(Identifier.of(ID, "crying_mice")));
 
 	static {
 		WAS_WAXED = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "was_waxed"), ComponentType.<Boolean>builder().codec(Codec.BOOL).packetCodec(PacketCodecs.BOOLEAN).build());

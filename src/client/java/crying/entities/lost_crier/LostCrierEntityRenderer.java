@@ -15,7 +15,7 @@ public class LostCrierEntityRenderer extends LostCrierEntityBaseRenderer<LostCri
         return new LostCrierEntityRenderState();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public LostCrierEntityRenderer(EntityRendererFactory.Context ctx, EntityModelLayer model, EntityModelLayer babyModel, float scale) {
         super(ctx, new LostCrierEntityModel(ctx.getPart(model)), new LostCrierEntityModel(ctx.getPart(babyModel)), scale);
     }

@@ -1,3 +1,8 @@
+# 6.0.1
+## Fixes
+- Fixed Crying Foods decreasing sanity instead of increasing sanity
+- Cover Me in Depression advancement's title and description are now fixed
+
 # 6.0.0 - The End 
 ## Additions
 ### Crying Dimension

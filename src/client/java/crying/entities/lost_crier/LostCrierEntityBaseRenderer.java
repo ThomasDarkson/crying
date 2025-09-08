@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 public abstract class LostCrierEntityBaseRenderer<T extends LostCrierEntity, S extends LostCrierEntityRenderState, M extends LostCrierEntityModel<S>> extends BipedEntityRenderer<T, S, M> {
     private static final Identifier TEXTURE = Identifier.of(Crying.ID, "textures/entity/lost_crier/lost_crier.png");
 
-    @SuppressWarnings({ "rawtypes" })
     public LostCrierEntityBaseRenderer(EntityRendererFactory.Context context, M model, M babyModel, float scale) {
         super(context, model, babyModel, 0.75F);
     }

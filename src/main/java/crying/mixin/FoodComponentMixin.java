@@ -35,7 +35,7 @@ public abstract class FoodComponentMixin {
             FoodComponent food = (FoodComponent) (Object) this;
             SanityManager manager = Crying.getSanityManager(player);
             if (item instanceof CryingFoodItem foodItem) {
-                manager.decreaseLevel(foodItem.restoresSanity());
+                manager.decreaseLevel(-foodItem.restoresSanity());
                 FoodVars foodVar = ((FoodVars) (Object) player);
                 foodVar.setEatenCryingFoodCount(foodVar.getEatenCryingFoodCount() + 1);
             }

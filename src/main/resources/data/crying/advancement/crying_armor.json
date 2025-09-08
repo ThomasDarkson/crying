@@ -23,7 +23,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.crying.crying_armor.description"
+      "translate": "advancement.crying.crying_armor.description"
     },
     "frame": "challenge",
     "icon": {
@@ -31,7 +31,7 @@
       "id": "crying:crying_chestplate"
     },
     "title": {
-      "translate": "advancements.crying.crying_armor.title"
+      "translate": "advancement.crying.crying_armor.title"
     }
   },
   "requirements": [

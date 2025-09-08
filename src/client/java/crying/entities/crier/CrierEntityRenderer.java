@@ -18,7 +18,7 @@ public class CrierEntityRenderer extends CrierEntityBaseRenderer<CrierEntity, Cr
         return new CrierEntityRenderState();
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public CrierEntityRenderer(EntityRendererFactory.Context ctx, EntityModelLayer layer, EntityModelLayer legsArmorLayer, EntityModelLayer bodyArmorLayer, EntityModelLayer entityModelLayer, EntityModelLayer entityModelLayer2, EntityModelLayer entityModelLayer3) {
         super(ctx, new CrierEntityModel(ctx.getPart(layer)), new CrierEntityModel(ctx.getPart(legsArmorLayer)), new CrierEntityModel(ctx.getPart(bodyArmorLayer)), new CrierEntityModel(ctx.getPart(entityModelLayer)), new CrierEntityModel(ctx.getPart(entityModelLayer2)), new CrierEntityModel(ctx.getPart(entityModelLayer3)));
     }

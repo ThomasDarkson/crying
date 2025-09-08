@@ -80,7 +80,7 @@ public class CrierEntity extends HostileEntity {
         secondPhase = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
         super(entityType, world);
 

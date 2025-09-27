@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "crying:crying_grappling_hook"
+    },
+    "title": {
+      "translate": "advancement.crying.grapple.title"
+    },
+    "description": {
+      "translate": "advancement.crying.grapple.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "a": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "crying:crying_grappling_hook"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "a"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  }
+}

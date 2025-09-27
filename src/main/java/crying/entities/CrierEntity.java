@@ -411,7 +411,7 @@ public class CrierEntity extends HostileEntity {
 
     @Override
     public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        if ((getHealth() - amount) <= 0 && !(source.getAttacker() instanceof PlayerEntity || source.isOf(DamageTypes.MAGIC))) {
+        if ((getHealth() - amount) <= 0 && !(source.getAttacker() instanceof PlayerEntity || source.isOf(DamageTypes.GENERIC))) {
             this.setHealth(0.01F);
             if (!healing)
                 heal();

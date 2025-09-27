@@ -5,6 +5,8 @@ https://thomasdarkson.com
 
 [<img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">](https://fabricmc.net/)
 
+[<img alt="semantic-ver-lib" src="https://raw.githubusercontent.com/ThomasDarkson/SemanticVerLib/refs/heads/main/user_project.png">](https://github.com/ThomasDarkson/SemanticVerLib)
+
 ![Yeni Proje (2)](https://i.ibb.co/7x2y2YCW/unnamed-2-1.png)
 
 Description for version 4.0.5 (last version to support 1.21.4) is available [here](https://github.com/ThomasDarkson/crying/blob/966d94b819d8a30046a029c1ccccc417bbbd15db/README.md).
@@ -19,7 +21,7 @@ Crying Tools adds:
 - 32 New Tools
 - 15 New Items
 - 9 New Blocks
-- 4 New Advancements
+- 8 New Advancements
 - 4 New Trimmable Armor
 - 3 Entities (2 Entity, 1 Boss)
 - 1 Enchantment
@@ -616,6 +618,22 @@ When an entity has the Bane of Criers, they will cry.
 ### **8 Ingots 1 Block**
 ##### Craft a Crying Ingot
 - **Reward:** 500 XP
+
+### **Crying Food**
+##### Eat a Crying Food and vomit
+- **Reward:** 9 XP
+
+### **I Am About To Shoot**
+##### Craft a Crying Grappling Hook, then shoot out a hook (Optional)
+- **Reward:** 50 XP
+
+### **A Good Crier is a Dead Crier**
+##### Kill a Crier, don't forget the Eye
+- **Reward:** 1236 XP
+
+### **Travel**
+##### Travel with an Eye Connected To A Stick
+- **Reward:** 11 XP
 
 ## **Requirements**
 - Minecraft **1.21.5+**  

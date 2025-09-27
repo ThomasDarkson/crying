@@ -1,3 +1,14 @@
+# 6.1.0
+## Changes
+- Replaced the internal version checker with  [Semantic Version Library](https://github.com/ThomasDarkson/SemanticVerLib)
+
+## Additions
+- Added 4 new achievements
+- You can now use Crying Carrots to heal a Lost Crier
+
+## Fixes
+- Fixed Crier not being able to die from `/kill` command
+
 # 6.0.1
 ## Fixes
 - Fixed Crying Foods decreasing sanity instead of increasing sanity

@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "display": {
+    "icon": {
+      "id": "crying:eye"
+    },
+    "title": {
+      "translate": "advancement.crying.kill_crier.title"
+    },
+    "description": {
+      "translate": "advancement.crying.kill_crier.description"
+    }
+  },
+  "criteria": {
+    "g": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": {
+          "type_specific": {
+            "type": "minecraft:player",
+            "gamemode": [
+              "survival"
+            ]
+          }
+        },
+        "entity": {
+          "type": "crying:crier"
+        }
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [],
+    "experience": 1236
+  }
+}

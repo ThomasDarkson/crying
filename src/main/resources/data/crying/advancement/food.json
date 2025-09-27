@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "id": "crying:crying_apple"
+    },
+    "title": {
+      "translate": "advancement.crying.food.title"
+    },
+    "description": {
+      "translate": "advancement.crying.food.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "b": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "crying:crying_carrot",
+            "crying:crying_apple",
+            "crying:enchanted_crying_apple"
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "b"
+    ]
+  ],
+  "rewards": {
+    "experience": 9
+  }
+}

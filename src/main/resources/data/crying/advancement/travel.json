@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "id": "crying:eye_connected_to_a_stick"
+    },
+    "title": {
+      "translate": "advancement.crying.travel.title"
+    },
+    "description": {
+      "translate": "advancement.crying.travel.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "e": {
+      "trigger": "minecraft:item_durability_changed",
+      "conditions": {
+        "delta": -1,
+        "item": {
+          "items": "crying:eye_connected_to_a_stick"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "e"
+    ]
+  ],
+  "rewards": {
+    "experience": 11
+  }
+}

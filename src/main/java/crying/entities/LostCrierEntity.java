@@ -19,6 +19,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionTypes;
 
@@ -70,6 +72,17 @@ public class LostCrierEntity extends PathAwareEntity implements InventoryOwner {
                 this.discard();
             }
         }
+    }
+
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        if (player.getStackInHand(hand).getItem() == Crying.CRYING_CARROT) {
+            this.heal(10.3F);
+            player.getStackInHand(hand).decrementUnlessCreative(1, player);
+            return ActionResult.SUCCESS;
+        }
+
+        return super.interactMob(player, hand);
     }
 
     @Override

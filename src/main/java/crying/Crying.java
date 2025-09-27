@@ -18,8 +18,6 @@ import crying.armors.CryingHelmetItem;
 import crying.armors.CryingHorseArmor;
 import crying.armors.CryingLeggingsItem;
 import crying.backend.CollapsingReasonArgumentType;
-import crying.backend.CryingVersion;
-import crying.backend.VersionChecker;
 import crying.blocks.CriersHeartBlock;
 import crying.blocks.CryingBlock;
 import crying.blocks.CryingOreBlock;
@@ -114,11 +112,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.dimension.DimensionType;
+import semantic.ver.lib.SemanticVerLib;
+import semantic.ver.lib.SemanticVersion;
 import static net.minecraft.server.command.CommandManager.*;
 
 public class Crying implements ModInitializer {
-	public static final CryingVersion VERSION = CryingVersion.version(6, 0, 1);
-	public static final VersionChecker CHECKER = new VersionChecker();
+	private static final String VERSION_URL = "https://raw.githubusercontent.com/ThomasDarkson/crying/refs/heads/version/version.txt";
+	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 0, VERSION_URL);
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;
@@ -368,6 +368,9 @@ public class Crying implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		SemanticVerLib.initialize();
+		VERSION.checkForUpdates(null);
+		
 		BaneOfCriers.initialize();
 		crying.enchantments.BaneOfCriers.initialize();
 
@@ -386,7 +389,7 @@ public class Crying implements ModInitializer {
 		ArgumentTypeRegistry.registerArgumentType(Identifier.of(ID, "collapsing_reason"), CollapsingReasonArgumentType.class, ConstantArgumentSerializer.of(CollapsingReasonArgumentType::collapsingReason));
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("crying").requires(source -> source.hasPermissionLevel(2))
 			.executes(context -> {
-				context.getSource().sendFeedback(() -> Text.literal("Crying Tools ").append(VERSION.toText()), false);
+				context.getSource().sendFeedback(() -> Text.literal("Crying Tools ").append(VERSION.toString()), false);
 				context.getSource().sendFeedback(() -> Text.translatable("crying.thank.you"), false);
 				return 0;
 			})

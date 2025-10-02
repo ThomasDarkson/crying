@@ -19,7 +19,8 @@ import net.minecraft.util.math.Vec3d;
 
 public class CrierSpawnEggItem extends SpawnEggItem {
     public CrierSpawnEggItem() {
-        super(Crying.CRIER, new Item.Settings()
+        super(new Item.Settings()
+            .spawnEgg(Crying.CRIER)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crier_spawn_egg"))));
 
         Crying.register(this, "crier_spawn_egg");

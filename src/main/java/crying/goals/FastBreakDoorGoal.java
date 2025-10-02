@@ -42,20 +42,20 @@ public class FastBreakDoorGoal extends DoorInteractGoal {
 
     @Override
     public boolean shouldContinue() {
-        return this.breakProgress <= this.getMaxProgress() && !this.isDoorOpen() && this.doorPos.isWithinDistance(this.mob.getPos(), 2.0);
+        return this.breakProgress <= this.getMaxProgress() && !this.isDoorOpen() && this.doorPos.isWithinDistance(this.mob.getEntityPos(), 2.0);
     }
 
     @Override
     public void stop() {
         super.stop();
-        this.mob.getWorld().setBlockBreakingInfo(this.mob.getId(), this.doorPos, -1);
+        this.mob.getEntityWorld().setBlockBreakingInfo(this.mob.getId(), this.doorPos, -1);
     }
 
     @Override
     public void tick() {
         super.tick();
         if (this.mob.getRandom().nextInt(20) == 0) {
-            this.mob.getWorld().syncWorldEvent(1019, this.doorPos, 0);
+            this.mob.getEntityWorld().syncWorldEvent(1019, this.doorPos, 0);
             if (!this.mob.handSwinging) {
                 this.mob.swingHand(this.mob.getActiveHand());
             }
@@ -64,14 +64,14 @@ public class FastBreakDoorGoal extends DoorInteractGoal {
         this.breakProgress += 90;
         int i = (int)((float)this.breakProgress / (float)this.getMaxProgress() * 10.0F);
         if (i != this.prevBreakProgress) {
-            this.mob.getWorld().setBlockBreakingInfo(this.mob.getId(), this.doorPos, i);
+            this.mob.getEntityWorld().setBlockBreakingInfo(this.mob.getId(), this.doorPos, i);
             this.prevBreakProgress = i;
         }
 
         if (this.breakProgress >= this.getMaxProgress()) {
-            this.mob.getWorld().removeBlock(this.doorPos, false);
-            this.mob.getWorld().syncWorldEvent(1021, this.doorPos, 0);
-            this.mob.getWorld().syncWorldEvent(2001, this.doorPos, Block.getRawIdFromState(this.mob.getWorld().getBlockState(this.doorPos)));
+            this.mob.getEntityWorld().removeBlock(this.doorPos, false);
+            this.mob.getEntityWorld().syncWorldEvent(1021, this.doorPos, 0);
+            this.mob.getEntityWorld().syncWorldEvent(2001, this.doorPos, Block.getRawIdFromState(this.mob.getEntityWorld().getBlockState(this.doorPos)));
         }
     }
 }

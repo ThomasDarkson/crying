@@ -19,7 +19,7 @@ public class CriersSwordItem extends AbstractCryingSwordItem {
     @Override
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker.isSneaking())
-            target.dropItem((ServerWorld) target.getWorld(), Items.GOLD_INGOT);
+            target.dropItem((ServerWorld) target.getEntityWorld(), Items.GOLD_INGOT);
 
         if (!target.isDead()) {
             target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 1));

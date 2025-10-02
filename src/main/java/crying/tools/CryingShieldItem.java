@@ -36,12 +36,12 @@ public class CryingShieldItem extends Item {
             stack.damage(1, player);
 
         if (attacker instanceof LivingEntity entity && !entity.isDead() && player.isSneaking()) {
-            entity.damage((ServerWorld) player.getWorld(), new DamageSource(source.getTypeRegistryEntry(), player), Math.round(damage / 2));
+            entity.damage((ServerWorld) player.getEntityWorld(), new DamageSource(source.getTypeRegistryEntry(), player), Math.round(damage / 2));
         }
 
-        player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_SHIELD_BLOCK.value(), player.getSoundCategory());
+        player.getEntityWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_SHIELD_BLOCK.value(), player.getSoundCategory());
         if (stack.getDamage() >= stack.getMaxDamage()) {
-            player.getWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), player.getSoundCategory());
+            player.getEntityWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), player.getSoundCategory());
         }
     }
 }

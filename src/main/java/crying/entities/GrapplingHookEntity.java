@@ -53,7 +53,7 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
         this.attached = true;
         this.setVelocity(0, 0, 0);
         this.setNoGravity(true);
-        this.getWorld().playSound(null, this.getBlockPos(), SoundEvents.ENTITY_ARROW_HIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        this.getEntityWorld().playSound(null, this.getBlockPos(), SoundEvents.ENTITY_ARROW_HIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
         this.age = 0;
     }
 
@@ -61,7 +61,7 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
     public void tick() {
         super.tick();
 
-        if (this.getWorld().isClient) 
+        if (this.getEntityWorld().isClient()) 
             return;
 
         if (attached) {            
@@ -91,7 +91,7 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
                 return;
             }
 
-            Vec3d dir = anchorPos.subtract(player.getPos());
+            Vec3d dir = anchorPos.subtract(player.getEntityPos());
             double dist = Math.sqrt(distSq);
             Vec3d pullVec = dir.normalize().multiply(Math.min(1.2, 0.9 + dist / 10.0));
             Vec3d blended = player.getVelocity().multiply(0.3).add(pullVec.multiply(0.7));
@@ -101,7 +101,7 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
             player.velocityModified = true;
 
             if (this.age % 10 == 0) {
-                this.getWorld().playSound(null, player.getBlockPos(), SoundEvents.BLOCK_CHAIN_PLACE, SoundCategory.PLAYERS, 0.2f, 1.0f);
+                this.getEntityWorld().playSound(null, player.getBlockPos(), SoundEvents.BLOCK_CHAIN_PLACE, SoundCategory.PLAYERS, 0.2f, 1.0f);
             }
 
             return;
@@ -117,13 +117,13 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
 
-        if (this.getWorld().isClient) 
+        if (this.getEntityWorld().isClient()) 
             return;
 
         if (hitResult.getType() == HitResult.Type.BLOCK) {
             BlockHitResult bhr = (BlockHitResult) hitResult;
             BlockPos hitPos = bhr.getBlockPos();
-            BlockState state = this.getWorld().getBlockState(hitPos);
+            BlockState state = this.getEntityWorld().getBlockState(hitPos);
 
             Vec3d pos = bhr.getPos(); 
             if (state.isIn(BlockTags.CLIMBABLE) || state.isIn(BlockTags.LEAVES) || state.isSolid()) {
@@ -133,7 +133,7 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
         else if (hitResult.getType() == HitResult.Type.ENTITY) {
             EntityHitResult entityHitResult = (EntityHitResult) hitResult;
             if (this.isOwner(entityHitResult.getEntity()))
-                this.attach(entityHitResult.getEntity().getPos());
+                this.attach(entityHitResult.getEntity().getEntityPos());
             else
                 this.discard();
         }

@@ -54,7 +54,7 @@ public class LivingEntityMixin {
                         LightningEntity entity = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
                         entity.setChanneler(player);
                         ((LightningVars) entity).set_playerThatSummonedLightningWithCopperCryingTool(player);
-                        entity.setPosition(thisEntity.getPos());
+                        entity.setPosition(thisEntity.getEntityPos());
                         world.spawnEntity(entity);
                     }
                 }
@@ -96,7 +96,7 @@ public class LivingEntityMixin {
             if (entity instanceof PlayerEntity player) {
                 Hand hand = Crying.getHandThatHasCryingShield(player);
                 if (hand != null) {
-                    if (!player.isInvulnerableTo((ServerWorld) player.getWorld(), source) 
+                    if (!player.isInvulnerableTo((ServerWorld) player.getEntityWorld(), source) 
                     && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
                     && !source.isIn(DamageTypeTags.IS_FALL)
                     && !source.isIn(DamageTypeTags.IS_FIRE)

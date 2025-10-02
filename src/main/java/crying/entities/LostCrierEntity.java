@@ -33,7 +33,7 @@ public class LostCrierEntity extends PathAwareEntity implements InventoryOwner {
         ItemStack cryingObsidian = new ItemStack(Items.CRYING_OBSIDIAN);
         cryingObsidian.setCount(4);
 
-        ItemStack chains = new ItemStack(Items.CHAIN);
+        ItemStack chains = new ItemStack(Items.IRON_CHAIN);
         chains.setCount(2);
 
         ItemStack hardCryingObsidian = new ItemStack(Crying.HARD_CRYING_OBSIDIAN);
@@ -65,10 +65,10 @@ public class LostCrierEntity extends PathAwareEntity implements InventoryOwner {
     public void tick() {
         super.tick();
 
-        if (this.getWorld().getDimensionEntry().getKey().orElse(Crying.CRYING_DIMENSION_TYPE) == DimensionTypes.OVERWORLD) {
-            if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld().getDimensionEntry().getKey().orElse(Crying.CRYING_DIMENSION_TYPE) == DimensionTypes.OVERWORLD) {
+            if (this.getEntityWorld() instanceof ServerWorld world) {
                 Crying.CRIER.spawn(world, this.getBlockPos(), SpawnReason.NATURAL);
-                this.getWorld().playSound(null, this.getBlockPos(), Crying.CRIER_SCREAM_EVENT, SoundCategory.HOSTILE);
+                this.getEntityWorld().playSound(null, this.getBlockPos(), Crying.CRIER_SCREAM_EVENT, SoundCategory.HOSTILE);
                 this.discard();
             }
         }

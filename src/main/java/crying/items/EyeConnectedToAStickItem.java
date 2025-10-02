@@ -64,7 +64,7 @@ public class EyeConnectedToAStickItem extends Item {
         }
         ServerWorld serverWorld = world.getServer().getWorld(teleportKey);
         BlockPos safePos = findSafeTeleportPosition(serverWorld, pos);
-        user.teleportTo(new TeleportTarget(serverWorld, user, TeleportTarget.NO_OP).withPosition(new Vec3d(safePos.getX(), safePos.getY(), safePos.getZ())));
+        user.teleportTo(new TeleportTarget(serverWorld, new Vec3d(safePos.getX(), safePos.getY(), safePos.getZ()), Vec3d.ZERO, 0, 0, TeleportTarget.NO_OP));
         user.swingHand(hand, user instanceof ServerPlayerEntity);
     }
 
@@ -94,6 +94,6 @@ public class EyeConnectedToAStickItem extends Item {
             }
         }
 
-        return world.getSpawnPos();
+        return world.getSpawnPoint().getPos();
     }
 }

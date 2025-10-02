@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
+import net.minecraft.client.render.entity.model.EquipmentModelData;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -14,9 +15,9 @@ public abstract class CrierEntityBaseRenderer<T extends CrierEntity, S extends C
     private static final Identifier TEXTURE = Identifier.of(Crying.ID, "textures/entity/crier/crier.png");
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected CrierEntityBaseRenderer(EntityRendererFactory.Context context, M mainModel, M babyMainModel, M armorInnerModel, M armorOuterModel, M babyArmorInnerModel, M babyArmorOuterModel) {
-        super(context, mainModel, babyMainModel, 0.75F);
-        this.addFeature(new ArmorFeatureRenderer(this, armorInnerModel, armorOuterModel, babyArmorInnerModel, babyArmorOuterModel, context.getEquipmentRenderer()));
+    protected CrierEntityBaseRenderer(EntityRendererFactory.Context context, M mainModel, M babyMainModel, EquipmentModelData<M> equipmentModelData, EquipmentModelData<M> equipmentModelData2) {
+        super(context, mainModel, babyMainModel, 0.5F);
+        this.addFeature(new ArmorFeatureRenderer(this, equipmentModelData, equipmentModelData2, context.getEquipmentRenderer()));
     }
 
     @Override

@@ -53,7 +53,7 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
     }
 
     public static GranterEntity summonGranterEntity(World world, PlayerEntity target) {
-        if (map.containsKey(target.getUuidAsString()) && map.get(target.getUuidAsString()).getWorld() == target.getWorld()) {
+        if (map.containsKey(target.getUuidAsString()) && map.get(target.getUuidAsString()).getEntityWorld() == target.getEntityWorld()) {
             return null;
         }
 
@@ -66,8 +66,8 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
     public void tick() {
         super.tick();
 
-        World world = this.getWorld();
-        if (!world.isClient) {
+        World world = this.getEntityWorld();
+        if (!world.isClient()) {
             if (targetPlayer == null && targetPlayerUuid != null) {
                 targetPlayer = world.getPlayerByUuid(UUID.fromString(targetPlayerUuid));
             }
@@ -82,11 +82,11 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
             if (!descending) {
                 if (age < FOLLOW_TICKS) {
                     double bob = Math.sin(this.age * 0.2) * 0.25;
-                    Vec3d targetPos = targetPlayer.getPos().add(0, 3d + bob, 0);
+                    Vec3d targetPos = targetPlayer.getEntityPos().add(0, 3d + bob, 0);
 
                     world.getClosestPlayer(targetPlayer, bob);
                     double speed = 0.4d;
-                    Vec3d newPos = this.getPos().lerp(targetPos, speed);
+                    Vec3d newPos = this.getEntityPos().lerp(targetPos, speed);
                     this.setPosition(newPos);
                 } 
                 else {
@@ -95,8 +95,8 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
                 }
             } 
             else {
-                Vec3d currentPos = this.getPos();
-                Vec3d targetPos = targetPlayer.getPos().add(0, 1.0, 0);
+                Vec3d currentPos = this.getEntityPos();
+                Vec3d targetPos = targetPlayer.getEntityPos().add(0, 1.0, 0);
                 Vec3d direction = targetPos.subtract(currentPos).normalize().multiply(0.2d);
 
                 this.setVelocity(direction);
@@ -126,15 +126,15 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
             effects.addAll(Collections.nCopies(3, StatusEffects.SATURATION.value()));
             effects.addAll(Collections.nCopies(3, StatusEffects.INSTANT_HEALTH.value()));
 
-            Random random = this.getWorld().getRandom();
+            Random random = this.getEntityWorld().getRandom();
             while (effect == null) {
                 effect = effects.get(random.nextInt(effects.size()));
             }
 
-            this.getWorld().addParticleClient(ParticleTypes.GLOW, targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getZ(), 1d, 1d, 1d);
+            this.getEntityWorld().addParticleClient(ParticleTypes.GLOW, targetPlayer.getX(), targetPlayer.getY(), targetPlayer.getZ(), 1d, 1d, 1d);
             this.targetPlayer.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(effect), random.nextBetween(5, 30) * 20, random.nextBetween(0, 1)));
             this.targetPlayer.heal(2F);
-            this.getWorld().playSound(this, BlockPos.ofFloored(this.getPos().x, this.getPos().y, this.getPos().z), Crying.GRANTER_HEAL_EVENT, SoundCategory.PLAYERS);
+            this.getEntityWorld().playSound(this, BlockPos.ofFloored(this.getEntityPos().x, this.getEntityPos().y, this.getEntityPos().z), Crying.GRANTER_HEAL_EVENT, SoundCategory.PLAYERS);
         }
 
         super.remove(reason);

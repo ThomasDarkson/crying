@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "group": "crying",
   "pattern": [
-    "##!",
-    "#_*",
-    "!*?"
+    "_# ",
+    "#* ",
+    "  ?"
   ],
   "key": {
     "#": [
@@ -15,9 +15,6 @@
     ],
     "?": [
       "minecraft:stick"
-    ],
-    "!": [
-      "minecraft:redstone"
     ],
     "_": [
       "crying:eye"

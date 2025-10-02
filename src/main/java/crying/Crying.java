@@ -78,6 +78,7 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -118,7 +119,7 @@ import static net.minecraft.server.command.CommandManager.*;
 
 public class Crying implements ModInitializer {
 	private static final String VERSION_URL = "https://raw.githubusercontent.com/ThomasDarkson/crying/refs/heads/version/version.txt";
-	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 0, VERSION_URL);
+	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 1, VERSION_URL);
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;
@@ -387,13 +388,27 @@ public class Crying implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(LOST_CRIER, LostCrierEntity.createLostCrierAttributes());
 		
 		ArgumentTypeRegistry.registerArgumentType(Identifier.of(ID, "collapsing_reason"), CollapsingReasonArgumentType.class, ConstantArgumentSerializer.of(CollapsingReasonArgumentType::collapsingReason));
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("crying").requires(source -> source.hasPermissionLevel(2))
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("crying")
 			.executes(context -> {
 				context.getSource().sendFeedback(() -> Text.literal("Crying Tools ").append(VERSION.toString()), false);
 				context.getSource().sendFeedback(() -> Text.translatable("crying.thank.you"), false);
 				return 0;
 			})
-			.then(literal("sanityManager")
+			.then(literal("sanityManager").requires(source -> source.hasPermissionLevel(2))
+				.then(literal("deactivate")
+					.executes(context -> {
+						SanityManager manager = getSanityManager(context.getSource().getPlayer());
+						manager.isActive = false;
+						manager.updateThis();
+						return 0;
+					}))
+				.then(literal("activate")
+					.executes(context -> {
+						SanityManager manager = getSanityManager(context.getSource().getPlayer());
+						manager.isActive = true;
+						manager.updateThis();
+						return 0;
+					}))
 				.then(literal("set")
 					.then(literal("sanityLevel")
 						.then(argument("level", IntegerArgumentType.integer(0, 20)).executes(context -> {
@@ -490,7 +505,7 @@ public class Crying implements ModInitializer {
 		return material;
     }
 	
-	public static Hand getHandThatHasCryingShield(PlayerEntity entity) {
+	public static Hand getHandThatHasCryingShield(LivingEntity entity) {
 		Hand[] hands = {Hand.MAIN_HAND, Hand.OFF_HAND};
 		for (Hand hand : hands) {
 			ItemStack stack = entity.getStackInHand(hand);

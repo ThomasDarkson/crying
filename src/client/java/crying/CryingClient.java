@@ -7,8 +7,8 @@ import crying.renderers.CriersHeartBlockEntityRenderer;
 import crying.renderers.CryingFoodEntityRenderer;
 import crying.renderers.GrapplingHookRenderer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.client.render.entity.EntityRendererFactories;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -39,10 +39,10 @@ public class CryingClient implements ClientModInitializer
             }
         }
 
-        EntityRendererRegistry.register(Crying.CRIER, CrierEntityRenderer::new);
-        EntityRendererRegistry.register(Crying.LOST_CRIER, LostCrierEntityRenderer::new);
-        EntityRendererRegistry.register(Crying.GRANTER_ENTITY, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(Crying.GRAPPLING_HOOK, GrapplingHookRenderer::new);
+        EntityRendererFactories.register(Crying.CRIER, CrierEntityRenderer::new);
+        EntityRendererFactories.register(Crying.LOST_CRIER, LostCrierEntityRenderer::new);
+        EntityRendererFactories.register(Crying.GRANTER_ENTITY, FlyingItemEntityRenderer::new);
+        EntityRendererFactories.register(Crying.GRAPPLING_HOOK, GrapplingHookRenderer::new);
 
         BlockEntityRendererFactories.register(Crying.CRYING_FOOD_BLOCK_ENTITY, CryingFoodEntityRenderer::new);
         BlockEntityRendererFactories.register(Crying.CRIERS_HEART_BLOCK_ENTITY, CriersHeartBlockEntityRenderer::new);

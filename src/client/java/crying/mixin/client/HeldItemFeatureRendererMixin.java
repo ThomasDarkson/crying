@@ -9,7 +9,7 @@ import crying.CryingClient;
 import crying.PlayerEntityRenderStateVarsInterface;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
 import net.minecraft.client.render.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.RotationAxis;
 @Mixin(HeldItemFeatureRenderer.class)
 public class HeldItemFeatureRendererMixin {
     @Inject(method = "renderItem", at = @At("HEAD"), cancellable = true)
-    protected void renderItem(ArmedEntityRenderState entityState, ItemRenderState itemState, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo info) {
+    protected void renderItem(ArmedEntityRenderState entityState, ItemRenderState itemRenderState, Arm arm, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, int light, CallbackInfo info) {
         if (entityState instanceof PlayerEntityRenderState playerState) {
             PlayerEntityRenderStateVarsInterface betterState = ((PlayerEntityRenderStateVarsInterface) (Object) playerState);
             Hand hand = betterState.get_cryingShieldHand();
@@ -46,7 +46,7 @@ public class HeldItemFeatureRendererMixin {
                 else
                     matrices.translate(0.35d, 0d, 0d);
                     
-                itemState.render(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV);
+                itemRenderState.render(matrices, orderedRenderCommandQueue, light, OverlayTexture.DEFAULT_UV, entityState.outlineColor);
                 matrices.pop();
                 info.cancel();
             }

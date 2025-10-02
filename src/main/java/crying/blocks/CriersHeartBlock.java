@@ -54,7 +54,7 @@ public class CriersHeartBlock extends BlockWithEntity {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? validateTicker(type, Crying.CRIERS_HEART_BLOCK_ENTITY, CriersHeartBlockEntity::ticker) : null;
+        return validateTicker(type, Crying.CRIERS_HEART_BLOCK_ENTITY, CriersHeartBlockEntity::ticker);
     }
 
     @Override

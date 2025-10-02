@@ -15,7 +15,7 @@ public class CryingSwordGoldItem extends AbstractCryingSwordItem {
     @Override
     public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if (attacker.isSneaking())
-            target.dropItem((ServerWorld) target.getWorld(), Items.GOLD_INGOT);
+            target.dropItem((ServerWorld) target.getEntityWorld(), Items.GOLD_INGOT);
     }
 
     @Override

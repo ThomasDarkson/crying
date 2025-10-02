@@ -108,7 +108,7 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars {
     }
 
     @Inject(method = "onKilledOther", at = @At("TAIL"), cancellable = true)
-    public void onKilledOther(ServerWorld world, LivingEntity other, CallbackInfoReturnable<Boolean> info) {
+    public void onKilledOther(ServerWorld world, LivingEntity other, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
         @SuppressWarnings("rawtypes")
         EntityType type = other.getType();
         PlayerEntity player = (PlayerEntity) (Object) this;

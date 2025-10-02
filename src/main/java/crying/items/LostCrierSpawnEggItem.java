@@ -11,7 +11,8 @@ import net.minecraft.util.Identifier;
 
 public class LostCrierSpawnEggItem extends SpawnEggItem {
     public LostCrierSpawnEggItem() {
-        super(Crying.LOST_CRIER, new Item.Settings()
+        super(new Item.Settings()
+            .spawnEgg(Crying.LOST_CRIER)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "lost_crier_spawn_egg"))));
 
         Crying.register(this, "lost_crier_spawn_egg");

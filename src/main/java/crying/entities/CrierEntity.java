@@ -134,9 +134,9 @@ public class CrierEntity extends HostileEntity {
         this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 22, false, false, false), this);
         setCanBreakDoors(true);
 
-        if (this.getWorld().getDimensionEntry().getKey().get() != DimensionTypes.OVERWORLD) {
-            this.getWorld().setBlockState(this.getBlockPos(), Blocks.CRYING_OBSIDIAN.getDefaultState());
-            this.getWorld().addParticleClient(ParticleTypes.FALLING_OBSIDIAN_TEAR, this.getX(), this.getX(), this.getZ(), 1d, 1d, 1d);
+        if (this.getEntityWorld().getDimensionEntry().getKey().get() != DimensionTypes.OVERWORLD) {
+            this.getEntityWorld().setBlockState(this.getBlockPos(), Blocks.CRYING_OBSIDIAN.getDefaultState());
+            this.getEntityWorld().addParticleClient(ParticleTypes.FALLING_OBSIDIAN_TEAR, this.getX(), this.getX(), this.getZ(), 1d, 1d, 1d);
             this.playSound(getDeathSound());
             this.discard();
         }
@@ -207,7 +207,7 @@ public class CrierEntity extends HostileEntity {
         }
 
         if (!initializedExplosion) {
-            world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(false), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+            world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(false), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionSourceType.MOB);
             initializedExplosion = true;
         }
 
@@ -219,7 +219,7 @@ public class CrierEntity extends HostileEntity {
         if (health > 0F) {
             if (health < 0.2F && !getSecondPhase()) {
                 world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundCategory(), 1.0F, 1.0F);
-                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2.25F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2.25F, false, ExplosionSourceType.MOB);
                 switchToSecondPhase();
 
                 setSecondPhase(true);
@@ -232,7 +232,7 @@ public class CrierEntity extends HostileEntity {
 
             if ((healingTicks - 1) % 4 == 0 || healingTicks >= 32)
             {
-                getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_DRINK, this.getSoundCategory(), 1.0F, 1.0F);          
+                getEntityWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_DRINK, this.getSoundCategory(), 1.0F, 1.0F);          
             }
             if ((healingTicks - 1) % 8 == 0 || healingTicks >= 32)
             {
@@ -259,7 +259,7 @@ public class CrierEntity extends HostileEntity {
         else 
             shieldHealth -= Math.round(amount);
 
-        this.getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
+        this.getEntityWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
         this.swingHand(Hand.OFF_HAND);
         if (shieldHealth <= 0)
             breakShield(true);
@@ -271,7 +271,7 @@ public class CrierEntity extends HostileEntity {
         shieldHealth = 0;
 
         if (playSound)
-            this.getWorld().playSound(null, getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), getSoundCategory());
+            this.getEntityWorld().playSound(null, getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), getSoundCategory());
     }
 
     void changeScale() {
@@ -401,7 +401,7 @@ public class CrierEntity extends HostileEntity {
         if (bl && target instanceof PlayerEntity) {
             float chance = Math.abs(world.getRandom().nextFloat());
             if (chance < 0.2F) {
-                float f = this.getWorld().getLocalDifficulty(this.getBlockPos()).getLocalDifficulty();
+                float f = this.getEntityWorld().getLocalDifficulty(this.getBlockPos()).getLocalDifficulty();
                 ((PlayerEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100 * (int) f), this);
             }
         }
@@ -441,7 +441,7 @@ public class CrierEntity extends HostileEntity {
         else {
             float f = world.getRandom().nextFloat();
             if (f < (getSecondPhase() ? 0F : 0.045F)) {
-                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB);
             }
             if (f < (getSecondPhase() ? 0.25F : 0.05F)) {
                 heal();

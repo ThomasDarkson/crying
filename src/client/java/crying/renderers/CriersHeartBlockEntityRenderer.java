@@ -1,36 +1,39 @@
 package crying.renderers;
 
 import crying.entities.CriersHeartBlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
+import crying.states.CriersHeartBlockEntityRenderState;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
+import net.minecraft.client.render.command.ModelCommandRenderer;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-public class CriersHeartBlockEntityRenderer implements BlockEntityRenderer<CriersHeartBlockEntity> {
+public class CriersHeartBlockEntityRenderer implements BlockEntityRenderer<CriersHeartBlockEntity, CriersHeartBlockEntityRenderState> {
     private static final float PI = (float) Math.PI;
 
     public CriersHeartBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
     }
 
     @Override
-    public void render(CriersHeartBlockEntity entity, float tickProgress, MatrixStack matrices,
-        VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
-        matrices.push();
+    public void render(CriersHeartBlockEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+        if (state.state != null) {
+            float phase = state.heartbeatPhase + state.tickProgress * ((state.SPEED + state.speedModifier) / 100);
+            phase %= 1.0F;
 
-        float phase = entity.heartbeatPhase + tickProgress * ((entity.SPEED + entity.speedModifier) / 100);
-        phase %= 1.0F;
+            float scale = getScale(phase);
+            matrices.push();
+            matrices.translate(0.5, 0.5, 0.5);
+            matrices.scale(scale, scale, scale);
+            matrices.translate(-0.5, -0.5, -0.5);
 
-        float scale = getScale(phase);
-        matrices.push();
-        matrices.translate(0.5, 0.5, 0.5);
-        matrices.scale(scale, scale, scale);
-        matrices.translate(-0.5, -0.5, -0.5);
-
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(entity.getCachedState(), matrices, vertexConsumers, light, overlay);
-        matrices.pop();
+            queue.submitBlock(matrices, state.state, 15728880, OverlayTexture.DEFAULT_UV, 0);
+            matrices.pop();
+        }
     }
 
     private static float getScale(float phase) {
@@ -40,5 +43,21 @@ public class CriersHeartBlockEntityRenderer implements BlockEntityRenderer<Crier
             return 1.0f + 0.075f * MathHelper.sin((phase - 0.3f) / 0.3f * PI);
         else 
             return 1.0f;
+    }
+
+    @Override
+    public void updateRenderState(CriersHeartBlockEntity blockEntity, CriersHeartBlockEntityRenderState state, float tickProgress, Vec3d cameraPos, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlay) {
+        BlockEntityRenderState.updateBlockEntityRenderState(blockEntity, state, crumblingOverlay);
+        
+        state.SPEED = blockEntity.SPEED;
+        state.heartbeatPhase = blockEntity.heartbeatPhase;
+        state.speedModifier = blockEntity.speedModifier;
+        state.tickProgress = tickProgress;
+        state.state = blockEntity.getCachedState();
+    }
+
+    @Override
+    public CriersHeartBlockEntityRenderState createRenderState() {
+        return new CriersHeartBlockEntityRenderState();
     }
 }

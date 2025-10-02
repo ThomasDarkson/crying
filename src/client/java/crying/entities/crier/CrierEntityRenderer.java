@@ -6,12 +6,13 @@ import crying.Crying;
 import crying.entities.CrierEntity;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.render.entity.model.EquipmentModelData;
 
 public class CrierEntityRenderer extends CrierEntityBaseRenderer<CrierEntity, CrierEntityRenderState, CrierEntityModel<CrierEntityRenderState>> {
     private static final Identifier FORLORN_TEXTURE = Identifier.of(Crying.ID, "textures/entity/crier/forlorn_crier.png");
 
     public CrierEntityRenderer(EntityRendererFactory.Context context) {
-        this(context, EntityModelLayers.ZOMBIE, EntityModelLayers.ZOMBIE_BABY, EntityModelLayers.ZOMBIE_INNER_ARMOR, EntityModelLayers.ZOMBIE_OUTER_ARMOR, EntityModelLayers.ZOMBIE_BABY_INNER_ARMOR, EntityModelLayers.ZOMBIE_BABY_OUTER_ARMOR);
+        this(context, EntityModelLayers.ZOMBIE, EntityModelLayers.ZOMBIE_BABY, EntityModelLayers.ZOMBIE_EQUIPMENT, EntityModelLayers.ZOMBIE_BABY_EQUIPMENT);
     }
 
     public CrierEntityRenderState createRenderState() {
@@ -19,8 +20,8 @@ public class CrierEntityRenderer extends CrierEntityBaseRenderer<CrierEntity, Cr
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public CrierEntityRenderer(EntityRendererFactory.Context ctx, EntityModelLayer layer, EntityModelLayer legsArmorLayer, EntityModelLayer bodyArmorLayer, EntityModelLayer entityModelLayer, EntityModelLayer entityModelLayer2, EntityModelLayer entityModelLayer3) {
-        super(ctx, new CrierEntityModel(ctx.getPart(layer)), new CrierEntityModel(ctx.getPart(legsArmorLayer)), new CrierEntityModel(ctx.getPart(bodyArmorLayer)), new CrierEntityModel(ctx.getPart(entityModelLayer)), new CrierEntityModel(ctx.getPart(entityModelLayer2)), new CrierEntityModel(ctx.getPart(entityModelLayer3)));
+    public CrierEntityRenderer(EntityRendererFactory.Context ctx, EntityModelLayer layer, EntityModelLayer legsArmorLayer, EquipmentModelData<EntityModelLayer> equipmentModelData, EquipmentModelData<EntityModelLayer> equipmentModelData2) {
+        super(ctx, new CrierEntityModel(ctx.getPart(layer)), new CrierEntityModel(ctx.getPart(legsArmorLayer)), EquipmentModelData.mapToEntityModel(equipmentModelData, ctx.getEntityModels(), CrierEntityModel::new), EquipmentModelData.mapToEntityModel(equipmentModelData2, ctx.getEntityModels(), CrierEntityModel::new));
     }
 
     @Override

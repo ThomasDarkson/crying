@@ -78,6 +78,8 @@ public class InGameHudMixin {
         InGameHud hud = (InGameHud) (Object) this;
         if (manager == null) 
             manager = new SanityManager(player.getUuidAsString());
+        if (!manager.isActive)
+            return;
 
         int a = player.getMaxAir();
         int c = Math.clamp((long) player.getAir(), 0, a);

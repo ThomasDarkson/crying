@@ -22,6 +22,8 @@ public class SanityManager {
     private static final Map<String, SanityManager> managers = new HashMap<>();
     protected String uuid;
 
+    public boolean isActive = true;
+
     private CollapsingReason collapsingReason = CollapsingReason.UNKNOWN;
 
     private float sanityLevel = 0;
@@ -49,11 +51,17 @@ public class SanityManager {
     }
 
     public void damage(float damage) {
+        if (!this.isActive)
+            return;
+
         decreaseLevel(damage / 4F);
         updateThis();
     }
 
     public void adjustSanityLevel(int armor) {
+        if (!this.isActive)
+            return;
+            
         if (armor < 0)
             armor = 0;
         if (armor > 4)
@@ -69,6 +77,9 @@ public class SanityManager {
     
     public void update(ServerPlayerEntity player)
     {
+        if (!this.isActive)
+            return;
+
         ServerWorld serverWorld = player.getWorld();
         Difficulty difficulty = serverWorld.getDifficulty();
 
@@ -129,6 +140,9 @@ public class SanityManager {
     }
 
     public void decreaseLevel(float decrease) {
+        if (!this.isActive)
+            return;
+            
         if (decrease < 0 && getCollapseRegenTicks() > 0) {
             updateThis();
             return;
@@ -150,6 +164,9 @@ public class SanityManager {
     }
 
     private void goBackToNormal(LivingEntity entity) {
+        if (!this.isActive)
+            return;
+            
         this.sanityLevel = 0;
         collapse(0, null, CollapsingReason.UNKNOWN);
         setCollapseMultiplier(1);
@@ -157,32 +174,50 @@ public class SanityManager {
     }
 
     public float getSanityLevel() {
+        if (!this.isActive)
+            return 0F;
+            
         if (getCollapseRegenTicks() > 0)
             return 0F;
         return this.sanityLevel;
     }
 
-    public int getMaxLevel() {
+    public int getMaxLevel() {            
         return this.maxLevel;
     }
 
     public int getCryingArmorCount() {
+        if (!this.isActive)
+            return 0;
+            
         return this.cryingArmorCount;
     }
 
     public int getCollapseRegenTicks() {
+        if (!this.isActive)
+            return 0;
+
         return this.collapseRegenTicks;
     }
 
     public int getCollapseMultiplier() {
+        if (!this.isActive)
+            return 0;
+
         return this.collapseMultiplier;
     }
 
     public CollapsingReason getCollapsingReason() {
+        if (!this.isActive)
+            return null;
+
         return this.collapsingReason;
     }
 
     public int setSanityLevel(int level) { 
+        if (!this.isActive)
+            return 1;
+
         try {
             this.sanityLevel = level;
             if (this.sanityLevel > this.maxLevel)
@@ -197,6 +232,9 @@ public class SanityManager {
     }
 
     public void collapse(int tick, @Nullable LivingEntity entity, CollapsingReason reason) {
+        if (!this.isActive)
+            return;
+
         if (getCollapseRegenTicks() > 0 || Crying.nextBetween(1, 10) <= 8) 
             return;
 
@@ -211,6 +249,9 @@ public class SanityManager {
     }
 
     public int setCollapseTicks(int ticks, CollapsingReason reason, PlayerEntity player) {
+        if (!this.isActive)
+            return 1;
+
         try {
             this.collapseRegenTicks = 0;
             collapse(ticks, player, reason);
@@ -223,6 +264,9 @@ public class SanityManager {
     }
 
     public void setCollapseMultiplier(int m) {
+        if (!this.isActive)
+            return;
+
         if (getCollapseRegenTicks() >= m)
             this.collapseMultiplier = m;
         else 
@@ -232,6 +276,9 @@ public class SanityManager {
     }
 
     public void setRegen(boolean regen) {
+        if (!this.isActive)
+            return;
+
         if (this.shouldRegen == regen) 
             return;
         this.shouldRegen = regen;
@@ -239,6 +286,9 @@ public class SanityManager {
     }
 
     public int setRegenCommand(boolean regen) {
+        if (!this.isActive)
+            return 1;
+
         try {
             this.shouldRegenCommand = regen;
             updateThis();
@@ -250,6 +300,7 @@ public class SanityManager {
     }
 
     public void readNbt(ReadView nbt) {
+        this.isActive = nbt.getBoolean("isActive", true);
         this.sanityLevel = nbt.getFloat("sanityLevel", 0F);
         this.sanityTickTimer = nbt.getInt("sanityTickTimer", 0);
         this.maxLevel = nbt.getInt("maxLevel", 0);
@@ -269,6 +320,7 @@ public class SanityManager {
     }
 
     public void writeNbt(WriteView nbt) {
+        nbt.putBoolean("isActive", this.isActive);
         nbt.putBoolean("shouldRegen", this.shouldRegen);
         nbt.putBoolean("shouldRegenCommand", this.shouldRegenCommand);
         nbt.putString("collapsingReason", this.collapsingReason.getName());
@@ -283,6 +335,9 @@ public class SanityManager {
     }
 
     public int clear() {
+        if (!this.isActive)
+            return 1;
+            
         try {
             this.collapseMultiplier = 0;
             this.sanityLevel = 0;

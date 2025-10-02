@@ -156,7 +156,7 @@ Crying Grappling Hook is a type of grappling hook that only works in Crying Dime
 
 It is crafted with 3 **Uninfused Crying Ingots**, 2 **Redstone Dust**, 2 **String**, 1 **Eye** and a **Stick**.
 
-![](https://i.ibb.co/hFCXc2ZT/image.png)
+![](https://i.ibb.co/HT6T0Z4D/image.png)
 
 ![](https://i.ibb.co/gMkm3wkz/3.gif)
 
@@ -436,6 +436,8 @@ You can see how many you've eaten if you open your inventory.
 `/crying` is a command that is used to manipulate the player's Sanity.
 
 - `/crying`: Reports the mod's version 
+- `/crying sanityManager deactivate`: Deactivates Sanity mechanic (if it's active).
+- `/crying sanityManager activate`: Activates Sanity mechanic (if it's deactive).
 - `/crying sanityManager clear`: Clears all effects and resets Sanity level to 0.
 - `/crying sanityManager collapse TICKS COLLAPSE_REASON`: Collapses Sanity with the given duration and reason. 
 - `/crying sanityManager set sanityLevel LEVEL`: Sets the Sanity to given level.

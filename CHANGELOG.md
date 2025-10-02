@@ -1,3 +1,14 @@
+# 6.1.1
+## Additions
+- Added `deactivate` and `activate` arguments to `/crying sanityManager` for activating and deactivating Sanity mechanic
+
+## Changes
+- Changed Crying Grappling Hook's recipe
+- The purple rope of Crying Grappling Hook is replaced with the default brown leash
+
+## Other
+- 1.21.9 support
+
 # 6.1.0
 ## Changes
 - Replaced the internal version checker with  [Semantic Version Library](https://github.com/ThomasDarkson/SemanticVerLib)

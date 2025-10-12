@@ -35,16 +35,18 @@ import crying.entities.GrapplingHookEntity;
 import crying.enums.CollapsingReason;
 import crying.interfaces.SanityManager;
 import crying.tools.CryingShieldItem;
+import crying.interfaces.BiomeVars;
 import crying.interfaces.CryingTool;
 import crying.interfaces.FoodVars;
 import crying.interfaces.HookVars;
 import crying.interfaces.SanityVars;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars {
+public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeVars {
     SanityManager SanityManager;
     GrapplingHookEntity hook;
     int eatenCryingFoodCount = 0;
+    int coldTicks = 0;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(World world, GameProfile profile, CallbackInfo info) {
@@ -102,7 +104,7 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars {
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo info) {
         var player = (PlayerEntity) (Object) this;
-        if (player instanceof ServerPlayerEntity serverPlayer) {
+        if (player instanceof ServerPlayerEntity serverPlayer && Crying.getSanityManager(serverPlayer).getMaxLevel() > 0) {
             this.SanityManager.update(serverPlayer);
         }
     }
@@ -146,12 +148,14 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars {
     public void readCustomData(ReadView nbt, CallbackInfo info) {
         this.SanityManager.readNbt(nbt);
         this.setEatenCryingFoodCount(nbt.getInt("eatenCryingFoodCount", 0));
+        this.setTicksInColdBiome(nbt.getInt("coldTicks", 0));
     }
 
     @Inject(method = "writeCustomData", at = @At("TAIL"))
     protected void writeCustomData(WriteView nbt, CallbackInfo info) {
         this.SanityManager.writeNbt(nbt);
         nbt.putInt("eatenCryingFoodCount", this.getEatenCryingFoodCount());
+        nbt.putInt("coldTicks", this.getTicksInColdBiome());
     }
 
     @Override
@@ -191,5 +195,15 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars {
 
         PlayerEntity player = (PlayerEntity) (Object) this;
         player.getDataTracker().set(Crying.FOOD_COUNT, this.eatenCryingFoodCount);
+    }
+
+    @Override
+    public int getTicksInColdBiome() {
+        return coldTicks;
+    }
+
+    @Override
+    public void setTicksInColdBiome(int tick) {
+        this.coldTicks = tick;
     }
 }

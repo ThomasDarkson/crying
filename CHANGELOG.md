@@ -1,3 +1,12 @@
+# 6.1.2
+## Additions
+- Sanity can now collapse after staying too long in a biome with a temperature of 0.3 or lower
+
+## Changes
+- Sanity is no longer updated if the player is not wearing any Crying Armor
+- Collapsing reasons are now displayed in their unique colors on the HUD
+- Collapsing reasons are no longer displayed on the HUD when Sanity is inactive
+
 # 6.1.1
 ## Additions
 - Added `deactivate` and `activate` arguments to `/crying sanityManager` for activating and deactivating Sanity mechanic

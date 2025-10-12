@@ -1,19 +1,28 @@
 package crying.enums;
 
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.StringIdentifiable;
 
 public enum CollapsingReason implements StringIdentifiable {
-    UNKNOWN("unknown"),
-    HIGH_DAMAGE("high_damage"),
-    BAD_FOOD("bad_food"),
-    MURDER("murder"),
-    LOW_LIGHT("low_light");
+    UNKNOWN("unknown", Formatting.WHITE),
+    HIGH_DAMAGE("high_damage", Formatting.RED),
+    BAD_FOOD("bad_food", Formatting.DARK_GREEN),
+    MURDER("murder", Formatting.DARK_RED),
+    LOW_LIGHT("low_light", Formatting.GRAY),
+    HYPOTHERMIA("hypothermia", Formatting.AQUA);
 
     private String name;
-    private CollapsingReason(String name) {
+    private Formatting color;
+    private CollapsingReason(String name, Formatting color) {
         this.name = name;
+        this.color = color;
+    }
+
+    public Formatting getColor() {
+        return this.color;
     }
 
     public String getName() {
@@ -21,7 +30,7 @@ public enum CollapsingReason implements StringIdentifiable {
     }
 
     public MutableText getTranslatableName() {
-        return Text.translatable(asString());
+        return Text.translatable(asString()).setStyle(Style.EMPTY.withColor(this.getColor()));
     }
 
     @Override
@@ -40,6 +49,8 @@ public enum CollapsingReason implements StringIdentifiable {
                     return MURDER;
                 case "low_light":
                     return LOW_LIGHT;
+                case "hypothermia":
+                    return HYPOTHERMIA;
             }
         return UNKNOWN;
     }

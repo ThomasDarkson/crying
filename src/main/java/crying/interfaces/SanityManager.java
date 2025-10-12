@@ -17,6 +17,7 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.LightType;
+import net.minecraft.world.biome.Biome;
 
 public class SanityManager {
     private static final Map<String, SanityManager> managers = new HashMap<>();
@@ -83,10 +84,28 @@ public class SanityManager {
         ServerWorld serverWorld = player.getEntityWorld();
         Difficulty difficulty = serverWorld.getDifficulty();
 
+        Biome biome = serverWorld.getBiome(player.getBlockPos()).value();
+        if (biome != null) {
+            if (biome.getTemperature() <= 0.3F) {
+                int coldTicks = ((BiomeVars) player).getTicksInColdBiome();
+                coldTicks++;
+                ((BiomeVars) player).setTicksInColdBiome(coldTicks);
+
+                if (coldTicks >= Crying.tickSecond(360)) {
+                    this.collapse(Crying.tickSecond(420), player, CollapsingReason.HYPOTHERMIA);
+                    ((BiomeVars) player).setTicksInColdBiome(0);
+                }
+            }
+            else
+                ((BiomeVars) player).setTicksInColdBiome(0);
+        }
+
         if (getCollapseRegenTicks() >= 1 && !player.isDead()) {
             collapseRegenTicks -= 1 * collapseMultiplier;
             if (collapseRegenTicks < 0)
                 collapseRegenTicks = 0;
+
+            updateThis();
             if (collapseRegenTicks < 1) {
                 goBackToNormal(player);
             }
@@ -168,7 +187,8 @@ public class SanityManager {
             return;
             
         this.sanityLevel = 0;
-        collapse(0, null, CollapsingReason.UNKNOWN);
+        this.collapseRegenTicks = 0;
+        this.collapsingReason = CollapsingReason.UNKNOWN;
         setCollapseMultiplier(1);
         updateThis();
     }
@@ -232,10 +252,14 @@ public class SanityManager {
     }
 
     public void collapse(int tick, @Nullable LivingEntity entity, CollapsingReason reason) {
+        this.collapse(tick, entity, reason, false);
+    }
+
+    public void collapse(int tick, @Nullable LivingEntity entity, CollapsingReason reason, boolean guaranteed) {
         if (!this.isActive)
             return;
 
-        if (getCollapseRegenTicks() > 0 || Crying.nextBetween(1, 10) <= 8) 
+        if (!guaranteed && ((getCollapseRegenTicks() > 0 || Crying.nextBetween(1, 10) <= 8)))
             return;
 
         this.sanityLevel = 0F;
@@ -254,7 +278,7 @@ public class SanityManager {
 
         try {
             this.collapseRegenTicks = 0;
-            collapse(ticks, player, reason);
+            collapse(ticks, player, reason, true);
             updateThis();
             return 0;
         }

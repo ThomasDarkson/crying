@@ -123,9 +123,9 @@ public class InGameHudMixin {
             }
         }
 
-        if (manager.getCollapseRegenTicks() > 0) {
+        if (manager.getCollapseRegenTicks() > 0 && manager.getMaxLevel() > 0) {
             MutableText text = Text.translatable("sanity.collapsed");
-            text.append(manager.getCollapsingReason().getTranslatableName().setStyle(Style.EMPTY.withColor(Formatting.RED)));
+            text.append(manager.getCollapsingReason().getTranslatableName());
 
             MutableText text2 = Text.translatable("sanity.recovering");
             text2.append(Text.literal(Crying.tickToString(manager.getCollapseRegenTicks())).setStyle(Style.EMPTY.withColor(manager.getCollapseMultiplier() > 1 ? Formatting.AQUA : Formatting.WHITE)));

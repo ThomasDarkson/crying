@@ -361,6 +361,7 @@ Drinking water from a glass bottle will speed up the recovery process by 100%.
 ### Actions that may cause sanity to collapse
 - Getting your sanity drained by `(max_sanity / 2)` or more while wearing 2 or more Crying Armor (collapsing duration: 5 minutes)
 - Staying in an area with lower light level than 4 for 30 seconds (collapsing duration: 6 minutes)
+- Staying too long in a biome with a temperature of 0.3 or lower (collapsing duration: 7 minutes)
 - Killing a **villager**, **cat**, **tamed animal**, **wandering trader**, **iron golem**, **snow golem** or an **allay** (collapsing duration: 15 minutes)
 - Eating pufferfish (collapsing duration: 30 minutes)
 - Eating rotten flesh (collapsing duration: 5 minutes)

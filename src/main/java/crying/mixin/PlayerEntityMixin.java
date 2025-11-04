@@ -77,12 +77,11 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
                         ItemStack stack = player.getStackInHand(hand);
                         if (stack.getItem() instanceof CryingShieldItem item) {
                             item.useShield(stack, hand, player, source.getAttacker(), source, Math.round(amount));
-                            info.cancel();
                         }
                     }
                 }
 
-                if ((source.getAttacker() instanceof HostileEntity) || (source.getAttacker() instanceof Angerable)) {
+                if ((source.getAttacker() instanceof HostileEntity) || (source.getAttacker() instanceof Angerable angerable && angerable.getAngryAt() != null && angerable.getAngryAt().equals(player.getUuid()))) {
                     SanityManager manager = Crying.getSanityManager(player);
                     manager.damage(amount);
                 }

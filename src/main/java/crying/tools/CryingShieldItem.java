@@ -2,8 +2,13 @@ package crying.tools;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,13 +21,15 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 
 public class CryingShieldItem extends Item {
     public CryingShieldItem() {
         super(new Item.Settings()
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_shield")))
             .fireproof()
-            .repairable(Crying.CRYING_INGOT)
+            .rarity(Rarity.EPIC)
+            .attributeModifiers(AttributeModifiersComponent.builder().add(EntityAttributes.KNOCKBACK_RESISTANCE, new EntityAttributeModifier(Identifier.of(Crying.ID, ""), 0.200000000000000618d, Operation.ADD_VALUE), AttributeModifierSlot.HAND).build())
             .maxDamage(2688));
 
         Crying.register(this, "crying_shield");
@@ -35,7 +42,7 @@ public class CryingShieldItem extends Item {
         else
             stack.damage(1, player);
 
-        if (attacker instanceof LivingEntity entity && !entity.isDead() && player.isSneaking()) {
+        if (attacker != null && attacker instanceof LivingEntity entity && !entity.isDead() && player.isSneaking()) {
             entity.damage((ServerWorld) player.getEntityWorld(), new DamageSource(source.getTypeRegistryEntry(), player), Math.round(damage / 2));
         }
 

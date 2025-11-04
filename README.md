@@ -172,6 +172,7 @@ The Core Ingredient of a Crying Tool is specified by the addition material in it
 - Netherite Ingot
 - Diamond
 - Iron Ingot
+- Copper
 - Gold Ingot
 
 A Crying Tool's damage, durability, mining speed, enchantability, and attack damage bonus depend on its Core Ingredient. While Gold is the lowest tier, it has two perks—unlike every other tier, which has only one—and it's the only way to spawn a Granter Entity.
@@ -290,15 +291,15 @@ If you have a Crying Tool with a Core Ingredient that's not Over-hardened Core W
 ![](https://i.ibb.co/np5j3W8/Ekran-g-r-nt-s-2025-08-02-021927.png)
 
 ## Crying Shield
-Crying Shield is a special kind of armor that blocks damage on its own but it's its effectiveness depends on whether the player is sneaking. It is crafted with 8 Iron Ingots and 1 **Eye**.
+Crying Shield is a special kind of armor that blocks damage on its own but it's its effectiveness depends on whether the player is sneaking. It is crafted with 6 planks and 1 **Eye**.
 
-![](https://i.ibb.co/gbjmQ46X/image.png)
+![](https://i.ibb.co/k23pvrrD/image.png)
 
 When equipped it will spin around the player. For convenience, it is not visible in first person perspective.
 
 ![](https://i.ibb.co/pvgG9Kc6/shield.gif)
 
-If the player is sneaking while having Crying Shield equipped, the shield will have 100% damage protection and it'll reflect half of the damage it blocked. However if they are not sneaking, damage protection is 25% and shield will not reflect any damage.
+If the player is sneaking while having Crying Shield equipped, the shield will have 90% damage protection and it'll reflect half of the damage it blocked. However if they are not sneaking, damage protection is 25% and shield will not reflect any damage.
 
 ## Crying Armor
 Crying Armor is strongest tier of there is for armor. Wearing any Crying Armor will enable the **Sanity** mechanic.
@@ -316,7 +317,7 @@ Enchantability and Hardness for all Crying Armor is 50 and 5 respectively, inclu
 |-----------------------|----------------|---------------------| 
 | **Crying Helmet**     | 6,501          | 6                   |
 | **Crying Chestplate** | 9,456          | 16                  |
-| **Crying Chestplate with Elytra** | 9,888          | 16      |
+| **Crying Chestplate with Elytra** | 9,456          | 16      |
 | **Crying Leggings**   | 8,865          | 12                  |
 | **Crying Boots**      | 7,683          | 6                   |
 | **Crying Horse Armor**      | 9,456          | 20            |
@@ -329,6 +330,7 @@ This item makes it so the Elytra won't take damage while gliding with it, but wi
 To craft one, you need a Crying Chestplate, an Elytra and one Phantom Membrane.
 
 ![](https://i.ibb.co/wZ0TPzzz/Ekran-g-r-nt-s-2025-08-01-224918.png)
+
 ## Sanity
 ![image](https://i.ibb.co/cVksK6w/418131788-dc567a09-cb7b-442f-a6fb-7b4689f2fc37.png)
 
@@ -437,12 +439,12 @@ You can see how many you've eaten if you open your inventory.
 `/crying` is a command that is used to manipulate the player's Sanity.
 
 - `/crying`: Reports the mod's version 
-- `/crying sanityManager deactivate`: Deactivates Sanity mechanic (if it's active).
-- `/crying sanityManager activate`: Activates Sanity mechanic (if it's deactive).
-- `/crying sanityManager clear`: Clears all effects and resets Sanity level to 0.
-- `/crying sanityManager collapse TICKS COLLAPSE_REASON`: Collapses Sanity with the given duration and reason. 
-- `/crying sanityManager set sanityLevel LEVEL`: Sets the Sanity to given level.
-- `/crying sanityManager shouldRegen [true|false]`: Allows or prevents Sanity from regenerating. 
+- `/crying sanity deactivate`: Deactivates Sanity mechanic (if it's active).
+- `/crying sanity activate`: Activates Sanity mechanic (if it's deactive).
+- `/crying sanity clear`: Clears all effects and resets Sanity level to 0.
+- `/crying sanity collapse TICKS COLLAPSE_REASON`: Collapses Sanity with the given duration and reason. 
+- `/crying sanity set sanityLevel LEVEL`: Sets the Sanity to given level.
+- `/crying sanity shouldRegen [true|false]`: Allows or prevents Sanity from regenerating. 
 
 ## Hardened Core Piece
 - Stackable: 64

@@ -1,3 +1,17 @@
+# 6.1.3
+## Changes
+### Crying Shield
+- Crying Shield's protection when sneaking is changed to 90%
+	- You will also take knockback when sneaking
+- Crying Shield is now not repairable
+- Changed rarity of Crying Shield to Epic
+- Crying Shield will give the player 20% knockback resistance
+- Crying Shield's recipe is changed
+
+### Technical
+- `/crying sanityManager` is renamed to `/crying sanity`
+- Bumped Fabric Loom version to 1.11 and Gradle version to 8.14
+
 # 6.1.2
 ## Additions
 - Sanity can now collapse after staying too long in a biome with a temperature of 0.3 or lower

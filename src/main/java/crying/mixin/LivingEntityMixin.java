@@ -103,11 +103,7 @@ public class LivingEntityMixin {
                     && !source.isIn(DamageTypeTags.IS_DROWNING)
                     && !source.isIn(DamageTypeTags.IS_FREEZING)) {
                         if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD)) {
-                            if (player.isSneaking())
-                                dmg = 0;
-                            else
-                                dmg = dmg * 0.75F;
-
+                            dmg = dmg * (player.isSneaking() ? 0.1F : 0.75F);
                             info.setReturnValue(dmg);
                         }
                     }

@@ -1,3 +1,11 @@
+# 6.1.4
+## Changes
+### Sanity
+- Collapsing is now guaranteed to happen
+
+### Technical
+- `crying` command will now give feedback to the player
+
 # 6.1.3
 ## Changes
 ### Crying Shield

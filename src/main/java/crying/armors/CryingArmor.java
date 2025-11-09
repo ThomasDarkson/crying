@@ -49,8 +49,7 @@ public class CryingArmor implements ArmorMaterials {
         CryingAssetKeys.CRYING_WITH_ELYTRA
     );
 
-
-    public static int setCount(LivingEntity entity) {
+    public static int cryingArmorCount(LivingEntity entity) {
         int amplifier = 0;
         ItemStack h = entity.getEquippedStack(EquipmentSlot.HEAD);
         ItemStack c = entity.getEquippedStack(EquipmentSlot.CHEST);
@@ -65,10 +64,16 @@ public class CryingArmor implements ArmorMaterials {
             }
         }
 
-        if (entity instanceof PlayerEntity player) {
-            Crying.getSanityManager(player).adjustSanityLevel(amplifier);
-        }
         return amplifier;
+    }
+
+    public static int setCount(LivingEntity entity) {
+        int count = cryingArmorCount(entity);
+
+        if (entity instanceof PlayerEntity player) {
+            Crying.getSanityManager(player).adjustSanityLevel(count);
+        }
+        return count;
     }
 
     public static boolean isCryingArmor(ItemStack itemStack) {

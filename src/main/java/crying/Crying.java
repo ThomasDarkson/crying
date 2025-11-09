@@ -6,8 +6,7 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+
 import com.mojang.serialization.Codec;
 
 import crying.armors.CryingArmor;
@@ -17,7 +16,6 @@ import crying.armors.CryingChestplateWithElytraItem;
 import crying.armors.CryingHelmetItem;
 import crying.armors.CryingHorseArmor;
 import crying.armors.CryingLeggingsItem;
-import crying.backend.CollapsingReasonArgumentType;
 import crying.blocks.CriersHeartBlock;
 import crying.blocks.CryingBlock;
 import crying.blocks.CryingOreBlock;
@@ -65,8 +63,6 @@ import crying.tools.pickaxe.*;
 import crying.tools.shovel.*;
 import crying.tools.sword.*;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -74,7 +70,6 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -115,11 +110,10 @@ import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.dimension.DimensionType;
 import semantic.ver.lib.SemanticVerLib;
 import semantic.ver.lib.SemanticVersion;
-import static net.minecraft.server.command.CommandManager.*;
 
 public class Crying implements ModInitializer {
 	private static final String VERSION_URL = "https://raw.githubusercontent.com/ThomasDarkson/crying/refs/heads/version/version.txt";
-	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 3, VERSION_URL);
+	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 4, VERSION_URL);
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;
@@ -387,55 +381,7 @@ public class Crying implements ModInitializer {
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
 		FabricDefaultAttributeRegistry.register(LOST_CRIER, LostCrierEntity.createLostCrierAttributes());
 		
-		ArgumentTypeRegistry.registerArgumentType(Identifier.of(ID, "collapsing_reason"), CollapsingReasonArgumentType.class, ConstantArgumentSerializer.of(CollapsingReasonArgumentType::collapsingReason));
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("crying")
-			.executes(context -> {
-				context.getSource().sendFeedback(() -> Text.literal("Crying Tools ").append(VERSION.toString()), false);
-				context.getSource().sendFeedback(() -> Text.translatable("crying.thank.you"), false);
-				return 0;
-			})
-			.then(literal("sanity").requires(source -> source.hasPermissionLevel(2))
-				.then(literal("deactivate")
-					.executes(context -> {
-						SanityManager manager = getSanityManager(context.getSource().getPlayer());
-						manager.isActive = false;
-						manager.updateThis();
-						return 0;
-					}))
-				.then(literal("activate")
-					.executes(context -> {
-						SanityManager manager = getSanityManager(context.getSource().getPlayer());
-						manager.isActive = true;
-						manager.updateThis();
-						return 0;
-					}))
-				.then(literal("set")
-					.then(literal("sanityLevel")
-						.then(argument("level", IntegerArgumentType.integer(0, 20)).executes(context -> {
-							SanityManager manager = getSanityManager(context.getSource().getPlayer());
-							int level = IntegerArgumentType.getInteger(context, "level");
-							return manager.setSanityLevel(level);
-						})))
-					.then(literal("shouldRegen")
-						.then(argument("regen", BoolArgumentType.bool()).executes(context -> {
-							SanityManager manager = getSanityManager(context.getSource().getPlayer());
-							return manager.setRegenCommand(BoolArgumentType.getBool(context, "regen"));
-						})
-					))
-				)
-				.then(literal("clear").executes(context -> {
-					SanityManager manager = getSanityManager(context.getSource().getPlayer());
-					return manager.clear();
-				}))
-				.then(literal("collapse")
-					.then(argument("ticks", IntegerArgumentType.integer())
-						.then(argument("reason", CollapsingReasonArgumentType.collapsingReason()).executes(context -> {
-							SanityManager manager = getSanityManager(context.getSource().getPlayer());
-							return manager.setCollapseTicks(IntegerArgumentType.getInteger(context, "ticks"), CollapsingReasonArgumentType.getReason(context, "reason"), context.getSource().getPlayer());
-						}
-					)))
-				))
-		));
+		CryingCommand.init();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
 			try {

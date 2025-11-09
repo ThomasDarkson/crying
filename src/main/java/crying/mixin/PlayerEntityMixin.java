@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -97,14 +96,6 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
                 if (!player.isCreative() && source.getAttacker() instanceof Entity)
                     GranterEntity.summonGranterEntity(world, player);
             }
-        }
-    }
-
-    @Inject(method = "tick", at = @At("TAIL"))
-    public void tick(CallbackInfo info) {
-        var player = (PlayerEntity) (Object) this;
-        if (player instanceof ServerPlayerEntity serverPlayer && Crying.getSanityManager(serverPlayer).getMaxLevel() > 0) {
-            this.SanityManager.update(serverPlayer);
         }
     }
 

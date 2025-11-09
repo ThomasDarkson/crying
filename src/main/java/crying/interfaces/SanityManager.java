@@ -75,7 +75,7 @@ public class SanityManager {
         updateThis();
     }
     
-    public void update(ServerPlayerEntity player)
+    public void tick(ServerPlayerEntity player)
     {
         if (!this.isActive)
             return;
@@ -251,14 +251,7 @@ public class SanityManager {
     }
 
     public void collapse(int tick, @Nullable LivingEntity entity, CollapsingReason reason) {
-        this.collapse(tick, entity, reason, false);
-    }
-
-    public void collapse(int tick, @Nullable LivingEntity entity, CollapsingReason reason, boolean guaranteed) {
         if (!this.isActive)
-            return;
-
-        if (!guaranteed && ((getCollapseRegenTicks() > 0 || Crying.nextBetween(1, 10) <= 8)))
             return;
 
         this.sanityLevel = 0F;
@@ -276,9 +269,7 @@ public class SanityManager {
             return 1;
 
         try {
-            this.collapseRegenTicks = 0;
-            collapse(ticks, player, reason, true);
-            updateThis();
+            collapse(ticks, player, reason);
             return 0;
         }
         catch (Exception e) {

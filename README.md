@@ -352,8 +352,8 @@ Your sanity will increase or decrease based on your actions, for example eating 
 - On **Peaceful** difficulty, sanity regenerates every **0.25** seconds.
 
 ### Collapsing
-If you do certain things, your sanity has a 80% chance of collapsing. If your sanity collapses, you can't regenerate sanity and you will not get the extra protection sanity grants you until your sanity recovers.
-You can see why it collapsed.
+If you do certain things, your sanity will collapse. If your sanity collapses, you can't regenerate sanity and you will not get the extra protection sanity grants you until your sanity recovers.
+You can see why it collapsed on the HUD.
 
 ![](https://i.ibb.co/XrWj1pSY/image.png)
 

@@ -1,3 +1,7 @@
+# 6.1.5
+## Changes
+- Buffed Granter, it will wait less to descend upon its player
+
 # 6.1.4
 ## Changes
 ### Sanity

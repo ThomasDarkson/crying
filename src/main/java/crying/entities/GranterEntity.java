@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 
 public class GranterEntity extends Entity implements FlyingItemEntity {
     private static final HashMap<String, GranterEntity> map = new HashMap<>();
-    private static final int FOLLOW_TICKS = 200;
+    private static final int FOLLOW_TICKS = 100;
     private int age = 0;
     private boolean descending = false;
 

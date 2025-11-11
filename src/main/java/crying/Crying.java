@@ -112,7 +112,7 @@ import semantic.ver.lib.SemanticVersion;
 
 public class Crying implements ModInitializer {
 	private static final String VERSION_URL = "https://raw.githubusercontent.com/ThomasDarkson/crying/refs/heads/version/version.txt";
-	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 4, VERSION_URL);
+	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 5, VERSION_URL);
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;

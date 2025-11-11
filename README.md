@@ -254,7 +254,7 @@ Waxing is the only way to deoxidize a tool.
 ##### Granter
 The Granter is an entity that'll travel with the closest player to it, and after 10 seconds it will descend and grant a random positive status effect to its player.
 
-When summoned, a Granter will look for the closest player. When it finds one, it will fix its position above the player's head and follow them around for 10 seconds.
+When summoned, a Granter will look for the closest player. When it finds one, it will fix its position above the player's head and follow them around for 5 seconds.
 
 After that, it will start to descend and when it touches the player, the player will get a random positive status effect for 5 to 30 seconds. The status effect's amplifier is always 0 or 1. It will also heal 2 health.
 

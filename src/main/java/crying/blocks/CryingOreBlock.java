@@ -1,6 +1,7 @@
 package crying.blocks;
 
 import crying.Crying;
+import crying.interfaces.HasUniqueItemSettings;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -8,22 +9,21 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 
-public class CryingOreBlock extends Block 
+public class CryingOreBlock extends Block implements HasUniqueItemSettings 
 {
     public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_LARGE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_large"));
     public static final RegistryKey<PlacedFeature> CRYING_ORE_KEY_SMALL = RegistryKey.of(RegistryKeys.PLACED_FEATURE, Identifier.of(Crying.ID, "crying_ore_small"));
@@ -37,7 +37,7 @@ public class CryingOreBlock extends Block
             mapColor(MapColor.BLACK).
             instrument(NoteBlockInstrument.BASEDRUM).
             requiresTool().
-            strength(50.0F, 1200.0F).
+            strength(61.8F, 1200.0F).
             luminance((state) -> {
                 return 10;
             })
@@ -65,26 +65,25 @@ public class CryingOreBlock extends Block
         }
     }
 
-    @Override
-    protected float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos) {
-        float f = this.getHardness();
-        if (f == -1.0F) {
-            return 0.0F;
-        } else {
-            int i = player.canHarvest(state) ? 30 : 100;
-            return player.getBlockBreakingSpeed(state) / f / (float) i;
-        }
-    }
-
-    @Override 
-    public float getHardness() {
-        return Crying.floorDecimal(Crying.nextBetween(10F, 100F), 2);
-    }
-
     public void addFeatures() {
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_SMALL);
         BiomeModifications.addFeature(BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_LARGE);
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_MEDIUM);
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, CRYING_ORE_KEY_MEDIUM_OVERWORLD);
+    }
+
+    @Override
+    public boolean isFireProof() {
+        return true;
+    }
+
+    @Override
+    public int getMaxCount() {
+        return 64;
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.COMMON;
     }
 }

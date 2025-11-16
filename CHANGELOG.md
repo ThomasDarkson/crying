@@ -1,3 +1,15 @@
+# 6.1.6
+## Changes
+### Crying Ore
+- Changed Hardness of Crying Ore from random to 61.8
+
+### Void-Stained Crying Block
+- Changed Rarity from Epic to Common
+- Now stackable (64), now consistent with the README
+
+### Other
+- Hardened Core, Void-Stained Crying Block, Crying Ore, Crying Block and Hard Crying Obsidian are now fireproof and won't burn in lava
+
 # 6.1.5
 ## Changes
 - Buffed Granter, it will wait less to descend upon its player

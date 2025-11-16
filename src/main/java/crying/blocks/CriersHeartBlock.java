@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 
 import crying.Crying;
 import crying.entities.CriersHeartBlockEntity;
+import crying.interfaces.HasUniqueItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -13,13 +14,14 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class CriersHeartBlock extends BlockWithEntity {
+public class CriersHeartBlock extends BlockWithEntity implements HasUniqueItemSettings {
     static final VoxelShape SHAPE = VoxelShapes.union(
 		VoxelShapes.cuboid(0.4375, 0, 0.4375, 0.5, 0.0625, 0.5),
 		VoxelShapes.cuboid(0.375, 0.0625, 0.4375, 0.5625, 0.125, 0.5),
@@ -70,5 +72,20 @@ public class CriersHeartBlock extends BlockWithEntity {
     @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public boolean isFireProof() {
+        return true;
+    }
+
+    @Override
+    public int getMaxCount() {
+        return 1;
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.EPIC;
     }
 }

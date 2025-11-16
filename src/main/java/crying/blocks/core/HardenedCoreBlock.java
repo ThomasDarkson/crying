@@ -9,6 +9,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 
 public class HardenedCoreBlock extends CoreBlock {
     public HardenedCoreBlock() {
@@ -22,5 +23,10 @@ public class HardenedCoreBlock extends CoreBlock {
             "hardened_core");
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.HEAVY_CORE, this.asItem()));
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.RARE;
     }
 }

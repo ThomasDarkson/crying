@@ -32,6 +32,7 @@ import crying.effects.BaneOfCriers;
 import crying.entities.*;
 import crying.enums.ToolType;
 import crying.interfaces.CryingTool;
+import crying.interfaces.HasUniqueItemSettings;
 import crying.interfaces.HookVars;
 import crying.interfaces.SanityVars;
 import crying.interfaces.SanityManager;
@@ -112,7 +113,7 @@ import semantic.ver.lib.SemanticVersion;
 
 public class Crying implements ModInitializer {
 	private static final String VERSION_URL = "https://raw.githubusercontent.com/ThomasDarkson/crying/refs/heads/version/version.txt";
-	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 5, VERSION_URL);
+	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 6, VERSION_URL);
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;
@@ -418,18 +419,12 @@ public class Crying implements ModInitializer {
 
 		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name)));
 
-		if (name == "over-hardened_core" || name == "over-hardened_core_with_eye" || name == "criers_heart") {
-			stack = 1;
-			rarity = Rarity.EPIC;
-			settings = settings.fireproof();
-		}
-		if (name == "void-stained_crying_block") {
-			rarity = Rarity.EPIC;
-			stack = 1;
-		}
-		if (name == "hardened_core") {
-			rarity = Rarity.RARE;
-			stack = 1;
+		if (block instanceof HasUniqueItemSettings unique) {
+			if (unique.isFireProof())
+				settings = settings.fireproof();
+
+			settings = settings.rarity(unique.getRarity());
+			settings = settings.maxCount(unique.getMaxCount());
 		}
 
 		settings = settings.rarity(rarity);

@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
 import crying.entities.CrierEntity;
+import crying.interfaces.HasUniqueItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
@@ -27,12 +28,13 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
-public class HardCryingObsidianBlock extends Block {    
+public class HardCryingObsidianBlock extends Block implements HasUniqueItemSettings {    
     @Nullable
     private BlockPattern crierPattern;
 
@@ -127,5 +129,20 @@ public class HardCryingObsidianBlock extends Block {
             }).where('?', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.CHAIN))).build();
         }
         return this.crierPattern;
+    }
+
+    @Override
+    public boolean isFireProof() {
+        return true;
+    }
+
+    @Override
+    public int getMaxCount() {
+        return 64;
+    }
+
+    @Override
+    public Rarity getRarity() {
+        return Rarity.COMMON;
     }
 }

@@ -30,7 +30,7 @@ with new mechanics!
 You may use this mod in modpacks with credit.
 
 ## Crying Ore
-- Hardness: Random, between 10 and 100
+- Hardness: 61.8
 - Blast Resistance: 1200
 - Can be broken with: Diamond Pickaxe or higher
 - Stackable: 64

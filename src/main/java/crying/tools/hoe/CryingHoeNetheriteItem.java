@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingHoeNetheriteItem extends AbstractCryingHoeItem {
     public CryingHoeNetheriteItem() {
-        super(CryingToolItem.NETHERITE_DURABILITY, CryingToolItem.NETHERITE_SPEED, CryingToolItem.NETHERITE_HOE_ATTACK_DAMAGE_BONUS, CryingToolItem.NETHERITE_ENCHANTABILITY, "crying_hoe_netherite");
+        super(CryingToolItem.NETHERITE_DURABILITY, CryingToolItem.NETHERITE_SPEED, CryingToolItem.NETHERITE_ENCHANTABILITY, "crying_hoe_netherite");
     }
 
     @Override

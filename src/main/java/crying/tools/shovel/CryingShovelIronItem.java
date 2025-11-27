@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingShovelIronItem extends AbstractCryingShovelItem {
     public CryingShovelIronItem() {
-        super(CryingToolItem.IRON_DURABILITY, CryingToolItem.IRON_SPEED, CryingToolItem.IRON_SHOVEL_ATTACK_DAMAGE_BONUS, CryingToolItem.IRON_ENCHANTABILITY, "crying_shovel_iron");
+        super(CryingToolItem.IRON_DURABILITY, CryingToolItem.IRON_SPEED, CryingToolItem.IRON_ENCHANTABILITY, "crying_shovel_iron");
     }
 
     @Override

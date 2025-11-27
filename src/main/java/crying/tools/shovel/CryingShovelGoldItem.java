@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingShovelGoldItem extends AbstractCryingShovelItem {
     public CryingShovelGoldItem() {
-        super(CryingToolItem.GOLD_DURABILITY, CryingToolItem.GOLD_SPEED, CryingToolItem.GOLD_SHOVEL_ATTACK_DAMAGE_BONUS, CryingToolItem.GOLD_ENCHANTABILITY, "crying_shovel_gold");
+        super(CryingToolItem.GOLD_DURABILITY, CryingToolItem.GOLD_SPEED, CryingToolItem.GOLD_ENCHANTABILITY, "crying_shovel_gold");
     }
 
     @Override

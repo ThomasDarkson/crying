@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingHoeDiamondItem extends AbstractCryingHoeItem {
     public CryingHoeDiamondItem() {
-        super(CryingToolItem.DIAMOND_DURABILITY, CryingToolItem.DIAMOND_SPEED, CryingToolItem.DIAMOND_HOE_ATTACK_DAMAGE_BONUS, CryingToolItem.DIAMOND_ENCHANTABILITY, "crying_hoe_diamond");
+        super(CryingToolItem.DIAMOND_DURABILITY, CryingToolItem.DIAMOND_SPEED, CryingToolItem.DIAMOND_ENCHANTABILITY, "crying_hoe_diamond");
     }
 
     @Override

@@ -187,32 +187,21 @@ A Crying Tool's damage, durability, mining speed, enchantability, and attack dam
 | **Diamond**                  | 22,586           | 60             | 166.0            | 80        |
 | **Iron**                     | 18,817           | 70             | 150.0            | 60        |
 | **Copper**                   | 18,066           | 65             | 140.0            | 55        |
-| **Gold**                     | 17,315           | 100            | 320.0            | 140       |
+| **Gold**                     | 17,747           | 100            | 320.0            | 140       |
 
 Note: Over-hardened Core With Eye can be used only on Crying Pickaxe (with Crying Ingot Core Ingredient) and Crying Sword (with Gold Core Ingredient).
 
 ### Attack Damage
-A Crying Tool’s total attack damage is the sum of its base damage and the bonus damage based on its Core Ingredient.
+A Crying Tool’s total attack damage is the sum of its base damage and the bonus damage based on its tool type. A Crying Tool’s total attack damage will not change even if it has a rarer Core Ingredient (like netherite or Crying Ingot).
 
 #### Base Attack Damages
-| Tool Type                   | Base Damage |
-| --------------------------- | ---------   |
-| **Pickaxe**                 | 7.0         |
-| **Axe**                     | 20.0        |
-| **Sword**                   | 15.0        |
-| **Shovel**                  | 7.5         |
-| **Hoe**                     | 1.0         |
-
-#### Bonus Attack Damages
-| Core Ingredient                 | Pickaxe | Axe   | Sword     | Shovel | Hoe  |
-| ------------------------------- | ------- | ----- | --------- | ------ | ---- |
-| **Over-hardened Core with Eye** | 7.5     | –     | **103.0** | –      | –    |
-| **Crying**                      | 10.0    | 25.0  | 20.0      | 15.0   | 6.0  |
-| **Netherite**                   | 5.0     | 12.5  | 10.0      | 7.5    | 3.0  |
-| **Diamond**                     | 4.0     | 10.0  | 8.0       | 6.0    | 2.4  |
-| **Iron**                        | 3.5     | 8.75  | 7.0       | 5.25   | 2.1  |
-| **Copper**                      | 3.25    | 8.125 | 6.5       | 4.875  | 1.95 |
-| **Gold**                        | 3.0     | 7.5   | 6.0       | 4.5    | 1.8  |
+| Tool Type                   | Base Damage | Bonus Damage |
+| --------------------------- | ---------   | --------     |
+| **Pickaxe**                 | 7.0         | 2.5          |
+| **Axe**                     | 20.0        | 20.0         |
+| **Sword**                   | 15.0        | 15.0         |
+| **Shovel**                  | 7.5         | 5.0          |
+| **Hoe**                     | 1.0         | 0.0          |
 
 ### Perks
 Each Core Ingredient has one perk of its own, except Gold which has two perks. The perks of Over-hardened Core with Eye are explained later into this README.

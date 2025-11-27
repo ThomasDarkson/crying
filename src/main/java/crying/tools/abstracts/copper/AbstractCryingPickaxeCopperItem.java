@@ -3,6 +3,7 @@ package crying.tools.abstracts.copper;
 import crying.Crying;
 import crying.enums.ToolType;
 import crying.other.CryingTags;
+import crying.tools.CryingToolItem;
 import crying.tools.OxidizableCryingToolItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -16,9 +17,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
 public class AbstractCryingPickaxeCopperItem extends OxidizableCryingToolItem {
-    public AbstractCryingPickaxeCopperItem(int durability, float speed, float bonus, int enchantable, String id) {
+    public AbstractCryingPickaxeCopperItem(int durability, float speed, int enchantable, String id) {
         super(new Item.Settings()
-            .pickaxe(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, bonus, enchantable, CryingTags.CryingTag), 6F, -2.8F)
+            .pickaxe(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, CryingToolItem.PICKAXE_ATTACK_DAMAGE_BONUS, enchantable, CryingTags.CryingTag), 6F, -2.8F)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
             .rarity(id.equals("crying_pickaxe_over-hardened_core_with_eye") ? Rarity.EPIC : Rarity.COMMON));
 

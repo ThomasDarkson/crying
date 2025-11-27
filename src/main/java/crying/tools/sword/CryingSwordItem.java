@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 
 public class CryingSwordItem extends AbstractCryingSwordItem {
     public CryingSwordItem() {
-        super(CRYING_DURABILITY, CRYING_SPEED, CRYING_SWORD_ATTACK_DAMAGE_BONUS, CRYING_ENCHANTABILITY, "crying_sword");
+        super(CRYING_DURABILITY, CRYING_SPEED, CRYING_ENCHANTABILITY, "crying_sword");
     }
 
     @Override

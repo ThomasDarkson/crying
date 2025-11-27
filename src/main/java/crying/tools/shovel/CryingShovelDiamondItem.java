@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingShovelDiamondItem extends AbstractCryingShovelItem {
     public CryingShovelDiamondItem() {
-        super(CryingToolItem.DIAMOND_DURABILITY, CryingToolItem.DIAMOND_SPEED, CryingToolItem.DIAMOND_SHOVEL_ATTACK_DAMAGE_BONUS, CryingToolItem.DIAMOND_ENCHANTABILITY, "crying_shovel_diamond");
+        super(CryingToolItem.DIAMOND_DURABILITY, CryingToolItem.DIAMOND_SPEED, CryingToolItem.DIAMOND_ENCHANTABILITY, "crying_shovel_diamond");
     }
 
     @Override

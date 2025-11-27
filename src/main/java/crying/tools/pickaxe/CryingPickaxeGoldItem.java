@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingPickaxeGoldItem extends AbstractCryingPickaxeItem {
     public CryingPickaxeGoldItem() {
-        super(CryingToolItem.GOLD_DURABILITY, GOLD_SPEED, GOLD_PICKAXE_ATTACK_DAMAGE_BONUS, GOLD_ENCHANTABILITY, "crying_pickaxe_gold");
+        super(CryingToolItem.GOLD_DURABILITY, GOLD_SPEED, GOLD_ENCHANTABILITY, "crying_pickaxe_gold");
     }
 
     @Override

@@ -6,6 +6,7 @@ import crying.Crying;
 import crying.enums.ToolType;
 import crying.interfaces.CryingTool;
 import crying.other.CryingTags;
+import crying.tools.CryingToolItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.item.HoeItem;
@@ -23,8 +24,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class AbstractCryingHoeItem extends HoeItem implements CryingTool {
-    public AbstractCryingHoeItem(int durability, float speed, float bonus, int enchantable, String id) {
-        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, bonus, enchantable, CryingTags.CryingTag), 0F, +0F, new Item.Settings()
+    public AbstractCryingHoeItem(int durability, float speed, int enchantable, String id) {
+        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, CryingToolItem.HOE_ATTACK_DAMAGE_BONUS, enchantable, CryingTags.CryingTag), 0F, +0F, new Item.Settings()
         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
         .fireproof());
 

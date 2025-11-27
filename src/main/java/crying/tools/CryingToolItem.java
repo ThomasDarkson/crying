@@ -45,47 +45,16 @@ public class CryingToolItem extends Item implements CryingTool {
     public static final float COPPER_SPEED = 140F;
     public static final int COPPER_AXE_SPEED = 55;
 
-    public static final int GOLD_DURABILITY = 17315;
+    public static final int GOLD_DURABILITY = 17747;
     public static final int GOLD_ENCHANTABILITY = 100;
     public static final float GOLD_SPEED = 320F;
     public static final int GOLD_AXE_SPEED = 140;
 
-    public static final float CRYING_SWORD_ATTACK_DAMAGE_BONUS = 20f;
-    public static final float CRYING_AXE_ATTACK_DAMAGE_BONUS = 20f * 1.25f;      
-    public static final float CRYING_PICKAXE_ATTACK_DAMAGE_BONUS = 20f * 0.5f;  
-    public static final float CRYING_SHOVEL_ATTACK_DAMAGE_BONUS = 20f * 0.75f; 
-    public static final float CRYING_HOE_ATTACK_DAMAGE_BONUS = 20f * 0.3f;      
-
-    public static final float NETHERITE_SWORD_ATTACK_DAMAGE_BONUS = 10f;
-    public static final float NETHERITE_AXE_ATTACK_DAMAGE_BONUS = 10f * 1.25f;     
-    public static final float NETHERITE_PICKAXE_ATTACK_DAMAGE_BONUS = 10f * 0.5f; 
-    public static final float NETHERITE_SHOVEL_ATTACK_DAMAGE_BONUS = 10f * 0.75f;  
-    public static final float NETHERITE_HOE_ATTACK_DAMAGE_BONUS = 10f * 0.3f;      
-
-    public static final float DIAMOND_SWORD_ATTACK_DAMAGE_BONUS = 8f;
-    public static final float DIAMOND_AXE_ATTACK_DAMAGE_BONUS = 8f * 1.25f;     
-    public static final float DIAMOND_PICKAXE_ATTACK_DAMAGE_BONUS = 8f * 0.5f; 
-    public static final float DIAMOND_SHOVEL_ATTACK_DAMAGE_BONUS = 8f * 0.75f;  
-    public static final float DIAMOND_HOE_ATTACK_DAMAGE_BONUS = 8f * 0.3f;      
-
-    public static final float IRON_SWORD_ATTACK_DAMAGE_BONUS = 7f;
-    public static final float IRON_AXE_ATTACK_DAMAGE_BONUS = 7f * 1.25f;      
-    public static final float IRON_PICKAXE_ATTACK_DAMAGE_BONUS = 7f * 0.5f;     
-    public static final float IRON_SHOVEL_ATTACK_DAMAGE_BONUS = 7f * 0.75f;    
-    public static final float IRON_HOE_ATTACK_DAMAGE_BONUS = 7f * 0.3f;      
-
-    public static final float COPPER_SWORD_ATTACK_DAMAGE_BONUS = 6.5f;
-    public static final float COPPER_AXE_ATTACK_DAMAGE_BONUS = 6.5f * 1.25f;      
-    public static final float COPPER_PICKAXE_ATTACK_DAMAGE_BONUS = 6.5f * 0.5f;     
-    public static final float COPPER_SHOVEL_ATTACK_DAMAGE_BONUS = 6.5f * 0.75f;    
-    public static final float COPPER_HOE_ATTACK_DAMAGE_BONUS = 6.5f * 0.3f; 
-
-    public static final float GOLD_SWORD_ATTACK_DAMAGE_BONUS = 6f;
-    public static final float GOLD_AXE_ATTACK_DAMAGE_BONUS = 6f * 1.25f;   
-    public static final float GOLD_PICKAXE_ATTACK_DAMAGE_BONUS = 6f * 0.5f;     
-    public static final float GOLD_SHOVEL_ATTACK_DAMAGE_BONUS = 6f * 0.75f;     
-    public static final float GOLD_HOE_ATTACK_DAMAGE_BONUS = 6f * 0.3f;
-
+    public static final float SWORD_ATTACK_DAMAGE_BONUS = 15F;
+    public static final float AXE_ATTACK_DAMAGE_BONUS = 20F;      
+    public static final float PICKAXE_ATTACK_DAMAGE_BONUS = 2.5F;  
+    public static final float SHOVEL_ATTACK_DAMAGE_BONUS = 5F; 
+    public static final float HOE_ATTACK_DAMAGE_BONUS = 0F;      
 
     public CryingToolItem(Settings settings) {
         super(settings.fireproof());

@@ -1,3 +1,13 @@
+# 6.1.7 - Balance Changes
+## Changes
+### Crying Tools
+- Attack damage is now dependent on the tool type, not the Core Ingredient
+- Buffed durability of Crying Tools with Gold Core Ingredient by 2.5%
+
+With the next update 6.1.8, I will stop supporting 1.21.5. 
+
+6.1.8 will release after 1.21.11 releases. 6.1.8 will include 1.21.11 exclusive content.
+
 # 6.1.6
 ## Changes
 ### Crying Ore

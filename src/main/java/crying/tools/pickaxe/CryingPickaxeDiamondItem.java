@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingPickaxeDiamondItem extends AbstractCryingPickaxeItem {
     public CryingPickaxeDiamondItem() {
-        super(CryingToolItem.DIAMOND_DURABILITY, DIAMOND_SPEED, DIAMOND_PICKAXE_ATTACK_DAMAGE_BONUS, DIAMOND_ENCHANTABILITY, "crying_pickaxe_diamond");
+        super(CryingToolItem.DIAMOND_DURABILITY, DIAMOND_SPEED, DIAMOND_ENCHANTABILITY, "crying_pickaxe_diamond");
     }
 
     @Override

@@ -8,6 +8,7 @@ import crying.Crying;
 import crying.enums.ToolType;
 import crying.interfaces.OxidizableCryingTool;
 import crying.other.CryingTags;
+import crying.tools.CryingToolItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Oxidizable.OxidationLevel;
 import net.minecraft.component.type.TooltipDisplayComponent;
@@ -29,8 +30,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class AbstractCryingShovelCopperItem extends ShovelItem implements OxidizableCryingTool {
-    public AbstractCryingShovelCopperItem(int durability, float speed, float bonus, int enchantable, String id) {
-        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, bonus, enchantable, CryingTags.CryingTag), 6.5F, -3F, new Item.Settings()
+    public AbstractCryingShovelCopperItem(int durability, float speed, int enchantable, String id) {
+        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, CryingToolItem.SHOVEL_ATTACK_DAMAGE_BONUS, enchantable, CryingTags.CryingTag), 6.5F, -3F, new Item.Settings()
         .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
         .component(Crying.WAS_WAXED, false)
         .component(Crying.OXIDATION_SECONDS, 0)

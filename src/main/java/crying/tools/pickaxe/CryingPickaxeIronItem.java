@@ -7,7 +7,7 @@ import net.minecraft.item.Items;
 
 public class CryingPickaxeIronItem extends AbstractCryingPickaxeItem {
     public CryingPickaxeIronItem() {
-        super(CryingToolItem.IRON_DURABILITY, IRON_SPEED, IRON_PICKAXE_ATTACK_DAMAGE_BONUS, IRON_ENCHANTABILITY, "crying_pickaxe_iron");
+        super(CryingToolItem.IRON_DURABILITY, IRON_SPEED, IRON_ENCHANTABILITY, "crying_pickaxe_iron");
     }
 
     @Override

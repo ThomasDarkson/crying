@@ -9,7 +9,7 @@ import net.minecraft.server.world.ServerWorld;
 
 public class CryingSwordGoldItem extends AbstractCryingSwordItem {
     public CryingSwordGoldItem() {
-        super(GOLD_DURABILITY, GOLD_SPEED, GOLD_SWORD_ATTACK_DAMAGE_BONUS, GOLD_ENCHANTABILITY, "crying_sword_gold");
+        super(GOLD_DURABILITY, GOLD_SPEED, GOLD_ENCHANTABILITY, "crying_sword_gold");
     }
 
     @Override

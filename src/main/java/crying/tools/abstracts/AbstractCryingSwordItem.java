@@ -16,9 +16,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
 public class AbstractCryingSwordItem extends CryingToolItem {
-    public AbstractCryingSwordItem(int durability, float speed, float bonus, int enchantable, String id) {
+    public AbstractCryingSwordItem(int durability, float speed, int enchantable, String id) {
         super(new Item.Settings()
-            .sword(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, bonus, enchantable, CryingTags.CryingTag), 8F, -2.4F)
+            .sword(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, CryingToolItem.SWORD_ATTACK_DAMAGE_BONUS, enchantable, CryingTags.CryingTag), 8F, -2.4F)
             .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
             .rarity(id.equals("criers_sword") ? Rarity.EPIC : Rarity.COMMON)
         );

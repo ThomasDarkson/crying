@@ -2,11 +2,14 @@ package crying.entities.crier;
 
 import crying.Crying;
 import crying.entities.CrierEntity;
+import crying.feature.SpinningCryingShieldFeatureRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.BipedEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRenderer;
+import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
@@ -17,6 +20,7 @@ public abstract class CrierEntityBaseRenderer<T extends CrierEntity, S extends C
     protected CrierEntityBaseRenderer(EntityRendererFactory.Context context, M mainModel, M babyMainModel, M armorInnerModel, M armorOuterModel, M babyArmorInnerModel, M babyArmorOuterModel) {
         super(context, mainModel, babyMainModel, 0.75F);
         this.addFeature(new ArmorFeatureRenderer(this, armorInnerModel, armorOuterModel, babyArmorInnerModel, babyArmorOuterModel, context.getEquipmentRenderer()));
+        this.addFeature((FeatureRenderer<S, M>) new SpinningCryingShieldFeatureRenderer((FeatureRendererContext<CrierEntityRenderState, CrierEntityModel<CrierEntityRenderState>>) this));
     }
 
     @Override
@@ -25,8 +29,14 @@ public abstract class CrierEntityBaseRenderer<T extends CrierEntity, S extends C
     }
 
     @Override
-    public void updateRenderState(T crierEntity, S crierEntityRenderState, float f) {
-        super.updateRenderState(crierEntity, crierEntityRenderState, f);
-        crierEntityRenderState.forlorn = crierEntity.getSecondPhase();
+    public void updateRenderState(T crierEntity, S state, float tickDelta) {
+        super.updateRenderState(crierEntity, state, tickDelta);
+        state.forlorn = crierEntity.getSecondPhase();
+        state.shieldHealth = crierEntity.getShieldHealth();
+        state.realAge = crierEntity.age;
+
+        float time = crierEntity.age + tickDelta;
+        state.headSpinDegrees = time * (state.shieldHealth <= 0F ? (state.forlorn ? 2.5F : 5.0F) : 10.0F);
+        state.headFloatOffset = (float) Math.sin(time * 0.15F) * 0.3F; 
     }
 }

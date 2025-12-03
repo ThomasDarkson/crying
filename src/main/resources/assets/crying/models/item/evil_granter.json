@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "crying:item/crying_ingot_netherite"
+        "layer0": "crying:item/evil_granter"
     }
 }

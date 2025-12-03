@@ -42,6 +42,7 @@ public class CryingClient implements ClientModInitializer
         EntityRendererRegistry.register(Crying.CRIER, CrierEntityRenderer::new);
         EntityRendererRegistry.register(Crying.LOST_CRIER, LostCrierEntityRenderer::new);
         EntityRendererRegistry.register(Crying.GRANTER_ENTITY, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(Crying.EVIL_GRANTER_ENTITY, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(Crying.GRAPPLING_HOOK, GrapplingHookRenderer::new);
 
         BlockEntityRendererFactories.register(Crying.CRYING_FOOD_BLOCK_ENTITY, CryingFoodEntityRenderer::new);

@@ -9,13 +9,13 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
-public class AbstractCryingIngotItem extends Item {
-    public AbstractCryingIngotItem(String id) {
+public class CryingIngotItem extends Item {
+    public CryingIngotItem() {
         super(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
+            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_ingot")))
             .fireproof());
 
-        Crying.register(this, id);
+        Crying.register(this, "crying_ingot");
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_INGOT, this));
     }
 }

@@ -2,7 +2,7 @@ package crying.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import crying.PlayerEntityRenderStateVarsInterface;
+import crying.interfaces.PlayerEntityRenderStateVarsInterface;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;

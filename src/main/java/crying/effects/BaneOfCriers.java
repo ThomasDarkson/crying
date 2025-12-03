@@ -17,7 +17,7 @@ public class BaneOfCriers extends StatusEffect {
 	}
 	
     protected BaneOfCriers() {
-		super(StatusEffectCategory.HARMFUL, 2818424, ParticleTypes.FALLING_OBSIDIAN_TEAR);
+		super(StatusEffectCategory.HARMFUL, 5312458, ParticleTypes.FALLING_OBSIDIAN_TEAR);
 	}
 
 	@Override

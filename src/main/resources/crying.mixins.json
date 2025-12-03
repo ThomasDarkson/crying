@@ -14,7 +14,8 @@
 		"AbstractBlockMixin",
 		"LightningEntityMixin",
 		"EntityMixin",
-		"PersistentProjectileEntityMixin"
+		"PersistentProjectileEntityMixin",
+		"BrewingRecipeRegistryMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

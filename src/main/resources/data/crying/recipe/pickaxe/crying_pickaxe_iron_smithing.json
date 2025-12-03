@@ -2,7 +2,7 @@
   "type": "minecraft:smithing_transform",
   "base": "minecraft:netherite_pickaxe",
   "addition": "minecraft:iron_ingot",
-  "template": "crying:crying_ingot_iron",
+  "template": "crying:crying_ingot",
   "result": {
     "id": "crying:crying_pickaxe_iron"
   }

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import crying.Crying;
 import crying.goals.FastBreakDoorGoal;
 import crying.other.CrierExplosionBehavior;
+import crying.tools.CryingShieldItem;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.Entity;
@@ -67,8 +68,7 @@ public class CrierEntity extends HostileEntity {
     ServerBossBar bossBar = null;
     ServerBossBar shieldBar = null;
 
-    private static final float shieldMaxHealth = 336F;
-    private float shieldHealth = 336F;
+    private static final TrackedData<Float> shieldHealth;
     private static final TrackedData<Boolean> secondPhase;
     private boolean initializedExplosion = false;
     private boolean isSmall = false;
@@ -78,6 +78,7 @@ public class CrierEntity extends HostileEntity {
 
     static {
         secondPhase = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        shieldHealth = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.FLOAT);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -128,7 +129,6 @@ public class CrierEntity extends HostileEntity {
         shieldBar.setDragonMusic(false);
         shieldBar.setPercent(0.0F);
 
-        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 22, false, false, false), this);
         setCanBreakDoors(true);
 
         if (this.getWorld().getDimensionEntry().getKey().get() != DimensionTypes.OVERWORLD) {
@@ -147,11 +147,12 @@ public class CrierEntity extends HostileEntity {
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
         builder.add(secondPhase, false);
+        builder.add(shieldHealth, (float) CryingShieldItem.CRYING_SHIELD_HEALTH);
     }
 
     @Override
     public boolean canHaveStatusEffect(StatusEffectInstance effect) {
-        return effect.equals(StatusEffects.WEAKNESS) && effect.getAmplifier() == 22;
+        return effect.equals(StatusEffects.WEAKNESS) && effect.getAmplifier() == 2;
     }
 
     @Override
@@ -177,16 +178,9 @@ public class CrierEntity extends HostileEntity {
         return entityData;
     }
 
-    void addShield() {
-        ItemStack stack = new ItemStack(Items.SHIELD);
-        this.equipStack(EquipmentSlot.OFFHAND, stack);
-    }
-
     @Override
     protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
         this.equipStack(EquipmentSlot.HEAD, new ItemStack(Crying.CRYING_HELMET));
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Crying.CRIERS_SWORD));
-        addShield();
     }
 
     @Override
@@ -211,7 +205,7 @@ public class CrierEntity extends HostileEntity {
         float health = this.getHealth() / this.getMaxHealth();
         this.bossBar.setPercent(health);
 
-        this.shieldBar.setPercent(this.shieldHealth / shieldMaxHealth);
+        this.shieldBar.setPercent(this.getShieldHealth() / (float) CryingShieldItem.CRYING_SHIELD_HEALTH);
 
         if (health > 0F) {
             if (health < 0.2F && !getSecondPhase()) {
@@ -252,20 +246,20 @@ public class CrierEntity extends HostileEntity {
 
     void damageShield(float amount) {
         if (amount < 3F) 
-            shieldHealth--;
+            this.setShieldHealth(this.getShieldHealth() - 1F);
         else 
-            shieldHealth -= Math.round(amount);
+            this.setShieldHealth(this.getShieldHealth() - Math.round(amount));
 
         this.getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
-        this.swingHand(Hand.OFF_HAND);
-        if (shieldHealth <= 0)
+        if (this.getShieldHealth() <= 0)
             breakShield(true);
     }
 
     void breakShield(boolean playSound) {
         this.shieldBar.setVisible(false);
-        this.setStackInHand(Hand.OFF_HAND, ItemStack.EMPTY);
-        shieldHealth = 0;
+        this.setStackInHand(Hand.MAIN_HAND, new ItemStack(Crying.CRIERS_SWORD));
+        this.setShieldHealth(0);
+        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 2, false, false, false), this);
 
         if (playSound)
             this.getWorld().playSound(null, getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), getSoundCategory());
@@ -289,6 +283,14 @@ public class CrierEntity extends HostileEntity {
     void swingBothHands() {
         this.swingHand(Hand.MAIN_HAND);
         this.swingHand(Hand.OFF_HAND);
+    }
+
+    public float getShieldHealth() {
+        return this.getDataTracker().get(shieldHealth);
+    }
+
+    public void setShieldHealth(float health) {
+        this.getDataTracker().set(shieldHealth, health);
     }
 
     public boolean getSecondPhase() {
@@ -336,7 +338,7 @@ public class CrierEntity extends HostileEntity {
         nbt.putBoolean("initializedExplosion", initializedExplosion);
         nbt.putBoolean("healing", healing);
         nbt.putBoolean("isSmall", isSmall);
-        nbt.putFloat("shieldHealth", shieldHealth);
+        nbt.putFloat("shieldHealth", this.getShieldHealth());
         nbt.putInt("healingTicks", healingTicks);
 
         for (String s : gotAttackedByPlayer) {
@@ -373,8 +375,8 @@ public class CrierEntity extends HostileEntity {
         isSmall = nbt.getBoolean("isSmall", false);
         changeScale();
 
-        shieldHealth = nbt.getFloat("shieldHealth", shieldMaxHealth);
-        if (shieldHealth <= 0)
+        this.setShieldHealth(nbt.getFloat("shieldHealth", (float) CryingShieldItem.CRYING_SHIELD_HEALTH));
+        if (this.getShieldHealth() <= 0)
             breakShield(false);
     }
 
@@ -429,7 +431,7 @@ public class CrierEntity extends HostileEntity {
             world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
             return false;
         }
-        else if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD) && getOffHandStack().getItem() == Items.SHIELD && shieldHealth > 0) {
+        else if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD) && this.getShieldHealth() > 0) {
             damageShield(amount);
             return false;
         }

@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import crying.Crying;
 import crying.CryingClient;
-import crying.PlayerEntityRenderStateVarsInterface;
+import crying.interfaces.PlayerEntityRenderStateVarsInterface;
 import crying.items.CryingGrapplingHookItem;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;

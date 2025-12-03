@@ -1,10 +1,9 @@
 package crying.tools.sword;
 
 import crying.Crying;
+import crying.entities.GranterEntity;
 import crying.tools.abstracts.AbstractCryingSwordItem;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -22,7 +21,7 @@ public class CriersSwordItem extends AbstractCryingSwordItem {
             target.dropItem((ServerWorld) target.getWorld(), Items.GOLD_INGOT);
 
         if (!target.isDead()) {
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 1));
+            GranterEntity.summonEvilGranterEntity(target.getWorld(), target);
         }
     }
 

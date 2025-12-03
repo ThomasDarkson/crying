@@ -33,6 +33,6 @@ public class CrierEntityRenderer extends CrierEntityBaseRenderer<CrierEntity, Cr
 
     @Override
     protected boolean isShaking(CrierEntityRenderState crierEntityRenderState) {
-        return false;
+        return crierEntityRenderState.forlorn;
     }
 }

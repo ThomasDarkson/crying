@@ -1,3 +1,25 @@
+# 6.1.8
+## Additions
+- Added Bane Of Criers potions, normal (2 minutes) and extended (8 minutes)
+- Evil Granter, a variant of Granter that grants negative effect on its player
+
+## Changes
+### Crier
+- Crier's model is revamped
+- Crier now uses Crying Shield instead of a normal shield
+- Crier won't equip its Crier's Shield until its shield is broken
+
+### Crying Tools
+- Crier's Sword now summons an Evil Granter to it's victim (if they're not dead) instead of giving them Weakness
+
+## Fixes
+### Crier
+- Crier can do damage again
+
+## Removals
+- Removed every variant of Crying Ingot
+	- Every recipe now uses normal Crying Ingot 
+
 # 6.1.7 - Balance Changes
 ## Changes
 ### Crying Tools

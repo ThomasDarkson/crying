@@ -31,6 +31,12 @@
             "crying:granter_heal"
         ]
     },
+    "evil_granter_touch": {
+        "subtitle": "subtitles.crying.evil_granter_touch",
+        "sounds": [
+            "crying:evil_granter_touch"
+        ]
+    },
     "living_mice_crying_biome": {
         "subtitle": "",
         "sounds": [

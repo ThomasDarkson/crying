@@ -2,7 +2,7 @@
   "type": "minecraft:smithing_transform",
   "base": "minecraft:netherite_shovel",
   "addition": "minecraft:copper_ingot",
-  "template": "crying:crying_ingot_copper",
+  "template": "crying:crying_ingot",
   "result": {
     "id": "crying:crying_shovel_copper"
   }

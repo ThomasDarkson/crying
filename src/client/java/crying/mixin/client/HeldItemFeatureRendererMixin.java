@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import crying.CryingClient;
-import crying.PlayerEntityRenderStateVarsInterface;
+import crying.interfaces.PlayerEntityRenderStateVarsInterface;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;

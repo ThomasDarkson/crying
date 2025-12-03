@@ -93,7 +93,7 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
                 }
             }
             else if (tool.getCoreIngredient() == Items.GOLD_INGOT || Crying.isTheCriersSword(player.getMainHandStack())) {
-                if (!player.isCreative() && source.getAttacker() instanceof Entity)
+                if (!player.isCreative() && source.getAttacker() instanceof Entity && amount > 0F)
                     GranterEntity.summonGranterEntity(world, player);
             }
         }

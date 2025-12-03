@@ -4,15 +4,22 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 
 @Environment(EnvType.CLIENT)
-public class CrierEntityModel<S extends BipedEntityRenderState> extends BipedEntityModel<S> {
+public class CrierEntityModel<S extends CrierEntityRenderState> extends BipedEntityModel<S> {
     public CrierEntityModel(ModelPart modelPart) {
         super(modelPart);
     }
 
-    public void setAngles(S crierEntityRenderState) {
-        super.setAngles(crierEntityRenderState);
+    @Override
+    public void setAngles(S state) {
+        super.setAngles(state);
+
+        this.head.originY = this.head.originY - 2.0F + state.headFloatOffset * 8.0F;
+        //this.head.yaw = (float) Math.toRadians(state.headSpinDegrees);
+
+        this.body.yaw = 0.0F;
+
+        this.leftArm.setAngles(0f, 0f, 0f);
     }
 }

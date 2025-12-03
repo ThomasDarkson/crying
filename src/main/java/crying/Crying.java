@@ -41,20 +41,15 @@ import crying.items.CryingAppleItem;
 import crying.items.CryingCarrotItem;
 import crying.items.CryingResidueItem;
 import crying.items.EnchantedCryingAppleItem;
+import crying.items.EvilGranterItem;
 import crying.items.EyeConnectedToAStickItem;
 import crying.items.EyeItem;
 import crying.items.GranterItem;
 import crying.items.CryingGrapplingHookItem;
 import crying.items.CryingGrapplingHookTipItem;
+import crying.items.CryingIngotItem;
 import crying.items.HardenedCorePieceItem;
 import crying.items.LostCrierSpawnEggItem;
-import crying.items.ingot.AbstractCryingIngotItem;
-import crying.items.ingot.CryingIngotCopperItem;
-import crying.items.ingot.CryingIngotDiamondItem;
-import crying.items.ingot.CryingIngotGoldItem;
-import crying.items.ingot.CryingIngotIronItem;
-import crying.items.ingot.CryingIngotItem;
-import crying.items.ingot.CryingIngotNetheriteItem;
 import crying.other.CryingLoot;
 import crying.other.CryingTags;
 import crying.tools.CryingShieldItem;
@@ -79,6 +74,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -88,6 +84,7 @@ import net.minecraft.item.equipment.ArmorMaterial;
 import net.minecraft.item.equipment.EquipmentAsset;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -103,7 +100,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -114,7 +110,7 @@ import semantic.ver.lib.SemanticVersion;
 
 public class Crying implements ModInitializer {
 	private static final String VERSION_URL = "https://raw.githubusercontent.com/ThomasDarkson/crying/refs/heads/version/version.txt";
-	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 7, VERSION_URL);
+	public static final SemanticVersion VERSION = SemanticVersion.stable(6, 1, 8, VERSION_URL);
     public static final String ID = "crying";
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;
@@ -143,6 +139,12 @@ public class Crying implements ModInitializer {
 		Registries.ENTITY_TYPE,
 		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "granter")),
 		EntityType.Builder.create(GranterEntity::new, SpawnGroup.MISC).dimensions(0.2F, 0.2F).trackingTickInterval(1).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "granter")))
+	);
+
+	public static final EntityType<EvilGranterEntity> EVIL_GRANTER_ENTITY = Registry.register(
+		Registries.ENTITY_TYPE,
+		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "evil_granter")),
+		EntityType.Builder.create(EvilGranterEntity::new, SpawnGroup.MISC).dimensions(0.2F, 0.2F).trackingTickInterval(1).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "evil_granter")))
 	);
 
 	public static final Block CRIERS_HEART = new CriersHeartBlock(Settings.create().
@@ -177,6 +179,9 @@ public class Crying implements ModInitializer {
 	public static final ComponentType<String> OXIDATION_LEVEL;
 	public static final ComponentType<Boolean> THROWN;
 	public static final ComponentType<String> HOOK_UUID;
+
+	public static final RegistryEntry<Potion> CRYING_POTION;
+	public static final RegistryEntry<Potion> LONG_CRYING_POTION;
 	
 	public static final Item CRYING_SHIELD;
 
@@ -188,17 +193,13 @@ public class Crying implements ModInitializer {
 	public static final Item CRYING_HORSE_ARMOR;
 
 	public static final Item GRANTER;
+	public static final Item EVIL_GRANTER;
 
 	public static final Item CRYING_GRAPPLING_HOOK;
 	public static final Item CRYING_GRAPPLING_HOOK_TIP;
 
 	public static final Item CRYING_RESIDUE;
 	public static final Item CRYING_INGOT;
-	public static final Item CRYING_INGOT_NETHERITE;
-	public static final Item CRYING_INGOT_DIAMOND;
-	public static final Item CRYING_INGOT_IRON;
-	public static final Item CRYING_INGOT_COPPER;
-	public static final Item CRYING_INGOT_GOLD;
 
 	public static final Item CRYING_APPLE;
 	public static final Item CRYING_CARROT;
@@ -273,6 +274,9 @@ public class Crying implements ModInitializer {
 	public static final Identifier GRANTER_HEAL = Identifier.of(ID, "granter_heal");
 	public static final SoundEvent GRANTER_HEAL_EVENT = SoundEvent.of(GRANTER_HEAL);
 
+	public static final Identifier EVIL_GRANTER_TOUCH = Identifier.of(ID, "evil_granter_touch");
+	public static final SoundEvent EVIL_GRANTER_HEAL_TOUCH = SoundEvent.of(EVIL_GRANTER_TOUCH);
+
 	public static final Reference<SoundEvent> LIVING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "living_mice_crying_biome"), SoundEvent.of(Identifier.of(ID, "living_mice_crying_biome")));
 	public static final Reference<SoundEvent> CRYING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "crying_mice"), SoundEvent.of(Identifier.of(ID, "crying_mice")));
 
@@ -283,6 +287,12 @@ public class Crying implements ModInitializer {
 		THROWN = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "hook_thrown"), ComponentType.<Boolean>builder().codec(Codec.BOOL).packetCodec(PacketCodecs.BOOLEAN).build());
 		HOOK_UUID = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "hook_uuid"), ComponentType.<String>builder().codec(Codec.string(0, Integer.MAX_VALUE)).build());
 		
+		CRYING_POTION = registerPotion("bane_of_criers",
+            new Potion("bane_of_criers", new StatusEffectInstance(BaneOfCriers.BANE_OF_CRIERS, Crying.tickSecond(120), 0)));
+
+		LONG_CRYING_POTION = registerPotion("long_bane_of_criers",
+            new Potion("bane_of_criers", new StatusEffectInstance(BaneOfCriers.BANE_OF_CRIERS, Crying.tickSecond(480), 0)));
+
 		// Blocks
 		CRYING_BLOCK = new CryingBlock();
 		HARD_CRYING_OBSIDIAN = new HardCryingObsidianBlock();
@@ -297,11 +307,6 @@ public class Crying implements ModInitializer {
 		// Items
 		CRYING_RESIDUE = new CryingResidueItem();
 		CRYING_INGOT = new CryingIngotItem();
-		CRYING_INGOT_NETHERITE = new CryingIngotNetheriteItem();
-		CRYING_INGOT_DIAMOND = new CryingIngotDiamondItem();
-		CRYING_INGOT_IRON = new CryingIngotIronItem();
-		CRYING_INGOT_COPPER = new CryingIngotCopperItem();
-		CRYING_INGOT_GOLD = new CryingIngotGoldItem();
 		CRYING_APPLE = new CryingAppleItem();
 		CRYING_CARROT = new CryingCarrotItem();
 		ENCHANTED_CRYING_APPLE = new EnchantedCryingAppleItem();
@@ -310,6 +315,7 @@ public class Crying implements ModInitializer {
 		CRIER_SPAWN_EGG = new CrierSpawnEggItem();
 		LOST_CRIER_SPAWN_EGG = new LostCrierSpawnEggItem();
 		GRANTER = new GranterItem();
+		EVIL_GRANTER = new EvilGranterItem();
 		CRYING_GRAPPLING_HOOK = new CryingGrapplingHookItem();
 		CRYING_GRAPPLING_HOOK_TIP = new CryingGrapplingHookTipItem();
 
@@ -378,6 +384,7 @@ public class Crying implements ModInitializer {
 		Registry.register(Registries.SOUND_EVENT, CRIER_HURT, CRIER_HURT_EVENT);
 		Registry.register(Registries.SOUND_EVENT, CRIER_DIES, CRIER_DIES_EVENT);
 		Registry.register(Registries.SOUND_EVENT, GRANTER_HEAL, GRANTER_HEAL_EVENT);
+		Registry.register(Registries.SOUND_EVENT, EVIL_GRANTER_TOUCH, EVIL_GRANTER_HEAL_TOUCH);
 
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
 		FabricDefaultAttributeRegistry.register(LOST_CRIER, LostCrierEntity.createLostCrierAttributes());
@@ -415,8 +422,6 @@ public class Crying implements ModInitializer {
 
 	public static Block registerBlock(Block block, String name) {
 		Identifier id = Identifier.of(Crying.ID, name);
-		Rarity rarity = Rarity.COMMON;
-		Integer stack = 64;
 
 		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name)));
 
@@ -427,14 +432,15 @@ public class Crying implements ModInitializer {
 			settings = settings.rarity(unique.getRarity());
 			settings = settings.maxCount(unique.getMaxCount());
 		}
-
-		settings = settings.rarity(rarity);
-		settings = settings.maxCount(stack);
 		
 		BlockItem blockItem = new BlockItem(block, settings);
 		Registry.register(Registries.ITEM, id, blockItem);
 
 		return Registry.register(Registries.BLOCK, id, block);
+	}
+
+	private static RegistryEntry<Potion> registerPotion(String name, Potion potion) {
+		return Registry.registerReference(Registries.POTION, Identifier.of(ID, name), potion);
 	}
 
 	public static <T extends BlockEntityType<?>> T registerBlockEntityType(String path, T blockEntityType) {
@@ -493,26 +499,6 @@ public class Crying implements ModInitializer {
 			return Text.translatable("item.crying.over-hardened_core_with_eye").setStyle(Style.EMPTY.withColor(1966200));
 
 		return Text.translatable("core.ingredient.crying").setStyle(Style.EMPTY.withColor(Formatting.DARK_PURPLE));
-	}
-
-	public static MutableText getInfusionItemText(ItemStack stack) {
-		if (stack.getItem() instanceof AbstractCryingIngotItem ingot) {
-			Item item = ingot.getInfusedItem();
-			if (item == Items.IRON_INGOT)
-				return Text.translatable("core.ingredient.iron").setStyle(Style.EMPTY.withColor(Formatting.GRAY));
-			else if (item == Items.DIAMOND)
-				return Text.translatable("core.ingredient.diamond").setStyle(Style.EMPTY.withColor(Formatting.AQUA));
-			else if (item == Items.NETHERITE_INGOT)
-				return Text.translatable("core.ingredient.netherite").setStyle(Style.EMPTY.withColor(Formatting.DARK_GRAY));
-			else if (item == Items.GOLD_INGOT)
-				return Text.translatable("core.ingredient.gold").setStyle(Style.EMPTY.withColor(Formatting.YELLOW));
-			else if (item == Items.COPPER_INGOT)
-				return Text.translatable("core.ingredient.copper").setStyle(Style.EMPTY.withColor(ColorHelper.getArgb(255, 255, 128, 0)));
-
-			return Text.translatable("core.ingredient.nothing");
-		}
-
-		return null;
 	}
 
 	public static int nextBetweenInt(int min, int max) {

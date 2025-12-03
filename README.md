@@ -53,21 +53,14 @@ When mined, it drops a **Crying Residue** which can be used to craft a **Crying 
 ## Crying Residue
 - Stackable: 64
 
-Crying Residue is an item obtained from Crying Ore, it can be used to craft an **Uninfused Crying Ingot**.
+Crying Residue is an item obtained from Crying Ore, it can be used to craft an **Crying Ingot**. It can also be used to brew Bane of Criers potion.
 
 ![image](https://i.ibb.co/JFRJCnTY/image.png)
 
 ## Crying Ingot
 - Stackable: 64
 
-Crying Ingot is a type of ingot to craft Crying Tools, items and armors. It can be infused with the ingredients below:
-- Netherite
-- Diamond
-- Iron
-- Copper
-- Gold
-
-Most recipes use Uninfused Crying Ingot, but Crying Tools needs the corresponding infused Crying Ingot. For example, to craft a Crying Sword with Copper Core Ingredients, it's required to use Crying Ingot infused with Copper. To infuse a Crying Ingot, simply put a Crying Ingot and the ingredient you're going to infuse the Crying Ingot with in a crafting table.
+Crying Ingot is a type of ingot to craft Crying Tools, items and armors.
 
 ## Hard Crying Obsidian
 - Hardness: 75
@@ -91,7 +84,7 @@ It can be duplicated using 8 Iron Ingots.
 - Drops: Itself
 - Stackable: 64
 
-A Block of Crying is crafted from 9 **Uninfused Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
+A Block of Crying is crafted from 9 **Crying Ingots** and can be uncrafted back into 9 Crying Ingots.
 
 ![image](https://i.ibb.co/WNDB3Nhr/411574623-3ff12e05-af67-4578-b5bc-58602f849a2f.png)
 
@@ -121,7 +114,7 @@ Void-Stained Crying Block is the Bedrock counterpart of Crying Dimension. It alw
 
 Eye Connected To A Stick is an item that is used to travel between Overworld and Crying Dimension. When used, it will search a 618x618 area for a solid block where the player can safely stand without suffocating.
 
-It is crafted with an **Uninfused Crying Ingot**, **Eye** and **Stick**.
+It is crafted with an **Crying Ingot**, **Eye** and **Stick**.
 
 ![](https://i.ibb.co/Q3LZdQV5/image.png)
 
@@ -154,7 +147,7 @@ It has 2 biomes in it; Somewhat Weird Island and Somewhat Normal Island.
 
 Crying Grappling Hook is a type of grappling hook that only works in Crying Dimension. When thrown, if the hook attaches to a solid block it will pull the user. 
 
-It is crafted with 2 **Uninfused Crying Ingots**, 1 **String**, 1 **Eye** and a **Stick**.
+It is crafted with 2 **Crying Ingots**, 1 **String**, 1 **Eye** and a **Stick**.
 
 ![](https://i.ibb.co/HT6T0Z4D/image.png)
 
@@ -163,7 +156,7 @@ It is crafted with 2 **Uninfused Crying Ingots**, 1 **String**, 1 **Eye** and a 
 ## Crying Tools
 Crying Tools are crafted with:
 - 1 Netherite Tool
-- 1 Crying Ingot infused with the Core Ingredient
+- 1 Crying Ingot
 - 1 Core Ingredient
 
 The Core Ingredient of a Crying Tool is specified by the addition material in its recipe. Core Ingredients are listed below:
@@ -175,7 +168,9 @@ The Core Ingredient of a Crying Tool is specified by the addition material in it
 - Copper
 - Gold Ingot
 
-A Crying Tool's damage, durability, mining speed, enchantability, and attack damage bonus depend on its Core Ingredient. While Gold is the lowest tier, it has two perks—unlike every other tier, which has only one—and it's the only way to spawn a Granter Entity.
+![](https://i.ibb.co/ynGJYJK1/image.png)
+
+A Crying Tool's damage, durability, mining speed, and enchantability on its Core Ingredient. While Gold is the lowest tier, it has two perks—unlike every other tier, which has only one—and it's the only way to spawn a Granter Entity.
 
 ## Tool Values
 
@@ -219,7 +214,7 @@ Each Core Ingredient has one perk of its own, except Gold which has two perks. T
 - Lightning is summoned on any enemy Crying Tool with Copper Core Ingredient hits, and this lightning will not hurt the owner of the tool. It will not start any fire either. The chance of the lightning being summoned depends on the oxidation level of the tool.
 
 #### Gold Core Ingredient
-- If you hit an enemy with a Crying Sword with Gold Core Ingredient, they will drop one gold ingot.
+- If you hit an enemy with a Crying Sword (or a Crier's Sword) with Gold Core Ingredient while sneaking, they will drop one gold ingot.
 - If you take damage while holding any Crying Tool with Gold Core Ingredient and don’t already have a Granter, one will be summoned for you.
 
 Note: Since Crier's Sword is crafted with Crying Sword with Gold Core Ingredient, these perks also apply to Crier's Sword.
@@ -241,7 +236,7 @@ Waxing is the only way to deoxidize a tool.
 | **Oxidized**    | 4,800 – 9,600 sec | 9,600 – 19,200 sec | 25% |
 
 ##### Granter
-The Granter is an entity that'll travel with the closest player to it, and after 10 seconds it will descend and grant a random positive status effect to its player.
+The Granter is an entity that'll travel with the closest player to it, and after 10 seconds it will descend and grant a random positive status effect to its target.
 
 When summoned, a Granter will look for the closest player. When it finds one, it will fix its position above the player's head and follow them around for 5 seconds.
 
@@ -252,6 +247,9 @@ Granter is biased to Regeneration, Instant Health and Saturation status effects 
 It cannot be destroyed, or moved to another player if it's following one. Granter will not grant its player neutral or negative effects.
 
 ![](https://i.ibb.co/rGv1ZzNv/f.gif)
+
+##### Evil Granter
+Evil Granter is a variant of Granter that only grants a random negative status effect to its target. The length and amplifier of the status effect it grants is the same. Unlike normal Granter, Evil Granter is not biased to any status effect and the effect it'll choose is completely random.
 
 ## Over-hardened Core With Eye Core Ingredient
 Over-hardened Core With Eye Core can be used to craft a Crying Pickaxe with the Over-hardened Core With Eye Core Ingredient or a Crier's Sword.
@@ -270,7 +268,7 @@ This will work even if the pickaxe it was made with didn't have Fortune or Silk 
 ### Crier's Sword
 Crier's Sword is crafted with a **Crying Sword with Gold Core Ingredient**, a **Gold Ingot**, **Over-hardened Core with Eye**. 
 
-Since the Crier's Sword's base has Gold as Core Ingredient, it has the perks of Gold Core Ingredient as well as an extra perk of giving Weakness II for 5 seconds to the entities it hits. It is the strongest weapon but will not damage players except it's a Crier using it.
+Since the Crier's Sword's base has Gold as Core Ingredient, it has the perks of Gold Core Ingredient as well summoning an **Evil Granter** to any surviving mob it hits. It is the strongest weapon but will not damage players except it's a Crier using it.
 
 ![](https://i.ibb.co/q3vyqvgD/image.png)
 
@@ -293,7 +291,7 @@ If the player is sneaking while having Crying Shield equipped, the shield will h
 ## Crying Armor
 Crying Armor is strongest tier of there is for armor. Wearing any Crying Armor will enable the **Sanity** mechanic.
 
-Crying Armor is crafted with any **Netherite Armor**, one **Uninfused Crying Ingot** and one **Hard Crying Obsidian**.
+Crying Armor is crafted with any **Netherite Armor**, one **Crying Ingot** and one **Hard Crying Obsidian**.
 
 ![armor](https://i.ibb.co/DPcx2Lnh/Ekran-g-r-nt-s-2025-08-01-224052.png)
 
@@ -461,7 +459,7 @@ Hardened Core is a block used to craft an **Over-hardened Core**.
 - Stackable: No
 
 Over-hardened Core is a block used to craft an **Over-hardened Core with Eye**.
-To craft one, you need 7 **Crying Obsidian**, one **Uninfused Crying Ingot** and one **Hardened Core**.
+To craft one, you need 7 **Crying Obsidian**, one **Crying Ingot** and one **Hardened Core**.
 
 ![image](https://i.ibb.co/Q7Q8V72Z/image.png)
 
@@ -493,10 +491,11 @@ To summon one, a player must place 4 Crying Obsidian, 2 Chains and 1 Hard Crying
 
 ![](https://i.ibb.co/YBsCGXwn/1111-1.gif)
 
-![](https://i.ibb.co/F9Yp3F9/2025-08-31-20-02-40.png)
+![](https://i.ibb.co/FLX1fxS0/2025-12-03-18-51-16.png)
 
-It always spawns with a Crying Helmet, Crier's Sword and a shield.
-When summoned, it will initialize an explosion that can break ALL blocks except **bedrock**. This explosion won't do any damage.
+It always spawns with a Crying Shield. It will only deal 1 damage until its shield breaks. When it breaks, it will equip a Crier's Sword and deal higher damage. 
+
+When summoned, it will initialize an explosion that can break **all** blocks except bedrock. This explosion won't do any damage.
 
 It has `618 + ((playerCount - 1) * 25)` health points and it's completely immune to fire, suffocation, drowning, fall, projectile and mace damage. It blocks all attacks with its shield until the shield breaks. The shield has 336 durability.
 
@@ -574,6 +573,8 @@ If a **weapon** enchanted with Bane of Criers is used on a living entity, the en
 When an entity has the Bane of Criers, they will cry.
 
 ![crying](https://i.ibb.co/Jdk3pY5/qqq.gif "crying")
+
+You can also brew a Bane of Crier's potion using a Crying Residue. The potion can be extended to 8 minutes.
 
 ## Loot
 ### Ominous Vaults

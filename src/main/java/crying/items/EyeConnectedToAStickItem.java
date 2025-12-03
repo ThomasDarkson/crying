@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
@@ -69,31 +70,86 @@ public class EyeConnectedToAStickItem extends Item {
     }
 
     private static BlockPos findSafeTeleportPosition(ServerWorld world, BlockPos origin) {
-        int maxHeight = world.getDimension().height();
-        for (int radius = 0; radius < 618; radius++) {
-            for (int dx = -radius; dx <= radius; dx++) {
-                for (int dz = -radius; dz <= radius; dz++) {
-                    for (int dy = -radius; dy <= radius; dy++) {
-                        BlockPos checkPos = origin.add(dx, dy, dz);
+        final int maxRadius = 64;
+        final int maxVerticalSearch = 16;
 
-                        if (checkPos.getY() <= 2 || checkPos.getY() >= maxHeight - 2) {
-                            continue;
-                        }
+        int minY = world.getBottomY() + 2;
+        int maxY = world.getTopYInclusive() - 2;
 
-                        BlockPos feetPos = checkPos;
-                        BlockPos headPos = feetPos.up();
-                        BlockPos belowPos = feetPos.down();
+        BlockPos firstTry = findSafeOnColumn(world, origin.getX(), origin.getZ(), maxVerticalSearch, minY, maxY);
+        if (firstTry != null) {
+            return firstTry;
+        }
 
-                        if (world.getBlockState(feetPos).isAir()
-                                && world.getBlockState(headPos).isAir()
-                                && world.getBlockState(belowPos).isSolidBlock(world, belowPos)) {
-                            return feetPos;
-                        }
-                    }
-                }
+        int originX = origin.getX();
+        int originZ = origin.getZ();
+
+        for (int radius = 1; radius <= maxRadius; radius++) {
+            for (int dz = -radius; dz <= radius; dz++) {
+                int xEast = originX + radius;
+                int xWest = originX - radius;
+                int z = originZ + dz;
+
+                BlockPos pos = findSafeOnColumn(world, xEast, z, maxVerticalSearch, minY, maxY);
+                if (pos != null) return pos;
+
+                pos = findSafeOnColumn(world, xWest, z, maxVerticalSearch, minY, maxY);
+                if (pos != null) return pos;
+            }
+
+            for (int dx = -radius + 1; dx <= radius - 1; dx++) {
+                int x = originX + dx;
+                int zNorth = originZ - radius;
+                int zSouth = originZ + radius;
+
+                BlockPos pos = findSafeOnColumn(world, x, zNorth, maxVerticalSearch, minY, maxY);
+                if (pos != null) return pos;
+
+                pos = findSafeOnColumn(world, x, zSouth, maxVerticalSearch, minY, maxY);
+                if (pos != null) return pos;
             }
         }
 
         return world.getSpawnPoint().getPos();
+    }
+
+    private static BlockPos findSafeOnColumn(ServerWorld world, int x, int z, int maxVerticalSearch, int minY, int maxY) {
+        int topY = world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z);
+
+        if (topY < minY) 
+            topY = minY;
+        if (topY > maxY) 
+            topY = maxY;
+
+        for (int dy = 0; dy <= maxVerticalSearch; dy++) {
+            int y = topY - dy;
+            if (y < minY) break;
+
+            BlockPos feetPos = new BlockPos(x, y, z);
+            if (isSafeFeetPos(world, feetPos)) {
+                return feetPos;
+            }
+        }
+
+        for (int dy = 1; dy <= maxVerticalSearch; dy++) {
+            int y = topY + dy;
+            if (y > maxY) break;
+
+            BlockPos feetPos = new BlockPos(x, y, z);
+            if (isSafeFeetPos(world, feetPos)) {
+                return feetPos;
+            }
+        }
+
+        return null;
+    }
+
+    private static boolean isSafeFeetPos(ServerWorld world, BlockPos feetPos) {
+        BlockPos headPos = feetPos.up();
+        BlockPos belowPos = feetPos.down();
+
+        return world.getBlockState(feetPos).isAir()
+            && world.getBlockState(headPos).isAir()
+            && world.getBlockState(belowPos).isSolidBlock(world, belowPos);
     }
 }

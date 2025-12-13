@@ -1,16 +1,15 @@
 package crying.mixin.client;
 
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-
-@Mixin(PlayerEntityModel.class)
+@Mixin(PlayerModel.class)
 public class PlayerEntityModelMixin {
-    @Inject(method = "setAngles", at = @At("TAIL"))
-    public void setAngles(PlayerEntityRenderState playerEntityRenderState, CallbackInfo info) {
+    @Inject(method = "setupAnim", at = @At("TAIL"))
+    public void setAngles(PlayerRenderState playerEntityRenderState, CallbackInfo info) {
     }
 }

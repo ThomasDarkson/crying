@@ -2,8 +2,8 @@ package crying.tools.shovel;
 
 import crying.tools.CryingToolItem;
 import crying.tools.abstracts.AbstractCryingShovelItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 public class CryingShovelNetheriteItem extends AbstractCryingShovelItem {
     public CryingShovelNetheriteItem() {

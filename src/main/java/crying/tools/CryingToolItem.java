@@ -1,17 +1,16 @@
 package crying.tools;
 
 import java.util.function.Consumer;
-
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import crying.Crying;
 import crying.enums.ToolType;
 import crying.interfaces.CryingTool;
 import crying.tools.sword.CriersSwordItem;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 
 public class CryingToolItem extends Item implements CryingTool {
     public static final int OVER_HARDENED_CORE_WITH_EYE_DURABILITY = Integer.MAX_VALUE;
@@ -56,17 +55,17 @@ public class CryingToolItem extends Item implements CryingTool {
     public static final float SHOVEL_ATTACK_DAMAGE_BONUS = 5F; 
     public static final float HOE_ATTACK_DAMAGE_BONUS = 0F;      
 
-    public CryingToolItem(Settings settings) {
-        super(settings.fireproof());
+    public CryingToolItem(Properties settings) {
+        super(settings.fireResistant());
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
         if (this instanceof CriersSwordItem)
             return;
 
-        MutableText text = Text.translatable("core.ingredient");
-        text.append(Text.literal(": "));
+        MutableComponent text = Component.translatable("core.ingredient");
+        text.append(Component.literal(": "));
         text.append(Crying.getCoreIngredientText(stack));
 
         textConsumer.accept(text);
@@ -83,18 +82,18 @@ public class CryingToolItem extends Item implements CryingTool {
     }
 
     @Override
-    public Text getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         switch (getToolType()) {
             case PICKAXE: 
-                return Text.translatable("item.crying.crying_pickaxe");
+                return Component.translatable("item.crying.crying_pickaxe");
             case AXE: 
-                return Text.translatable("item.crying.crying_axe");
+                return Component.translatable("item.crying.crying_axe");
             case SWORD: 
-                return Text.translatable("item.crying.crying_sword");
+                return Component.translatable("item.crying.crying_sword");
             case SHOVEL: 
-                return Text.translatable("item.crying.crying_shovel");
+                return Component.translatable("item.crying.crying_shovel");
             case HOE: 
-                return Text.translatable("item.crying.crying_hoe");
+                return Component.translatable("item.crying.crying_hoe");
         }
         return super.getName(stack);
     }

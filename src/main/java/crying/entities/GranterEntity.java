@@ -4,79 +4,78 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.projectile.ItemSupplier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import crying.Crying;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.FlyingItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker.Builder;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 
-public class GranterEntity extends Entity implements FlyingItemEntity {
+public class GranterEntity extends Entity implements ItemSupplier {
     private static final HashMap<String, GranterEntity> map = new HashMap<>();
     private static final int FOLLOW_TICKS = 100;
-    private int age = 0;
+    private int tickCount = 0;
     private boolean descending = false;
 
     private String targetUuid;
     private LivingEntity target;
 
-    public GranterEntity(EntityType<? extends GranterEntity> type, World world) {
+    public GranterEntity(EntityType<? extends GranterEntity> type, Level world) {
         super(type, world);
-        this.noClip = true;
+        this.noPhysics = true;
     }
 
-    private static GranterEntity createGranterEntity(World world, LivingEntity target) {
+    private static GranterEntity createGranterEntity(Level world, LivingEntity target) {
         GranterEntity granter = new GranterEntity(Crying.GRANTER_ENTITY, world);
         granter.setTarget(target);
-        granter.setPosition(target.getX(), target.getY() + 5d, target.getZ()); 
+        granter.setPos(target.getX(), target.getY() + 5d, target.getZ()); 
 
-        map.put(target.getUuidAsString(), granter);
+        map.put(target.getStringUUID(), granter);
         return granter;
     }
 
-    private static EvilGranterEntity createEvilGranterEntity(World world, LivingEntity target) {
+    private static EvilGranterEntity createEvilGranterEntity(Level world, LivingEntity target) {
         EvilGranterEntity granter = new EvilGranterEntity(Crying.EVIL_GRANTER_ENTITY, world);
         granter.setTarget(target);
-        granter.setPosition(target.getX(), target.getY() + 5d, target.getZ()); 
+        granter.setPos(target.getX(), target.getY() + 5d, target.getZ()); 
 
-        map.put(target.getUuidAsString(), granter);
+        map.put(target.getStringUUID(), granter);
         return granter;
     }
 
-    public static GranterEntity summonGranterEntity(World world, LivingEntity target) {
-        if (map.containsKey(target.getUuidAsString()) && map.get(target.getUuidAsString()).getWorld() == target.getWorld()) {
+    public static GranterEntity summonGranterEntity(Level world, LivingEntity target) {
+        if (map.containsKey(target.getStringUUID()) && map.get(target.getStringUUID()).level() == target.level()) {
             return null;
         }
 
         GranterEntity entity = createGranterEntity(world, target);
-        world.spawnEntity(entity);
+        world.addFreshEntity(entity);
         return entity;
     }
 
-    public static EvilGranterEntity summonEvilGranterEntity(World world, LivingEntity target) {
-        if (map.containsKey(target.getUuidAsString()) && map.get(target.getUuidAsString()).getWorld() == target.getWorld()) {
+    public static EvilGranterEntity summonEvilGranterEntity(Level world, LivingEntity target) {
+        if (map.containsKey(target.getStringUUID()) && map.get(target.getStringUUID()).level() == target.level()) {
             return null;
         }
 
         EvilGranterEntity entity = createEvilGranterEntity(world, target);
-        world.spawnEntity(entity);
+        world.addFreshEntity(entity);
         return entity;
     }
 
@@ -84,8 +83,8 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
     public void tick() {
         super.tick();
 
-        World world = this.getWorld();
-        if (!world.isClient) {
+        Level world = this.level();
+        if (!world.isClientSide) {
             if (target == null && targetUuid != null) {
                 try {
                     target = ((LivingEntity) world.getEntity(UUID.fromString(targetUuid)));
@@ -95,41 +94,41 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
                 }
             }
             if (target == null)
-                target = world.getClosestPlayer(this, 64);
-            if (target == null || target.isDead()) {
+                target = world.getNearestPlayer(this, 64);
+            if (target == null || target.isDeadOrDying()) {
                 this.remove(RemovalReason.UNLOADED_WITH_PLAYER);
                 return;
             }
             else
-                targetUuid = target.getUuidAsString();
+                targetUuid = target.getStringUUID();
 
-            age++;
+            tickCount++;
             if (!descending) {
-                if (age < FOLLOW_TICKS) {
-                    double bob = Math.sin(this.age * 0.2) * 0.25;
-                    Vec3d targetPos = target.getPos().add(0, 3d + bob, 0);
+                if (tickCount < FOLLOW_TICKS) {
+                    double bob = Math.sin(this.tickCount * 0.2) * 0.25;
+                    Vec3 targetPos = target.position().add(0, 3d + bob, 0);
 
                     double speed = 0.4d;
-                    Vec3d newPos = this.getPos().lerp(targetPos, speed);
-                    this.setPosition(newPos);
+                    Vec3 newPos = this.position().lerp(targetPos, speed);
+                    this.setPos(newPos);
                 } 
                 else {
-                    age = 0;
+                    tickCount = 0;
                     descending = true;
                 }
             } 
             else {
-                Vec3d currentPos = this.getPos();
-                Vec3d targetPos = target.getPos().add(0, 1.0, 0);
-                Vec3d direction = targetPos.subtract(currentPos).normalize().multiply(0.2d);
+                Vec3 currentPos = this.position();
+                Vec3 targetPos = target.position().add(0, 1.0, 0);
+                Vec3 direction = targetPos.subtract(currentPos).normalize().scale(0.2d);
 
-                this.setVelocity(direction);
-                this.move(MovementType.SELF, this.getVelocity());
+                this.setDeltaMovement(direction);
+                this.move(MoverType.SELF, this.getDeltaMovement());
 
                 if (this.getBoundingBox().intersects(target.getBoundingBox())) {
                     this.remove(RemovalReason.KILLED);
                 }
-                else if (target.isDead()) {
+                else if (target.isDeadOrDying()) {
                     this.remove(RemovalReason.UNLOADED_WITH_PLAYER);
                 }
             }
@@ -142,64 +141,64 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
             map.remove(targetUuid);
         
         if (reason == RemovalReason.KILLED) {
-            ArrayList<StatusEffect> effects = new ArrayList<>();
-            StatusEffect effect = null;
-            for (StatusEffect e : Registries.STATUS_EFFECT) {
-                if (e.getCategory() == (isEvil() ? StatusEffectCategory.HARMFUL : StatusEffectCategory.BENEFICIAL)) {
+            ArrayList<MobEffect> effects = new ArrayList<>();
+            MobEffect effect = null;
+            for (MobEffect e : BuiltInRegistries.MOB_EFFECT) {
+                if (e.getCategory() == (isEvil() ? MobEffectCategory.HARMFUL : MobEffectCategory.BENEFICIAL)) {
                     effects.add(e);
                 }
             }
             if (!isEvil()) {
-                effects.addAll(Collections.nCopies(3, StatusEffects.REGENERATION.value()));
-                effects.addAll(Collections.nCopies(3, StatusEffects.SATURATION.value()));
-                effects.addAll(Collections.nCopies(3, StatusEffects.INSTANT_HEALTH.value()));
+                effects.addAll(Collections.nCopies(3, MobEffects.REGENERATION.value()));
+                effects.addAll(Collections.nCopies(3, MobEffects.SATURATION.value()));
+                effects.addAll(Collections.nCopies(3, MobEffects.INSTANT_HEALTH.value()));
             }
 
-            Random random = this.getWorld().getRandom();
+            RandomSource random = this.level().getRandom();
             while (effect == null) {
                 effect = effects.get(random.nextInt(effects.size()));
             }
 
-            this.getWorld().addParticleClient(ParticleTypes.GLOW, target.getX(), target.getY(), target.getZ(), 1d, 1d, 1d);
-            this.target.addStatusEffect(new StatusEffectInstance(Registries.STATUS_EFFECT.getEntry(effect), random.nextBetween(5, 30) * 20, random.nextBetween(0, 1)));
+            this.level().addParticle(ParticleTypes.GLOW, target.getX(), target.getY(), target.getZ(), 1d, 1d, 1d);
+            this.target.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), random.nextIntBetweenInclusive(5, 30) * 20, random.nextIntBetweenInclusive(0, 1)));
             if (!isEvil()) {
                 this.target.heal(2F);
             }
 
-            this.getWorld().playSound(this, BlockPos.ofFloored(this.getPos().x, this.getPos().y, this.getPos().z), isEvil() ? Crying.EVIL_GRANTER_HEAL_TOUCH : Crying.GRANTER_HEAL_EVENT, SoundCategory.AMBIENT);
+            this.level().playSound(this, BlockPos.containing(this.position().x, this.position().y, this.position().z), isEvil() ? Crying.EVIL_GRANTER_HEAL_TOUCH : Crying.GRANTER_HEAL_EVENT, SoundSource.AMBIENT);
         }
 
         super.remove(reason);
     }
 
     @Override
-    protected void readCustomDataFromNbt(NbtCompound nbt) {
-        age = nbt.getInt("age", 0);
-        targetUuid = nbt.getString("targetUuid", null);
-        descending = nbt.getBoolean("descending", false);
+    protected void readAdditionalSaveData(CompoundTag nbt) {
+        tickCount = nbt.getIntOr("age", 0);
+        targetUuid = nbt.getStringOr("targetUuid", null);
+        descending = nbt.getBooleanOr("descending", false);
         if (targetUuid != null)
             map.put(targetUuid, this);
     }
 
     @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
-        nbt.putInt("age", age);
+    protected void addAdditionalSaveData(CompoundTag nbt) {
+        nbt.putInt("age", tickCount);
         nbt.putBoolean("descending", descending);
         if (targetUuid != null)
             nbt.putString("targetUuid", targetUuid);
     }
 
     @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel world, DamageSource source, float amount) {
         return false;
     }
 
     @Override
-    protected void initDataTracker(Builder builder) {
+    protected void defineSynchedData(Builder builder) {
     }
 
     @Override
-    public ItemStack getStack() {
+    public ItemStack getItem() {
         return new ItemStack(Crying.GRANTER);
     }
 
@@ -212,7 +211,7 @@ public class GranterEntity extends Entity implements FlyingItemEntity {
             return;
 
         this.target = entity;
-        this.targetUuid = entity.getUuidAsString();
+        this.targetUuid = entity.getStringUUID();
     }
 
     public final boolean isEvil() {

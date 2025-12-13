@@ -2,17 +2,17 @@ package crying.entities.lost_crier;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.state.BipedEntityRenderState;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
 @Environment(EnvType.CLIENT)
-public class LostCrierEntityModel<S extends BipedEntityRenderState> extends BipedEntityModel<S> {
+public class LostCrierEntityModel<S extends HumanoidRenderState> extends HumanoidModel<S> {
     public LostCrierEntityModel(ModelPart modelPart) {
         super(modelPart);
     }
 
-    public void setAngles(S crierEntityRenderState) {
-        super.setAngles(crierEntityRenderState);
+    public void setupAnim(S crierEntityRenderState) {
+        super.setupAnim(crierEntityRenderState);
     }
 }

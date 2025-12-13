@@ -1,43 +1,43 @@
 package crying.renderers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import crying.blocks.food.CryingFoodBlock;
 import crying.entities.CryingFoodEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class CryingFoodEntityRenderer implements BlockEntityRenderer<CryingFoodEntity> {
-    public CryingFoodEntityRenderer(BlockEntityRendererFactory.Context ctx) {
+    public CryingFoodEntityRenderer(BlockEntityRendererProvider.Context ctx) {
     }
     
     @Override
-    public void render(CryingFoodEntity entity, float tickProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
-        BlockState state = entity.getCachedState();
+    public void render(CryingFoodEntity entity, float tickProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, Vec3 cameraPos) {
+        BlockState state = entity.getBlockState();
         if (state != null) {
             Block block = state.getBlock();
             if (block != null && block instanceof CryingFoodBlock foodBlock && foodBlock.stack() != null) {
-                matrices.push();
+                matrices.pushPose();
                 matrices.translate(0.5F, 0.01F, 0.5F);
-                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90F));
+                matrices.mulPose(Axis.XP.rotationDegrees(90F));
                 matrices.scale(0.5f, 0.5f, 0.5f);
-                ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-                itemRenderer.renderItem(foodBlock.stack(), ItemDisplayContext.NONE, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, null, 0);
-                matrices.pop();
+                ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+                itemRenderer.renderStatic(foodBlock.stack(), ItemDisplayContext.NONE, light, OverlayTexture.NO_OVERLAY, matrices, vertexConsumers, null, 0);
+                matrices.popPose();
             }
         }
     }
 
     @Override
-    public int getRenderDistance() {
+    public int getViewDistance() {
         return 103;
     }
 }

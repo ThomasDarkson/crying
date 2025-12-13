@@ -1,13 +1,13 @@
 package crying.enchantments;
 
 import crying.Crying;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public class BaneOfCriers {
-    public static final RegistryKey<Enchantment> bane_of_criers = RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(Crying.ID, "bane_of_criers"));
+    public static final ResourceKey<Enchantment> bane_of_criers = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Crying.ID, "bane_of_criers"));
 
     public static void initialize() {
     }   

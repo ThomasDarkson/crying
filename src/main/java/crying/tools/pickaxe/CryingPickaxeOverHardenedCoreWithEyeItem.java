@@ -3,7 +3,7 @@ package crying.tools.pickaxe;
 import crying.Crying;
 import crying.tools.CryingToolItem;
 import crying.tools.abstracts.AbstractCryingPickaxeItem;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class CryingPickaxeOverHardenedCoreWithEyeItem extends AbstractCryingPickaxeItem {
     public CryingPickaxeOverHardenedCoreWithEyeItem() {

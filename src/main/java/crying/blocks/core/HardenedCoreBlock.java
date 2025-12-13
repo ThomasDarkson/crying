@@ -2,27 +2,27 @@ package crying.blocks.core;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 public class HardenedCoreBlock extends CoreBlock {
     public HardenedCoreBlock() {
-        super(Settings.create()
-            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "hardened_core")))
+        super(Properties.of()
+            .setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Crying.ID, "hardened_core")))
             .instrument(NoteBlockInstrument.SNARE)
-            .sounds(BlockSoundGroup.HEAVY_CORE)
-            .hardness(450.0F)
-            .resistance(3200000F)
-            .requiresTool(),
+            .sound(SoundType.HEAVY_CORE)
+            .destroyTime(450.0F)
+            .explosionResistance(3200000F)
+            .requiresCorrectToolForDrops(),
             "hardened_core");
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.HEAVY_CORE, this.asItem()));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Items.HEAVY_CORE, this.asItem()));
     }
 
     @Override

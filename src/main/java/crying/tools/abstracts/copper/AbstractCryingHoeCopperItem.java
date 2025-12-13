@@ -10,42 +10,42 @@ import crying.interfaces.OxidizableCryingTool;
 import crying.other.CryingTags;
 import crying.tools.CryingToolItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.Oxidizable.OxidationLevel;
-import net.minecraft.component.type.TooltipDisplayComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
 
 public class AbstractCryingHoeCopperItem extends HoeItem implements OxidizableCryingTool {
     public AbstractCryingHoeCopperItem(int durability, float speed, int enchantable, String id) {
-        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, CryingToolItem.HOE_ATTACK_DAMAGE_BONUS, enchantable, CryingTags.CryingTag), 0F, +0F, new Item.Settings()
-        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
+        super(new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, durability, speed, CryingToolItem.HOE_ATTACK_DAMAGE_BONUS, enchantable, CryingTags.CryingTag), 0F, +0F, new Item.Properties()
+        .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Crying.ID, id)))
         .component(Crying.WAS_WAXED, false)
         .component(Crying.OXIDATION_SECONDS, 0)
-        .component(Crying.OXIDATION_LEVEL, OxidationLevel.UNAFFECTED.asString())
-        .fireproof());
+        .component(Crying.OXIDATION_LEVEL, WeatherState.UNAFFECTED.getSerializedName())
+        .fireResistant());
 
         Crying.register(this, id);
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_HOE, this));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register((itemGroup) -> itemGroup.addAfter(Items.NETHERITE_HOE, this));
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
-        MutableText text = Text.translatable("core.ingredient");
-        text.append(Text.literal(": "));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay displayComponent, Consumer<Component> textConsumer, TooltipFlag type) {
+        MutableComponent text = Component.translatable("core.ingredient");
+        text.append(Component.literal(": "));
         text.append(Crying.getCoreIngredientText(stack));
         
         textConsumer.accept(text);
@@ -57,7 +57,7 @@ public class AbstractCryingHoeCopperItem extends HoeItem implements OxidizableCr
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, world, entity, slot);
         
         this.tickInventory(stack, world, entity, slot);
@@ -69,11 +69,11 @@ public class AbstractCryingHoeCopperItem extends HoeItem implements OxidizableCr
     }
 
     @Override
-    public Text getName(ItemStack stack) {
-        MutableText text = this.getOxidizedName(stack);
+    public Component getName(ItemStack stack) {
+        MutableComponent text = this.getOxidizedName(stack);
         if (text != null)
-            return text.append(Text.literal(" ")).append(Text.translatable("item.crying.crying_hoe"));
+            return text.append(Component.literal(" ")).append(Component.translatable("item.crying.crying_hoe"));
 
-        return Text.translatable("item.crying.crying_hoe");
+        return Component.translatable("item.crying.crying_hoe");
     }
 }

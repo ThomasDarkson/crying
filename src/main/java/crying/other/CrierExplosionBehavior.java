@@ -1,16 +1,15 @@
 package crying.other;
 
 import java.util.Optional;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.explosion.Explosion;
-import net.minecraft.world.explosion.ExplosionBehavior;
-
-public class CrierExplosionBehavior extends ExplosionBehavior {
+public class CrierExplosionBehavior extends ExplosionDamageCalculator {
     boolean shouldDoDamage = false;
     public CrierExplosionBehavior(boolean shouldDoDamage) {
         super();
@@ -18,12 +17,12 @@ public class CrierExplosionBehavior extends ExplosionBehavior {
     }
 
     @Override
-    public boolean shouldDamage(Explosion explosion, Entity entity) {
+    public boolean shouldDamageEntity(Explosion explosion, Entity entity) {
         return shouldDoDamage;
     }
 
     @Override
-    public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
-        return blockState.isAir() && fluidState.isEmpty() ? Optional.empty() : (blockState.getHardness(world, pos) < 0 ? Optional.of(blockState.getBlock().getBlastResistance()) : Optional.of(0.01F));
+    public Optional<Float> getBlockExplosionResistance(Explosion explosion, BlockGetter world, BlockPos pos, BlockState blockState, FluidState fluidState) {
+        return blockState.isAir() && fluidState.isEmpty() ? Optional.empty() : (blockState.getDestroySpeed(world, pos) < 0 ? Optional.of(blockState.getBlock().getExplosionResistance()) : Optional.of(0.01F));
     }
 }

@@ -3,23 +3,23 @@ package crying.mixin.client;
 import org.spongepowered.asm.mixin.Mixin;
 
 import crying.interfaces.PlayerEntityRenderStateVarsInterface;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-import net.minecraft.util.Arm;
-import net.minecraft.util.Hand;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 
-@Mixin(PlayerEntityRenderState.class)
+@Mixin(PlayerRenderState.class)
 public class PlayerEntityStateMixin implements PlayerEntityRenderStateVarsInterface {
-    Hand cryingShieldHand = null;
+    InteractionHand cryingShieldHand = null;
     int realAge = 0;
-    Arm isUsingAscender = null;
+    HumanoidArm isUsingAscender = null;
 
     @Override
-    public Hand get_cryingShieldHand() {
+    public InteractionHand get_cryingShieldHand() {
         return this.cryingShieldHand;
     }
 
     @Override
-    public void set_cryingShieldHand(Hand hand) {
+    public void set_cryingShieldHand(InteractionHand hand) {
         this.cryingShieldHand = hand;
     }
 

@@ -1,27 +1,27 @@
 package crying.effects;
 
 import crying.Crying;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
-public class BaneOfCriers extends StatusEffect {
-    public static RegistryEntry<StatusEffect> BANE_OF_CRIERS = Registry.registerReference(Registries.STATUS_EFFECT, Identifier.of(Crying.ID, "bane_of_criers"), new BaneOfCriers());
+public class BaneOfCriers extends MobEffect {
+    public static Holder<MobEffect> BANE_OF_CRIERS = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, ResourceLocation.fromNamespaceAndPath(Crying.ID, "bane_of_criers"), new BaneOfCriers());
 
 	public static void initialize() {
 
 	}
 	
     protected BaneOfCriers() {
-		super(StatusEffectCategory.HARMFUL, 5312458, ParticleTypes.FALLING_OBSIDIAN_TEAR);
+		super(MobEffectCategory.HARMFUL, 5312458, ParticleTypes.FALLING_OBSIDIAN_TEAR);
 	}
 
 	@Override
-	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+	public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
 		return true;
 	}
 }

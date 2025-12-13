@@ -1,21 +1,21 @@
 package crying.items;
 
 import crying.effects.BaneOfCriers;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.ConsumableComponents;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.Items;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 public class CryingCarrotItem extends CryingFoodItem {
-    public static final ConsumableComponent.Builder FOOD_COMPONENT = ConsumableComponents.food()
-            .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 540, 3), 0.88f))
-            .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(BaneOfCriers.BANE_OF_CRIERS, 600, 0), 0.95f));
+    public static final Consumable.Builder FOOD_COMPONENT = Consumables.defaultFood()
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.SLOWNESS, 540, 3), 0.88f))
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(BaneOfCriers.BANE_OF_CRIERS, 600, 0), 0.95f));
 
     public CryingCarrotItem() {
-        super("crying_carrot", new FoodComponent(6, 18, true), FOOD_COMPONENT.build(), Items.GOLDEN_CARROT, 6.18F, false);
+        super("crying_carrot", new FoodProperties(6, 18, true), FOOD_COMPONENT.build(), Items.GOLDEN_CARROT, 6.18F, false);
     }
 
     @Override

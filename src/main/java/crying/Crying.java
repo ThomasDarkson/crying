@@ -63,47 +63,47 @@ import net.fabricmc.fabric.api.entity.event.v1.EntityElytraEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.block.AbstractBlock.Settings;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.component.ComponentType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.equipment.ArmorMaterial;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentType;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.potion.Potion;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntry.Reference;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.dimension.DimensionOptions;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.dimension.LevelStem;
 import semantic.ver.lib.SemanticVerLib;
 import semantic.ver.lib.SemanticVersion;
 
@@ -114,42 +114,42 @@ public class Crying implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(ID);
 	public static final int MAX_CRYING_FOOD_COUNT = 9888;
 
-	public static final TrackedData<Integer> FOOD_COUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	public static final EntityDataAccessor<Integer> FOOD_COUNT = SynchedEntityData.defineId(Player.class, EntityDataSerializers.INT);
 
 	public static final EntityType<CrierEntity> CRIER = Registry.register(
-		Registries.ENTITY_TYPE,
-		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "crier")),
-		EntityType.Builder.create(CrierEntity::new, SpawnGroup.MONSTER).dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "crier")))
+		BuiltInRegistries.ENTITY_TYPE,
+		ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "crier")),
+		EntityType.Builder.of(CrierEntity::new, MobCategory.MONSTER).sized(0.58F, 1.98F).eyeHeight(1.75F).build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "crier")))
 	);
 
 	public static final EntityType<LostCrierEntity> LOST_CRIER = Registry.register(
-		Registries.ENTITY_TYPE,
-		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "lost_crier")),
-		EntityType.Builder.create(LostCrierEntity::new, SpawnGroup.CREATURE).dimensions(0.58F, 1.98F).eyeHeight(1.75F).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "lost_crier")))
+		BuiltInRegistries.ENTITY_TYPE,
+		ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "lost_crier")),
+		EntityType.Builder.of(LostCrierEntity::new, MobCategory.CREATURE).sized(0.58F, 1.98F).eyeHeight(1.75F).build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "lost_crier")))
 	);
 
 	public static final EntityType<GrapplingHookEntity> GRAPPLING_HOOK = Registry.register(
-		Registries.ENTITY_TYPE,
-		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "grappling_hook_entity")),
-        EntityType.Builder.create(GrapplingHookEntity::new, SpawnGroup.MISC).dimensions(0.5f, 0.5f).maxTrackingRange(8).trackingTickInterval(1).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "grappling_hook_entity")))
+		BuiltInRegistries.ENTITY_TYPE,
+		ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "grappling_hook_entity")),
+        EntityType.Builder.of(GrapplingHookEntity::new, MobCategory.MISC).sized(0.5f, 0.5f).clientTrackingRange(8).updateInterval(1).build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "grappling_hook_entity")))
     );
 
 	public static final EntityType<GranterEntity> GRANTER_ENTITY = Registry.register(
-		Registries.ENTITY_TYPE,
-		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "granter")),
-		EntityType.Builder.create(GranterEntity::new, SpawnGroup.MISC).dimensions(0.2F, 0.2F).trackingTickInterval(1).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "granter")))
+		BuiltInRegistries.ENTITY_TYPE,
+		ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "granter")),
+		EntityType.Builder.of(GranterEntity::new, MobCategory.MISC).sized(0.2F, 0.2F).updateInterval(1).build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "granter")))
 	);
 
 	public static final EntityType<EvilGranterEntity> EVIL_GRANTER_ENTITY = Registry.register(
-		Registries.ENTITY_TYPE,
-		RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "evil_granter")),
-		EntityType.Builder.create(EvilGranterEntity::new, SpawnGroup.MISC).dimensions(0.2F, 0.2F).trackingTickInterval(1).build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(ID, "evil_granter")))
+		BuiltInRegistries.ENTITY_TYPE,
+		ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "evil_granter")),
+		EntityType.Builder.of(EvilGranterEntity::new, MobCategory.MISC).sized(0.2F, 0.2F).updateInterval(1).build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "evil_granter")))
 	);
 
-	public static final Block CRIERS_HEART = new CriersHeartBlock(Settings.create().
-            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "criers_heart"))).
+	public static final Block CRIERS_HEART = new CriersHeartBlock(Properties.of().
+            setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Crying.ID, "criers_heart"))).
             strength(0F, 36000000.0F).
-            luminance((state) -> {
+            lightLevel((state) -> {
                 return 2;
             }));
 
@@ -167,20 +167,20 @@ public class Crying implements ModInitializer {
 		FabricBlockEntityTypeBuilder.<CryingFoodEntity>create(CryingFoodEntity::new, CRYING_FOOD_CARROT, CRYING_FOOD_APPLE, CRYING_FOOD_ENCHANTED_APPLE).build()
 	);
 
-	public static final RegistryKey<Biome> SOMEWHAT_WEIRD_ISLAND = RegistryKey.of(RegistryKeys.BIOME, Identifier.of(ID, "somewhat_weird_island"));
-	public static final RegistryKey<Biome> SOMEWHAT_NORMAL_ISLAND = RegistryKey.of(RegistryKeys.BIOME, Identifier.of(ID, "somewhat_normal_island"));
-	public static final RegistryKey<World> CRYING_WORLD = RegistryKey.of(RegistryKeys.WORLD, Identifier.of(ID, "crying"));
-	public static final RegistryKey<DimensionOptions> CRYING_DIMENSION = RegistryKey.of(RegistryKeys.DIMENSION, Identifier.of(ID, "crying"));
-	public static final RegistryKey<DimensionType> CRYING_DIMENSION_TYPE = RegistryKey.of(RegistryKeys.DIMENSION_TYPE, Identifier.of(ID, "crying"));
+	public static final ResourceKey<Biome> SOMEWHAT_WEIRD_ISLAND = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(ID, "somewhat_weird_island"));
+	public static final ResourceKey<Biome> SOMEWHAT_NORMAL_ISLAND = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(ID, "somewhat_normal_island"));
+	public static final ResourceKey<Level> CRYING_WORLD = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(ID, "crying"));
+	public static final ResourceKey<LevelStem> CRYING_DIMENSION = ResourceKey.create(Registries.LEVEL_STEM, ResourceLocation.fromNamespaceAndPath(ID, "crying"));
+	public static final ResourceKey<DimensionType> CRYING_DIMENSION_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "crying"));
 
-	public static final ComponentType<Boolean> WAS_WAXED;
-	public static final ComponentType<Integer> OXIDATION_SECONDS;
-	public static final ComponentType<String> OXIDATION_LEVEL;
-	public static final ComponentType<Boolean> THROWN;
-	public static final ComponentType<String> HOOK_UUID;
+	public static final DataComponentType<Boolean> WAS_WAXED;
+	public static final DataComponentType<Integer> OXIDATION_SECONDS;
+	public static final DataComponentType<String> OXIDATION_LEVEL;
+	public static final DataComponentType<Boolean> THROWN;
+	public static final DataComponentType<String> HOOK_UUID;
 
-	public static final RegistryEntry<Potion> CRYING_POTION;
-	public static final RegistryEntry<Potion> LONG_CRYING_POTION;
+	public static final Holder<Potion> CRYING_POTION;
+	public static final Holder<Potion> LONG_CRYING_POTION;
 	
 	public static final Item CRYING_SHIELD;
 
@@ -258,39 +258,39 @@ public class Crying implements ModInitializer {
 	public static final Item CRIER_SPAWN_EGG;
 	public static final Item LOST_CRIER_SPAWN_EGG;
 
-	public static final Identifier CRIER_IDLE = Identifier.of(ID, "crier_idle");
-    public static final SoundEvent CRIER_IDLE_EVENT = SoundEvent.of(CRIER_IDLE);
+	public static final ResourceLocation CRIER_IDLE = ResourceLocation.fromNamespaceAndPath(ID, "crier_idle");
+    public static final SoundEvent CRIER_IDLE_EVENT = SoundEvent.createVariableRangeEvent(CRIER_IDLE);
 
-	public static final Identifier CRIER_HURT = Identifier.of(ID, "crier_hurt");
-    public static final SoundEvent CRIER_HURT_EVENT = SoundEvent.of(CRIER_HURT);
+	public static final ResourceLocation CRIER_HURT = ResourceLocation.fromNamespaceAndPath(ID, "crier_hurt");
+    public static final SoundEvent CRIER_HURT_EVENT = SoundEvent.createVariableRangeEvent(CRIER_HURT);
 
-	public static final Identifier CRIER_DIES = Identifier.of(ID, "crier_dies");
-    public static final SoundEvent CRIER_DIES_EVENT = SoundEvent.of(CRIER_DIES);
+	public static final ResourceLocation CRIER_DIES = ResourceLocation.fromNamespaceAndPath(ID, "crier_dies");
+    public static final SoundEvent CRIER_DIES_EVENT = SoundEvent.createVariableRangeEvent(CRIER_DIES);
 
-	public static final Identifier CRIER_SCREAM = Identifier.of(ID, "crier_scream");
-    public static final SoundEvent CRIER_SCREAM_EVENT = SoundEvent.of(CRIER_SCREAM);
+	public static final ResourceLocation CRIER_SCREAM = ResourceLocation.fromNamespaceAndPath(ID, "crier_scream");
+    public static final SoundEvent CRIER_SCREAM_EVENT = SoundEvent.createVariableRangeEvent(CRIER_SCREAM);
 
-	public static final Identifier GRANTER_HEAL = Identifier.of(ID, "granter_heal");
-	public static final SoundEvent GRANTER_HEAL_EVENT = SoundEvent.of(GRANTER_HEAL);
+	public static final ResourceLocation GRANTER_HEAL = ResourceLocation.fromNamespaceAndPath(ID, "granter_heal");
+	public static final SoundEvent GRANTER_HEAL_EVENT = SoundEvent.createVariableRangeEvent(GRANTER_HEAL);
 
-	public static final Identifier EVIL_GRANTER_TOUCH = Identifier.of(ID, "evil_granter_touch");
-	public static final SoundEvent EVIL_GRANTER_HEAL_TOUCH = SoundEvent.of(EVIL_GRANTER_TOUCH);
+	public static final ResourceLocation EVIL_GRANTER_TOUCH = ResourceLocation.fromNamespaceAndPath(ID, "evil_granter_touch");
+	public static final SoundEvent EVIL_GRANTER_HEAL_TOUCH = SoundEvent.createVariableRangeEvent(EVIL_GRANTER_TOUCH);
 
-	public static final Reference<SoundEvent> LIVING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "living_mice_crying_biome"), SoundEvent.of(Identifier.of(ID, "living_mice_crying_biome")));
-	public static final Reference<SoundEvent> CRYING_MICE = Registry.registerReference(Registries.SOUND_EVENT, Identifier.of(ID, "crying_mice"), SoundEvent.of(Identifier.of(ID, "crying_mice")));
+	public static final Reference<SoundEvent> LIVING_MICE = Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, ResourceLocation.fromNamespaceAndPath(ID, "living_mice_crying_biome"), SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(ID, "living_mice_crying_biome")));
+	public static final Reference<SoundEvent> CRYING_MICE = Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, ResourceLocation.fromNamespaceAndPath(ID, "crying_mice"), SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(ID, "crying_mice")));
 
 	static {
-		WAS_WAXED = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "was_waxed"), ComponentType.<Boolean>builder().codec(Codec.BOOL).packetCodec(PacketCodecs.BOOLEAN).build());
-		OXIDATION_SECONDS = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "oxidation_seconds"), ComponentType.<Integer>builder().codec(Codec.intRange(0, Integer.MAX_VALUE)).build());
-		OXIDATION_LEVEL = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "oxidation_level"), ComponentType.<String>builder().codec(Codec.string(0, Integer.MAX_VALUE)).build());
-		THROWN = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "hook_thrown"), ComponentType.<Boolean>builder().codec(Codec.BOOL).packetCodec(PacketCodecs.BOOLEAN).build());
-		HOOK_UUID = Registry.register(Registries.DATA_COMPONENT_TYPE, Identifier.of(ID, "hook_uuid"), ComponentType.<String>builder().codec(Codec.string(0, Integer.MAX_VALUE)).build());
+		WAS_WAXED = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "was_waxed"), DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+		OXIDATION_SECONDS = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "oxidation_seconds"), DataComponentType.<Integer>builder().persistent(Codec.intRange(0, Integer.MAX_VALUE)).build());
+		OXIDATION_LEVEL = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "oxidation_level"), DataComponentType.<String>builder().persistent(Codec.string(0, Integer.MAX_VALUE)).build());
+		THROWN = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "hook_thrown"), DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+		HOOK_UUID = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(ID, "hook_uuid"), DataComponentType.<String>builder().persistent(Codec.string(0, Integer.MAX_VALUE)).build());
 		
 		CRYING_POTION = registerPotion("bane_of_criers",
-            new Potion("bane_of_criers", new StatusEffectInstance(BaneOfCriers.BANE_OF_CRIERS, Crying.tickSecond(120), 0)));
+            new Potion("bane_of_criers", new MobEffectInstance(BaneOfCriers.BANE_OF_CRIERS, Crying.tickSecond(120), 0)));
 
 		LONG_CRYING_POTION = registerPotion("long_bane_of_criers",
-            new Potion("bane_of_criers", new StatusEffectInstance(BaneOfCriers.BANE_OF_CRIERS, Crying.tickSecond(480), 0)));
+            new Potion("bane_of_criers", new MobEffectInstance(BaneOfCriers.BANE_OF_CRIERS, Crying.tickSecond(480), 0)));
 
 		// Blocks
 		CRYING_BLOCK = new CryingBlock();
@@ -379,11 +379,11 @@ public class Crying implements ModInitializer {
 
 		CryingTags.initialize();
 
-		Registry.register(Registries.SOUND_EVENT, CRIER_IDLE, CRIER_IDLE_EVENT);
-		Registry.register(Registries.SOUND_EVENT, CRIER_HURT, CRIER_HURT_EVENT);
-		Registry.register(Registries.SOUND_EVENT, CRIER_DIES, CRIER_DIES_EVENT);
-		Registry.register(Registries.SOUND_EVENT, GRANTER_HEAL, GRANTER_HEAL_EVENT);
-		Registry.register(Registries.SOUND_EVENT, EVIL_GRANTER_TOUCH, EVIL_GRANTER_HEAL_TOUCH);
+		Registry.register(BuiltInRegistries.SOUND_EVENT, CRIER_IDLE, CRIER_IDLE_EVENT);
+		Registry.register(BuiltInRegistries.SOUND_EVENT, CRIER_HURT, CRIER_HURT_EVENT);
+		Registry.register(BuiltInRegistries.SOUND_EVENT, CRIER_DIES, CRIER_DIES_EVENT);
+		Registry.register(BuiltInRegistries.SOUND_EVENT, GRANTER_HEAL, GRANTER_HEAL_EVENT);
+		Registry.register(BuiltInRegistries.SOUND_EVENT, EVIL_GRANTER_TOUCH, EVIL_GRANTER_HEAL_TOUCH);
 
 		FabricDefaultAttributeRegistry.register(CRIER, CrierEntity.createCrierAttributes());
 		FabricDefaultAttributeRegistry.register(LOST_CRIER, LostCrierEntity.createLostCrierAttributes());
@@ -392,8 +392,8 @@ public class Crying implements ModInitializer {
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
 			try {
-				server.getPlayerManager().getPlayerList().forEach(player -> {
-					if (player instanceof ServerPlayerEntity serverPlayer) {
+				server.getPlayerList().getPlayers().forEach(player -> {
+					if (player instanceof ServerPlayer serverPlayer) {
 						CryingArmor.setCount(serverPlayer);
 					}
 				});
@@ -404,7 +404,7 @@ public class Crying implements ModInitializer {
 
 		EntityElytraEvents.CUSTOM.register((entity, tick) -> {
 			try {
-				ItemStack mainStack = entity.getEquippedStack(EquipmentSlot.CHEST);
+				ItemStack mainStack = entity.getItemBySlot(EquipmentSlot.CHEST);
 				return mainStack.getItem() instanceof CryingChestplateWithElytraItem;
 			}
 			catch(Exception e) {
@@ -414,47 +414,47 @@ public class Crying implements ModInitializer {
 	}
 
     public static final Item register(Item item, String id) {
-		Identifier itemID = Identifier.of(Crying.ID, id);
-		Item registeredItem = Registry.register(Registries.ITEM, itemID, item);
+		ResourceLocation itemID = ResourceLocation.fromNamespaceAndPath(Crying.ID, id);
+		Item registeredItem = Registry.register(BuiltInRegistries.ITEM, itemID, item);
 		return registeredItem;
 	}
 
 	public static Block registerBlock(Block block, String name) {
-		Identifier id = Identifier.of(Crying.ID, name);
+		ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Crying.ID, name);
 
-		Item.Settings settings = new Item.Settings().registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, name)));
+		Item.Properties settings = new Item.Properties().setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Crying.ID, name)));
 
 		if (block instanceof HasUniqueItemSettings unique) {
 			if (unique.isFireProof())
-				settings = settings.fireproof();
+				settings = settings.fireResistant();
 
 			settings = settings.rarity(unique.getRarity());
-			settings = settings.maxCount(unique.getMaxCount());
+			settings = settings.stacksTo(unique.getMaxCount());
 		}
 		
 		BlockItem blockItem = new BlockItem(block, settings);
-		Registry.register(Registries.ITEM, id, blockItem);
+		Registry.register(BuiltInRegistries.ITEM, id, blockItem);
 
-		return Registry.register(Registries.BLOCK, id, block);
+		return Registry.register(BuiltInRegistries.BLOCK, id, block);
 	}
 
-	private static RegistryEntry<Potion> registerPotion(String name, Potion potion) {
-		return Registry.registerReference(Registries.POTION, Identifier.of(ID, name), potion);
+	private static Holder<Potion> registerPotion(String name, Potion potion) {
+		return Registry.registerForHolder(BuiltInRegistries.POTION, ResourceLocation.fromNamespaceAndPath(ID, name), potion);
 	}
 
 	public static <T extends BlockEntityType<?>> T registerBlockEntityType(String path, T blockEntityType) {
-    	return Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(ID, path), blockEntityType);
+    	return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(ID, path), blockEntityType);
 	}
  
-    public static ArmorMaterial registerMaterial(int durability, Map<EquipmentType, Integer> defensePoints, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, TagKey<Item> tagKey, RegistryKey<EquipmentAsset> registr) {
+    public static ArmorMaterial registerMaterial(int durability, Map<ArmorType, Integer> defensePoints, int enchantability, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance, TagKey<Item> tagKey, ResourceKey<EquipmentAsset> registr) {
         ArmorMaterial material = new ArmorMaterial(durability, defensePoints, enchantability, equipSound, toughness, knockbackResistance, tagKey, registr);
 		return material;
     }
 	
-	public static Hand getHandThatHasCryingShield(PlayerEntity entity) {
-		Hand[] hands = {Hand.MAIN_HAND, Hand.OFF_HAND};
-		for (Hand hand : hands) {
-			ItemStack stack = entity.getStackInHand(hand);
+	public static InteractionHand getHandThatHasCryingShield(Player entity) {
+		InteractionHand[] hands = {InteractionHand.MAIN_HAND, InteractionHand.OFF_HAND};
+		for (InteractionHand hand : hands) {
+			ItemStack stack = entity.getItemInHand(hand);
 			if (stack != null && stack.getItem() instanceof CryingShieldItem) 
 				return hand;
 		}
@@ -482,22 +482,22 @@ public class Crying implements ModInitializer {
 		return stack.getItem() instanceof CryingTool tool && tool.getToolType() == ToolType.PICKAXE && getCoreIngredient(stack) == OVER_HARDENED_CORE_WITH_EYE.asItem();
 	}
 
-	public static MutableText getCoreIngredientText(ItemStack stack) {
+	public static MutableComponent getCoreIngredientText(ItemStack stack) {
 		Item item = getCoreIngredient(stack);
 		if (item == Items.IRON_INGOT)
-			return Text.translatable("core.ingredient.iron").setStyle(Style.EMPTY.withColor(Formatting.GRAY));
+			return Component.translatable("core.ingredient.iron").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY));
 		else if (item == Items.DIAMOND)
-			return Text.translatable("core.ingredient.diamond").setStyle(Style.EMPTY.withColor(Formatting.AQUA));
+			return Component.translatable("core.ingredient.diamond").setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA));
 		else if (item == Items.NETHERITE_INGOT)
-			return Text.translatable("core.ingredient.netherite").setStyle(Style.EMPTY.withColor(Formatting.DARK_GRAY));
+			return Component.translatable("core.ingredient.netherite").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY));
 		else if (item == Items.GOLD_INGOT)
-			return Text.translatable("core.ingredient.gold").setStyle(Style.EMPTY.withColor(Formatting.YELLOW));
+			return Component.translatable("core.ingredient.gold").setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
 		else if (item == Items.COPPER_INGOT)
-			return Text.translatable("core.ingredient.copper").setStyle(Style.EMPTY.withColor(ColorHelper.getArgb(255, 255, 128, 0)));
+			return Component.translatable("core.ingredient.copper").setStyle(Style.EMPTY.withColor(ARGB.color(255, 255, 128, 0)));
 		else if (item == OVER_HARDENED_CORE_WITH_EYE.asItem())
-			return Text.translatable("item.crying.over-hardened_core_with_eye").setStyle(Style.EMPTY.withColor(1966200));
+			return Component.translatable("item.crying.over-hardened_core_with_eye").setStyle(Style.EMPTY.withColor(1966200));
 
-		return Text.translatable("core.ingredient.crying").setStyle(Style.EMPTY.withColor(Formatting.DARK_PURPLE));
+		return Component.translatable("core.ingredient.crying").setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE));
 	}
 
 	public static int nextBetweenInt(int min, int max) {
@@ -536,11 +536,11 @@ public class Crying implements ModInitializer {
 		return String.format("%02d:%02d", minutes, seconds);
 	}
 
-	public static SanityManager getSanityManager(PlayerEntity player) {
+	public static SanityManager getSanityManager(Player player) {
 		return ((SanityVars) (Object) player).getManager();
 	} 
 
-	public static HookVars getHook(PlayerEntity player) {
+	public static HookVars getHook(Player player) {
 		return (HookVars) (Object) player;
 	}
 }

@@ -1,10 +1,10 @@
 package crying.states;
 
-import net.minecraft.client.render.entity.state.ProjectileEntityRenderState;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.world.phys.Vec3;
 
-public class GrapplingHookEntityRenderState extends ProjectileEntityRenderState {
-    public Vec3d hookOffset;
-    public Vec3d startHookPos;
-    public Vec3d endHookPos;
+public class GrapplingHookEntityRenderState extends EntityRenderState {
+    public Vec3 hookOffset;
+    public Vec3 startHookPos;
+    public Vec3 endHookPos;
 }

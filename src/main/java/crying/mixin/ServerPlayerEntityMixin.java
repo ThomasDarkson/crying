@@ -1,7 +1,5 @@
 package crying.mixin;
 
-import net.minecraft.server.network.ServerPlayerEntity;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,12 +10,13 @@ import crying.armors.CryingArmor;
 import crying.interfaces.FoodVars;
 import crying.interfaces.SanityManager;
 import crying.interfaces.SanityVars;
+import net.minecraft.server.level.ServerPlayer;
 
-@Mixin(ServerPlayerEntity.class)
+@Mixin(ServerPlayer.class)
 public class ServerPlayerEntityMixin {
-    @Inject(method = "copyFrom", at = @At("TAIL"))
-    public void copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info) {
-        ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
+    @Inject(method = "restoreFrom", at = @At("TAIL"))
+    public void copyFrom(ServerPlayer oldPlayer, boolean alive, CallbackInfo info) {
+        ServerPlayer player = (ServerPlayer) (Object) this;
         SanityManager oldManager = Crying.getSanityManager(oldPlayer);
         ((SanityVars) (Object) player).setManager(oldManager);
         SanityManager manager = Crying.getSanityManager(player);
@@ -34,7 +33,7 @@ public class ServerPlayerEntityMixin {
 
     @Inject(method = "tick", at = @At("TAIL"))
     public void tick(CallbackInfo info) {
-        ServerPlayerEntity player = (ServerPlayerEntity) (Object) this;
+        ServerPlayer player = (ServerPlayer) (Object) this;
         SanityManager manager = Crying.getSanityManager(player);
         if (CryingArmor.cryingArmorCount(player) > 0)
             manager.tick(player);

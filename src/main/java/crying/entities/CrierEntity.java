@@ -1,7 +1,63 @@
 package crying.entities;
 
 import java.util.ArrayList;
-
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.BossEvent.BossBarColor;
+import net.minecraft.world.BossEvent.BossBarOverlay;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.FlyingMoveControl;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.util.GoalUtils;
+import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.warden.Warden;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
@@ -9,70 +65,13 @@ import crying.goals.FastBreakDoorGoal;
 import crying.interfaces.NbtInterface;
 import crying.other.CrierExplosionBehavior;
 import crying.tools.CryingShieldItem;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.NavigationConditions;
-import net.minecraft.entity.ai.control.FlightMoveControl;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.FlyGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.pathing.MobNavigation;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.BossBar.Color;
-import net.minecraft.entity.boss.BossBar.Style;
-import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.EndermanEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.WardenEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.SnowGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.potion.Potions;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.storage.NbtReadView;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.World.ExplosionSourceType;
-import net.minecraft.world.dimension.DimensionTypes;
-import net.minecraft.world.explosion.Explosion;
 
-public class CrierEntity extends HostileEntity {
-    ServerBossBar bossBar = null;
-    ServerBossBar shieldBar = null;
+public class CrierEntity extends Monster {
+    ServerBossEvent bossBar = null;
+    ServerBossEvent shieldBar = null;
 
-    private static final TrackedData<Float> shieldHealth;
-    private static final TrackedData<Boolean> secondPhase;
+    private static final EntityDataAccessor<Float> shieldHealth;
+    private static final EntityDataAccessor<Boolean> secondPhase;
     private boolean initializedExplosion = false;
     private boolean isSmall = false;
     private boolean healing = false;
@@ -80,82 +79,82 @@ public class CrierEntity extends HostileEntity {
     private ArrayList<String> gotAttackedByPlayer = new ArrayList<>();
 
     static {
-        secondPhase = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        shieldHealth = DataTracker.registerData(CrierEntity.class, TrackedDataHandlerRegistry.FLOAT);
+        secondPhase = SynchedEntityData.defineId(CrierEntity.class, EntityDataSerializers.BOOLEAN);
+        shieldHealth = SynchedEntityData.defineId(CrierEntity.class, EntityDataSerializers.FLOAT);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public CrierEntity(EntityType<? extends CrierEntity> entityType, World world) {
+    public CrierEntity(EntityType<? extends CrierEntity> entityType, Level world) {
         super(entityType, world);
 
-        this.clearGoals((goal) -> {
+        this.removeAllGoals((goal) -> {
             return true;
         });
 
-        this.targetSelector.clear((target) -> {
+        this.targetSelector.removeAllGoals((target) -> {
             return true;
         });
 
-        this.moveControl = new FlightMoveControl(this, 1, false);
+        this.moveControl = new FlyingMoveControl(this, 1, false);
 
-        this.targetSelector.add(6, new ActiveTargetGoal(this, SnowGolemEntity.class, false));
-        this.targetSelector.add(4, new ActiveTargetGoal(this, EndermanEntity.class, false));
-        this.targetSelector.add(3, new ActiveTargetGoal(this, CatEntity.class, false));
-        this.targetSelector.add(2, new ActiveTargetGoal(this, IronGolemEntity.class, false));
-        this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
-        this.targetSelector.add(1, new ActiveTargetGoal(this, WardenEntity.class, false));
-        this.goalSelector.add(3, new FlyGoal(this, 1.0));
-        this.goalSelector.add(8, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(8, new LookAroundGoal(this));
-        this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, false));
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal(this, SnowGolem.class, false));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal(this, EnderMan.class, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, Cat.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, IronGolem.class, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal(this, Warden.class, false));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomFlyingGoal(this, 1.0));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
 
-        EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.SCALE);
+        AttributeInstance instance = this.getAttribute(Attributes.SCALE);
         if (world.getRandom().nextFloat() < 0.005F) {
             instance.setBaseValue(6d);
         }
 
         double extra = 0d;
-        if (world.getPlayers().size() > 1)
-            extra = 25d * (world.getPlayers().size() - 1);
+        if (world.players().size() > 1)
+            extra = 25d * (world.players().size() - 1);
         
         double health = 618d + extra;
-        this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(health);
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
         this.setHealth((float) health);
 
-        this.bossBar = new ServerBossBar(this.getDisplayName(), Color.PURPLE, Style.PROGRESS);
+        this.bossBar = new ServerBossEvent(this.getDisplayName(), BossBarColor.PURPLE, BossBarOverlay.PROGRESS);
         bossBar.setVisible(true);
-        bossBar.setDragonMusic(false);
-        bossBar.setPercent(0.0F);
+        bossBar.setPlayBossMusic(false);
+        bossBar.setProgress(0.0F);
 
-        this.shieldBar = new ServerBossBar(Text.translatable("bar.shield.health"), Color.PURPLE, Style.PROGRESS);
+        this.shieldBar = new ServerBossEvent(Component.translatable("bar.shield.health"), BossBarColor.PURPLE, BossBarOverlay.PROGRESS);
         shieldBar.setVisible(true);
-        shieldBar.setDragonMusic(false);
-        shieldBar.setPercent(0.0F);
+        shieldBar.setPlayBossMusic(false);
+        shieldBar.setProgress(0.0F);
 
         setCanBreakDoors(true);
 
-        if (this.getWorld().getDimensionEntry().getKey().get() != DimensionTypes.OVERWORLD) {
-            this.getWorld().setBlockState(this.getBlockPos(), Blocks.CRYING_OBSIDIAN.getDefaultState());
-            this.getWorld().addParticleClient(ParticleTypes.FALLING_OBSIDIAN_TEAR, this.getX(), this.getX(), this.getZ(), 1d, 1d, 1d);
-            this.playSound(getDeathSound());
+        if (this.level().dimensionTypeRegistration().unwrapKey().get() != BuiltinDimensionTypes.OVERWORLD) {
+            this.level().setBlockAndUpdate(this.blockPosition(), Blocks.CRYING_OBSIDIAN.defaultBlockState());
+            this.level().addParticle(ParticleTypes.FALLING_OBSIDIAN_TEAR, this.getX(), this.getX(), this.getZ(), 1d, 1d, 1d);
+            this.makeSound(getDeathSound());
             this.discard();
         }
     }
 
-    public static DefaultAttributeContainer.Builder createCrierAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.FOLLOW_RANGE, 37.0d).add(EntityAttributes.MOVEMENT_SPEED, 0.345d).add(EntityAttributes.FLYING_SPEED, 3.4d).add(EntityAttributes.SPAWN_REINFORCEMENTS, 0d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.3d).add(EntityAttributes.ATTACK_DAMAGE, 1d).add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 1d);
+    public static AttributeSupplier.Builder createCrierAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.FOLLOW_RANGE, 37.0d).add(Attributes.MOVEMENT_SPEED, 0.345d).add(Attributes.FLYING_SPEED, 3.4d).add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, 0d).add(Attributes.KNOCKBACK_RESISTANCE, 0.3d).add(Attributes.ATTACK_DAMAGE, 1d).add(Attributes.WATER_MOVEMENT_EFFICIENCY, 1d);
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
-        builder.add(secondPhase, false);
-        builder.add(shieldHealth, (float) CryingShieldItem.CRYING_SHIELD_HEALTH);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(secondPhase, false);
+        builder.define(shieldHealth, (float) CryingShieldItem.CRYING_SHIELD_HEALTH);
     }
 
     @Override
-    public boolean canHaveStatusEffect(StatusEffectInstance effect) {
-        return effect.equals(StatusEffects.WEAKNESS) && effect.getAmplifier() == 2;
+    public boolean canBeAffected(MobEffectInstance effect) {
+        return effect.is(MobEffects.WEAKNESS) && effect.getAmplifier() == 2;
     }
 
     @Override
@@ -174,46 +173,46 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
-        Random r = world.getRandom();
-        this.initEquipment(r, difficulty);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData) {
+        RandomSource r = world.getRandom();
+        this.populateDefaultEquipmentSlots(r, difficulty);
         this.setCanBreakDoors(true);
         return entityData;
     }
 
     @Override
-    protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
-        this.equipStack(EquipmentSlot.HEAD, new ItemStack(Crying.CRYING_HELMET));
+    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance localDifficulty) {
+        this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Crying.CRYING_HELMET));
     }
 
     @Override
-    protected void mobTick(ServerWorld world) {
-        super.mobTick(world);
+    protected void customServerAiStep(ServerLevel world) {
+        super.customServerAiStep(world);
 
-        if (!this.isOnGround())
-            this.setPose(EntityPose.GLIDING);
+        if (!this.onGround())
+            this.setPose(Pose.FALL_FLYING);
         else
-            this.setPose(EntityPose.STANDING);
+            this.setPose(Pose.STANDING);
 
-        if (this.getTarget() != null && this.getTarget() instanceof PlayerEntity player) {
-            isSmall = player.isInSwimmingPose() && !player.isSubmergedInWater();
+        if (this.getTarget() != null && this.getTarget() instanceof Player player) {
+            isSmall = player.isVisuallySwimming() && !player.isUnderWater();
             changeScale();
         }
 
         if (!initializedExplosion) {
-            world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(false), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+            world.explode(this, Explosion.getDefaultDamageSource(world, this), new CrierExplosionBehavior(false), this.getX(), this.getEyeY(), this.getZ(), 4.5F, false, ExplosionInteraction.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);
             initializedExplosion = true;
         }
 
         float health = this.getHealth() / this.getMaxHealth();
-        this.bossBar.setPercent(health);
+        this.bossBar.setProgress(health);
 
-        this.shieldBar.setPercent(this.getShieldHealth() / (float) CryingShieldItem.CRYING_SHIELD_HEALTH);
+        this.shieldBar.setProgress(this.getShieldHealth() / (float) CryingShieldItem.CRYING_SHIELD_HEALTH);
 
         if (health > 0F) {
             if (health < 0.2F && !getSecondPhase()) {
-                world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundCategory(), 1.0F, 1.0F);
-                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2.25F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+                world.playSound((Player) null, this.getX(), this.getY(), this.getZ(), Crying.CRIER_SCREAM_EVENT, this.getSoundSource(), 1.0F, 1.0F);
+                world.explode(this, Explosion.getDefaultDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2.25F, false, ExplosionInteraction.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);
                 switchToSecondPhase();
 
                 setSecondPhase(true);
@@ -226,22 +225,22 @@ public class CrierEntity extends HostileEntity {
 
             if ((healingTicks - 1) % 4 == 0 || healingTicks >= 32)
             {
-                getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_GENERIC_DRINK, this.getSoundCategory(), 1.0F, 1.0F);          
+                level().playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.GENERIC_DRINK, this.getSoundSource(), 1.0F, 1.0F);          
             }
             if ((healingTicks - 1) % 8 == 0 || healingTicks >= 32)
             {
-                this.swingHand(Hand.MAIN_HAND);   
+                this.swing(InteractionHand.MAIN_HAND);   
             }
 
             if (healingTicks >= 32) {
                 healing = false;
 
-                this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Crying.CRIERS_SWORD));
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Crying.CRIERS_SWORD));
 
-                EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+                AttributeInstance instance = this.getAttribute(Attributes.MOVEMENT_SPEED);
                 instance.setBaseValue(0.355d);
 
-                EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
+                AttributeInstance instance2 = this.getAttribute(Attributes.FLYING_SPEED);
                 instance2.setBaseValue(3d);
             }
         }
@@ -253,89 +252,89 @@ public class CrierEntity extends HostileEntity {
         else 
             this.setShieldHealth(this.getShieldHealth() - Math.round(amount));
 
-        this.getWorld().playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
+        this.level().playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHIELD_BLOCK, this.getSoundSource(), 1.0F, 1.0F);
         if (this.getShieldHealth() <= 0)
             breakShield(true);
     }
 
     void breakShield(boolean playSound) {
         this.shieldBar.setVisible(false);
-        this.setStackInHand(Hand.MAIN_HAND, new ItemStack(Crying.CRIERS_SWORD));
+        this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Crying.CRIERS_SWORD));
         this.setShieldHealth(0);
-        this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, -1, 2, false, false, false), this);
+        this.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, -1, 2, false, false, false), this);
 
         if (playSound)
-            this.getWorld().playSound(null, getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), getSoundCategory());
+            this.level().playSound(null, blockPosition(), SoundEvents.SHIELD_BREAK.value(), getSoundSource());
     }
 
     void changeScale() {
-        EntityAttributeInstance scale = this.getAttributeInstance(EntityAttributes.SCALE);
+        AttributeInstance scale = this.getAttribute(Attributes.SCALE);
         scale.setBaseValue(isSmall ? 0.495d : 1);
 
         if (isSmall)
-            this.setPose(EntityPose.CROUCHING);
+            this.setPose(Pose.CROUCHING);
     }
 
     void switchToSecondPhase() {
-        EntityAttributeInstance damage = this.getAttributeInstance(EntityAttributes.ATTACK_DAMAGE);
+        AttributeInstance damage = this.getAttribute(Attributes.ATTACK_DAMAGE);
         damage.setBaseValue(4d);
 
-        bossBar.setName(Text.translatable("entity.crying.forlorn.crier").append(this.getDefaultName()));
+        bossBar.setName(Component.translatable("entity.crying.forlorn.crier").append(this.getTypeName()));
     }
 
     void swingBothHands() {
-        this.swingHand(Hand.MAIN_HAND);
-        this.swingHand(Hand.OFF_HAND);
+        this.swing(InteractionHand.MAIN_HAND);
+        this.swing(InteractionHand.OFF_HAND);
     }
 
     public float getShieldHealth() {
-        return this.getDataTracker().get(shieldHealth);
+        return this.getEntityData().get(shieldHealth);
     }
 
     public void setShieldHealth(float health) {
-        this.getDataTracker().set(shieldHealth, health);
+        this.getEntityData().set(shieldHealth, health);
     }
 
     public boolean getSecondPhase() {
-        return this.getDataTracker().get(secondPhase);
+        return this.getEntityData().get(secondPhase);
     }
 
     public void setSecondPhase(boolean phase) {
-        this.getDataTracker().set(secondPhase, phase);
+        this.getEntityData().set(secondPhase, phase);
     }
 
     @Override
-    protected void dropLoot(ServerWorld world, DamageSource damageSource, boolean causedByPlayer) {
+    protected void dropFromLootTable(ServerLevel world, DamageSource damageSource, boolean causedByPlayer) {
         if (causedByPlayer) {
             ItemStack stack = new ItemStack(Crying.EYE);
             stack.setCount(gotAttackedByPlayer.size());
-            this.dropStack(world, stack);
+            this.spawnAtLocation(world, stack);
 
             ItemStack heart = new ItemStack(Crying.CRIERS_HEART);
             heart.setCount(1);
-            this.dropStack(world, heart);
+            this.spawnAtLocation(world, heart);
         }
     }
 
     @Override
-    public void onStartedTrackingBy(ServerPlayerEntity player) {
-        super.onStartedTrackingBy(player);
+    public void startSeenByPlayer(ServerPlayer player) {
+        super.startSeenByPlayer(player);
 
         this.bossBar.addPlayer(player);
         this.shieldBar.addPlayer(player);
     }
 
     @Override
-    public void onStoppedTrackingBy(ServerPlayerEntity player) {
-        super.onStoppedTrackingBy(player);
+    public void stopSeenByPlayer(ServerPlayer player) {
+        super.stopSeenByPlayer(player);
 
         this.bossBar.removePlayer(player);
         this.shieldBar.removePlayer(player);
     }
 
     @Override
-    protected void writeCustomData(WriteView nbt) {
-        super.writeCustomData(nbt);
+    protected void addAdditionalSaveData(ValueOutput nbt) {
+        super.addAdditionalSaveData(nbt);
 
         nbt.putBoolean("secondPhase", getSecondPhase());
         nbt.putBoolean("initializedExplosion", initializedExplosion);
@@ -350,10 +349,10 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    protected void readCustomData(ReadView nbt) {
-        super.readCustomData(nbt);
+    protected void readAdditionalSaveData(ValueInput nbt) {
+        super.readAdditionalSaveData(nbt);
 
-        if (nbt instanceof NbtReadView nbtReadView) {
+        if (nbt instanceof TagValueInput nbtReadView) {
             ((NbtInterface) nbtReadView).getNbt().forEach((string, element) -> {
                 if (string.startsWith("UUID_SET_BY_CRYING_") && element.asBoolean().orElse(false)) {
                     gotAttackedByPlayer.add(string.replace("UUID_SET_BY_CRYING_", ""));
@@ -365,28 +364,28 @@ public class CrierEntity extends HostileEntity {
             this.bossBar.setName(this.getDisplayName());
         }
 
-        initializedExplosion = nbt.getBoolean("initializedExplosion", false);
-        healing = nbt.getBoolean("healing", false);
+        initializedExplosion = nbt.getBooleanOr("initializedExplosion", false);
+        healing = nbt.getBooleanOr("healing", false);
 
         if (healing)
             heal();
 
-        healingTicks = nbt.getInt("healingTicks", 0);
+        healingTicks = nbt.getIntOr("healingTicks", 0);
 
-        setSecondPhase(nbt.getBoolean("secondPhase", false));
+        setSecondPhase(nbt.getBooleanOr("secondPhase", false));
         if (getSecondPhase())
             switchToSecondPhase();
         
-        isSmall = nbt.getBoolean("isSmall", false);
+        isSmall = nbt.getBooleanOr("isSmall", false);
         changeScale();
 
-        this.setShieldHealth(nbt.getFloat("shieldHealth", (float) CryingShieldItem.CRYING_SHIELD_HEALTH));
+        this.setShieldHealth(nbt.getFloatOr("shieldHealth", (float) CryingShieldItem.CRYING_SHIELD_HEALTH));
         if (this.getShieldHealth() <= 0)
             breakShield(false);
     }
 
     @Override
-    public void setCustomName(@Nullable Text name) {
+    public void setCustomName(@Nullable Component name) {
         super.setCustomName(name);
 
         this.bossBar.setName(this.getDisplayName());
@@ -398,13 +397,13 @@ public class CrierEntity extends HostileEntity {
     }
     
     @Override
-    public boolean tryAttack(ServerWorld world, Entity target) {
-        boolean bl = super.tryAttack(world, target);
-        if (bl && target instanceof PlayerEntity) {
+    public boolean doHurtTarget(ServerLevel world, Entity target) {
+        boolean bl = super.doHurtTarget(world, target);
+        if (bl && target instanceof Player) {
             float chance = Math.abs(world.getRandom().nextFloat());
             if (chance < 0.2F) {
-                float f = this.getWorld().getLocalDifficulty(this.getBlockPos()).getLocalDifficulty();
-                ((PlayerEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100 * (int) f), this);
+                float f = this.level().getCurrentDifficultyAt(this.blockPosition()).getEffectiveDifficulty();
+                ((Player) target).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100 * (int) f), this);
             }
         }
 
@@ -412,48 +411,48 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        if ((getHealth() - amount) <= 0 && !(source.getAttacker() instanceof PlayerEntity || source.isOf(DamageTypes.GENERIC))) {
+    public boolean hurtServer(ServerLevel world, DamageSource source, float amount) {
+        if ((getHealth() - amount) <= 0 && !(source.getEntity() instanceof Player || source.is(DamageTypes.GENERIC))) {
             this.setHealth(0.01F);
             if (!healing)
                 heal();
             return false;
         }
-        if (isInsideWall()) 
+        if (isInWall()) 
             return false;
         else if (healing)
             return false;
-        else if (source.isIn(DamageTypeTags.IS_FIRE))
+        else if (source.is(DamageTypeTags.IS_FIRE))
             return false;
-        else if (source.getWeaponStack() != null && source.getWeaponStack().getItem() == Items.MACE) {
-            world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
+        else if (source.getWeaponItem() != null && source.getWeaponItem().getItem() == Items.MACE) {
+            world.playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHIELD_BLOCK, this.getSoundSource(), 1.0F, 1.0F);
             swingBothHands();
             return false;
         }
-        else if (source.isOf(DamageTypes.DROWN) || source.isIn(DamageTypeTags.IS_FALL))
+        else if (source.is(DamageTypes.DROWN) || source.is(DamageTypeTags.IS_FALL))
             return false;
-        else if (source.isIn(DamageTypeTags.IS_PROJECTILE)) {
-            world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.ITEM_SHIELD_BLOCK, this.getSoundCategory(), 1.0F, 1.0F);
+        else if (source.is(DamageTypeTags.IS_PROJECTILE)) {
+            world.playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.SHIELD_BLOCK, this.getSoundSource(), 1.0F, 1.0F);
             return false;
         }
-        else if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD) && this.getShieldHealth() > 0) {
+        else if (!source.is(DamageTypeTags.BYPASSES_SHIELD) && this.getShieldHealth() > 0) {
             damageShield(amount);
             return false;
         }
         else {
             float f = world.getRandom().nextFloat();
             if (f < (getSecondPhase() ? 0F : 0.045F)) {
-                world.createExplosion(this, Explosion.createDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionSourceType.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.ENTITY_GENERIC_EXPLODE);
+                world.explode(this, Explosion.getDefaultDamageSource(world, this), new CrierExplosionBehavior(true), this.getX(), this.getEyeY(), this.getZ(), 2F, false, ExplosionInteraction.MOB, ParticleTypes.EXPLOSION, ParticleTypes.EXPLOSION_EMITTER, SoundEvents.GENERIC_EXPLODE);
             }
             if (f < (getSecondPhase() ? 0.25F : 0.05F)) {
                 heal();
             }
 
-            if (source.getAttacker() instanceof PlayerEntity player) {
-                if (!gotAttackedByPlayer.contains(player.getUuidAsString()))
-                    gotAttackedByPlayer.add(player.getUuidAsString());
+            if (source.getEntity() instanceof Player player) {
+                if (!gotAttackedByPlayer.contains(player.getStringUUID()))
+                    gotAttackedByPlayer.add(player.getStringUUID());
             }
-            return super.damage(world, source, amount);
+            return super.hurtServer(world, source, amount);
         }
     }
 
@@ -464,19 +463,19 @@ public class CrierEntity extends HostileEntity {
         healing = true;
         healingTicks = 0;
 
-        this.equipStack(EquipmentSlot.MAINHAND, PotionContentsComponent.createStack(Items.POTION, Potions.HEALING));
+        this.setItemSlot(EquipmentSlot.MAINHAND, PotionContents.createItemStack(Items.POTION, Potions.HEALING));
 
-        EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED);
+        AttributeInstance instance = this.getAttribute(Attributes.MOVEMENT_SPEED);
         instance.setBaseValue(0.001d);
 
-        EntityAttributeInstance instance2 = this.getAttributeInstance(EntityAttributes.FLYING_SPEED);
+        AttributeInstance instance2 = this.getAttribute(Attributes.FLYING_SPEED);
         instance2.setBaseValue(0.001d);
     }
 
     public void setCanBreakDoors(boolean canBreakDoors) {
-        if (NavigationConditions.hasMobNavigation(this)) {
-            ((MobNavigation)this.getNavigation()).setCanOpenDoors(true);
-            this.goalSelector.add(1, new FastBreakDoorGoal(this, (difficulty) -> {
+        if (GoalUtils.hasGroundPathNavigation(this)) {
+            ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
+            this.goalSelector.addGoal(1, new FastBreakDoorGoal(this, (difficulty) -> {
                 return true;
             }));
         }
@@ -488,7 +487,7 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    protected int getExperienceToDrop(ServerWorld world) {
+    protected int getBaseExperienceReward(ServerLevel world) {
         return 0;
     }
 
@@ -497,20 +496,20 @@ public class CrierEntity extends HostileEntity {
     }
 
     @Override
-    public boolean canPickupItem(ItemStack stack) {
+    public boolean canHoldItem(ItemStack stack) {
         return false;
     }
 
     @Override
-    public boolean canGather(ServerWorld world, ItemStack stack) {
+    public boolean wantsToPickUp(ServerLevel world, ItemStack stack) {
         return false;
     }
 
     @Override
-    protected void dropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer) {
+    protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
     }
 
-    public static boolean shouldBeBaby(Random random) {
+    public static boolean shouldBeBaby(RandomSource random) {
         return false;
     }
 }

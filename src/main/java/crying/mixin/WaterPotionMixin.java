@@ -2,28 +2,26 @@ package crying.mixin;
 
 import crying.Crying;
 import crying.interfaces.*;
-
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.PotionContentsComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potions;
-import net.minecraft.world.World;
-
-@Mixin(PotionContentsComponent.class)
+@Mixin(PotionContents.class)
 public abstract class WaterPotionMixin {
     @Inject(method = "onConsume", at = @At("TAIL"))
-    public void onConsume(World world, LivingEntity user, ItemStack stack, ConsumableComponent consumable, CallbackInfo info) {
-        if (user instanceof PlayerEntity player) {
+    public void onConsume(Level world, LivingEntity user, ItemStack stack, Consumable consumable, CallbackInfo info) {
+        if (user instanceof Player player) {
             SanityManager manager = Crying.getSanityManager(player);
-            PotionContentsComponent potion = (PotionContentsComponent) (Object) this;
-            if (potion.matches(Potions.WATER)) {
+            PotionContents potion = (PotionContents) (Object) this;
+            if (potion.is(Potions.WATER)) {
                 manager.decreaseLevel(-20F);
                 manager.setCollapseMultiplier(2);
             }

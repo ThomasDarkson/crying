@@ -10,29 +10,29 @@ import crying.Crying;
 import crying.CryingClient;
 import crying.interfaces.PlayerEntityRenderStateVarsInterface;
 import crying.items.CryingGrapplingHookItem;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
-import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
-import net.minecraft.util.Arm;
-import net.minecraft.util.Hand;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.HumanoidModel.ArmPose;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
 
-@Mixin(PlayerEntityRenderer.class)
+@Mixin(PlayerRenderer.class)
 public class PlayerEntityRendererMixin {
-    @Inject(method = "updateRenderState", at = @At("TAIL"))
-    public void updateRenderState(AbstractClientPlayerEntity abstractClientPlayerEntity, PlayerEntityRenderState playerEntityRenderState, float f, CallbackInfo info) {
-        Hand hand = Crying.getHandThatHasCryingShield(abstractClientPlayerEntity);
+    @Inject(method = "extractRenderState", at = @At("TAIL"))
+    public void updateRenderState(AbstractClientPlayer abstractClientPlayerEntity, PlayerRenderState playerEntityRenderState, float f, CallbackInfo info) {
+        InteractionHand hand = Crying.getHandThatHasCryingShield(abstractClientPlayerEntity);
         ((PlayerEntityRenderStateVarsInterface) (Object) playerEntityRenderState).set_cryingShieldHand(hand);
-        ((PlayerEntityRenderStateVarsInterface) (Object) playerEntityRenderState).set_realAge(abstractClientPlayerEntity.age);
+        ((PlayerEntityRenderStateVarsInterface) (Object) playerEntityRenderState).set_realAge(abstractClientPlayerEntity.tickCount);
     }
 
     @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
-    private static void getArmPose(AbstractClientPlayerEntity player, Arm arm, CallbackInfoReturnable<BipedEntityModel.ArmPose> info) {
-        Hand hand = Crying.getHandThatHasCryingShield(player);
+    private static void getArmPose(AbstractClientPlayer player, HumanoidArm arm, CallbackInfoReturnable<HumanoidModel.ArmPose> info) {
+        InteractionHand hand = Crying.getHandThatHasCryingShield(player);
         if (hand != null && CryingClient.compareHandtoArm(hand, arm, player.getMainArm())) 
             info.setReturnValue(ArmPose.EMPTY);
-        else if ((player.getStackInArm(arm).getItem() instanceof CryingGrapplingHookItem))
+        else if ((player.getItemHeldByArm(arm).getItem() instanceof CryingGrapplingHookItem))
             info.setReturnValue(ArmPose.CROSSBOW_HOLD);
     }
 }

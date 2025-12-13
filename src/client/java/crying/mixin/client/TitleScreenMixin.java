@@ -6,26 +6,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import crying.Crying;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.ARGB;
 import semantic.ver.lib.SemanticVersion;
 
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin {
     @Inject(method = "render", at = @At("TAIL"))
-    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo info) {
-        MutableText text = Text.literal("Crying Tools v");
-        context.drawText(MinecraftClient.getInstance().textRenderer, text.append(Crying.VERSION.toString()), 2, 2, ColorHelper.getArgb(255, 255, 255), true);
+    public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks, CallbackInfo info) {
+        MutableComponent text = Component.literal("Crying Tools v");
+        context.drawString(Minecraft.getInstance().font, text.append(Crying.VERSION.toString()), 2, 2, ARGB.color(255, 255, 255), true);
         SemanticVersion ver = Crying.VERSION.newVersionAvailable();
         if (!ver.isInvalid()) {
-            MutableText text2 = Text.translatable("newer.version.available");
+            MutableComponent text2 = Component.translatable("newer.version.available");
             text2.append(ver.toString());
 
-            context.drawText(MinecraftClient.getInstance().textRenderer, text2, 8, 12, ColorHelper.getArgb(255, 255, 255), true);
+            context.drawString(Minecraft.getInstance().font, text2, 8, 12, ARGB.color(255, 255, 255), true);
         }
     }
 }

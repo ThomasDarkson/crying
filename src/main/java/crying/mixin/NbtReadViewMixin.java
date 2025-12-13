@@ -6,18 +6,18 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 import crying.interfaces.NbtInterface;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.storage.NbtReadView;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.TagValueInput;
 
-@Mixin(NbtReadView.class)
+@Mixin(TagValueInput.class)
 public class NbtReadViewMixin implements NbtInterface {
     @Mutable
     @Final
     @Shadow
-    private NbtCompound nbt;
+    private CompoundTag input;
 
     @Override
-    public NbtCompound getNbt() {
-        return this.nbt;
+    public CompoundTag getNbt() {
+        return this.input;
     }
 }

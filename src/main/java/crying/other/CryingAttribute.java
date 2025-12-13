@@ -1,12 +1,12 @@
 package crying.other;
 
 import crying.mixin.CryingAttributeFixer;
-import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import java.util.Map;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 
 public class CryingAttribute {
     private final transient String id;
-    private final transient ClampedEntityAttribute attribute;
+    private final transient RangedAttribute attribute;
 
     public static final Map<String, Double> attributes = Map.of(
         "attribute.name.armor", 999d,
@@ -18,7 +18,7 @@ public class CryingAttribute {
     public double min;
     public double max;
 
-    public CryingAttribute(String id, ClampedEntityAttribute attribute) {
+    public CryingAttribute(String id, RangedAttribute attribute) {
         this.id = id;
         this.attribute = attribute;
         this.min = attribute.getMinValue();

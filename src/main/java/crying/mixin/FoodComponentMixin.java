@@ -1,7 +1,18 @@
 package crying.mixin;
 
 import java.util.Iterator;
-
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,26 +24,14 @@ import crying.interfaces.CryingTool;
 import crying.interfaces.FoodVars;
 import crying.interfaces.SanityManager;
 import crying.items.CryingFoodItem;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
-import net.minecraft.item.consume.ConsumeEffect;
-import net.minecraft.world.World;
 
-@Mixin(FoodComponent.class)
+@Mixin(FoodProperties.class)
 public abstract class FoodComponentMixin {
     @Inject(method = "onConsume", at = @At("TAIL"))
-    public void onConsume(World world, LivingEntity user, ItemStack stack, ConsumableComponent consumable, CallbackInfo info) {
-        if (user instanceof PlayerEntity player) {
+    public void onConsume(Level world, LivingEntity user, ItemStack stack, Consumable consumable, CallbackInfo info) {
+        if (user instanceof Player player) {
             Item item = stack.getItem();
-            FoodComponent food = (FoodComponent) (Object) this;
+            FoodProperties food = (FoodProperties) (Object) this;
             SanityManager manager = Crying.getSanityManager(player);
             if (item instanceof CryingFoodItem foodItem) {
                 manager.decreaseLevel(-foodItem.restoresSanity());
@@ -54,11 +53,11 @@ public abstract class FoodComponentMixin {
                             break;
 
                         ConsumeEffect effect = it.next();
-                        if (effect instanceof ApplyEffectsConsumeEffect apply) {
-                            Iterator<StatusEffectInstance> i = apply.effects().iterator();
+                        if (effect instanceof ApplyStatusEffectsConsumeEffect apply) {
+                            Iterator<MobEffectInstance> i = apply.effects().iterator();
                             while (i.hasNext()) {
-                                StatusEffectInstance instance = i.next();
-                                if (instance.getEffectType().value().getCategory() == StatusEffectCategory.HARMFUL) {
+                                MobEffectInstance instance = i.next();
+                                if (instance.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                                     badFood = true;
                                     break;
                                 }
@@ -78,7 +77,7 @@ public abstract class FoodComponentMixin {
             if (player.getInventory().contains((itemStack) -> {
                 return itemStack.getItem() instanceof CryingTool tool && tool.getCoreIngredient() == Items.DIAMOND;
             })) {
-                player.getHungerManager().add(food.nutrition(), food.saturation());
+                player.getFoodData().eat(food.nutrition(), food.saturation());
             }
         }
     }   

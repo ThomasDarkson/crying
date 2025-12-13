@@ -6,72 +6,72 @@ import crying.Crying;
 import crying.entities.CriersHeartBlockEntity;
 import crying.interfaces.HasUniqueItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CriersHeartBlock extends BlockWithEntity implements HasUniqueItemSettings {
-    static final VoxelShape SHAPE = VoxelShapes.union(
-		VoxelShapes.cuboid(0.4375, 0, 0.4375, 0.5, 0.0625, 0.5),
-		VoxelShapes.cuboid(0.375, 0.0625, 0.4375, 0.5625, 0.125, 0.5),
-		VoxelShapes.cuboid(0.3125, 0.125, 0.4375, 0.625, 0.1875, 0.5),
-		VoxelShapes.cuboid(0.25, 0.1875, 0.4375, 0.6875, 0.25, 0.5),
-		VoxelShapes.cuboid(0.1875, 0.25, 0.4375, 0.75, 0.3125, 0.5),
-		VoxelShapes.cuboid(0.5, 0.3125, 0.4375, 0.75, 0.375, 0.5),
-		VoxelShapes.cuboid(0.1875, 0.3125, 0.4375, 0.4375, 0.375, 0.5),
-		VoxelShapes.cuboid(0.4375, 0.3125, 0.4375, 0.5, 0.375, 0.5),
-		VoxelShapes.cuboid(0.25, 0.375, 0.4375, 0.4375, 0.4375, 0.5),
-		VoxelShapes.cuboid(0.5, 0.375, 0.4375, 0.6875, 0.4375, 0.5),
-		VoxelShapes.cuboid(0.5625, 0.4375, 0.4375, 0.625, 0.5, 0.5),
-		VoxelShapes.cuboid(0.3125, 0.4375, 0.4375, 0.375, 0.5, 0.5),
-		VoxelShapes.cuboid(0.40625, 0.375, 0.44375, 0.45625, 0.5625, 0.49375),
-		VoxelShapes.cuboid(0.40625, 0.4375, 0.4375, 0.45625, 0.625, 0.4875),
-		VoxelShapes.cuboid(0.5, 0.4375, 0.4375, 0.5625, 0.625, 0.5),
-		VoxelShapes.cuboid(0.3125, 0.125, 0.375, 0.625, 0.375, 0.4375),
-		VoxelShapes.cuboid(0.3125, 0.125, 0.5, 0.625, 0.375, 0.5625)
+public class CriersHeartBlock extends BaseEntityBlock implements HasUniqueItemSettings {
+    static final VoxelShape SHAPE = Shapes.or(
+		Shapes.box(0.4375, 0, 0.4375, 0.5, 0.0625, 0.5),
+		Shapes.box(0.375, 0.0625, 0.4375, 0.5625, 0.125, 0.5),
+		Shapes.box(0.3125, 0.125, 0.4375, 0.625, 0.1875, 0.5),
+		Shapes.box(0.25, 0.1875, 0.4375, 0.6875, 0.25, 0.5),
+		Shapes.box(0.1875, 0.25, 0.4375, 0.75, 0.3125, 0.5),
+		Shapes.box(0.5, 0.3125, 0.4375, 0.75, 0.375, 0.5),
+		Shapes.box(0.1875, 0.3125, 0.4375, 0.4375, 0.375, 0.5),
+		Shapes.box(0.4375, 0.3125, 0.4375, 0.5, 0.375, 0.5),
+		Shapes.box(0.25, 0.375, 0.4375, 0.4375, 0.4375, 0.5),
+		Shapes.box(0.5, 0.375, 0.4375, 0.6875, 0.4375, 0.5),
+		Shapes.box(0.5625, 0.4375, 0.4375, 0.625, 0.5, 0.5),
+		Shapes.box(0.3125, 0.4375, 0.4375, 0.375, 0.5, 0.5),
+		Shapes.box(0.40625, 0.375, 0.44375, 0.45625, 0.5625, 0.49375),
+		Shapes.box(0.40625, 0.4375, 0.4375, 0.45625, 0.625, 0.4875),
+		Shapes.box(0.5, 0.4375, 0.4375, 0.5625, 0.625, 0.5),
+		Shapes.box(0.3125, 0.125, 0.375, 0.625, 0.375, 0.4375),
+		Shapes.box(0.3125, 0.125, 0.5, 0.625, 0.375, 0.5625)
 	);
 
-    public CriersHeartBlock(Settings settings) {
+    public CriersHeartBlock(Properties settings) {
         super(settings);
 
         Crying.registerBlock(this, "criers_heart");
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register((itemGroup) -> itemGroup.add(this.asItem()));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register((itemGroup) -> itemGroup.accept(this.asItem()));
     }
     
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? validateTicker(type, Crying.CRIERS_HEART_BLOCK_ENTITY, CriersHeartBlockEntity::ticker) : null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
+        return world.isClientSide ? createTickerHelper(type, Crying.CRIERS_HEART_BLOCK_ENTITY, CriersHeartBlockEntity::ticker) : null;
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos arg0, BlockState arg1) {
+    public BlockEntity newBlockEntity(BlockPos arg0, BlockState arg1) {
         return new CriersHeartBlockEntity(arg0, arg1);
     }
 
     @Override
-    protected MapCodec<? extends BlockWithEntity> getCodec() {
-        return createCodec(CriersHeartBlock::new);
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(CriersHeartBlock::new);
     }
 
     @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override

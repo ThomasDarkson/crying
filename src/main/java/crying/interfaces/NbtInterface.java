@@ -1,7 +1,7 @@
 package crying.interfaces;
 
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
 
 public interface NbtInterface {
-    NbtCompound getNbt();
+    CompoundTag getNbt();
 }

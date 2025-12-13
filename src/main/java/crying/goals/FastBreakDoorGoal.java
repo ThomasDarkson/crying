@@ -1,19 +1,18 @@
 package crying.goals;
 
 import java.util.function.Predicate;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.ai.goal.DoorInteractGoal;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.GameRules;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.DoorInteractGoal;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.Block;
 
 public class FastBreakDoorGoal extends DoorInteractGoal {
     protected int breakProgress;
     protected int prevBreakProgress;
     protected int maxProgress;
 
-    public FastBreakDoorGoal(MobEntity mob, Predicate<Difficulty> difficultySufficientPredicate) {
+    public FastBreakDoorGoal(Mob mob, Predicate<Difficulty> difficultySufficientPredicate) {
         super(mob);
         this.prevBreakProgress = -1;
         this.maxProgress = -1;
@@ -24,13 +23,13 @@ public class FastBreakDoorGoal extends DoorInteractGoal {
     }
 
     @Override
-    public boolean canStart() {
-        if (!super.canStart()) {
+    public boolean canUse() {
+        if (!super.canUse()) {
             return false;
-        } else if (!getServerWorld(this.mob).getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING)) {
+        } else if (!getServerLevel(this.mob).getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             return false;
         } else {
-            return !this.isDoorOpen();
+            return !this.isOpen();
         }
     }
 
@@ -41,37 +40,37 @@ public class FastBreakDoorGoal extends DoorInteractGoal {
     }
 
     @Override
-    public boolean shouldContinue() {
-        return this.breakProgress <= this.getMaxProgress() && !this.isDoorOpen() && this.doorPos.isWithinDistance(this.mob.getPos(), 2.0);
+    public boolean canContinueToUse() {
+        return this.breakProgress <= this.getMaxProgress() && !this.isOpen() && this.doorPos.closerToCenterThan(this.mob.position(), 2.0);
     }
 
     @Override
     public void stop() {
         super.stop();
-        this.mob.getWorld().setBlockBreakingInfo(this.mob.getId(), this.doorPos, -1);
+        this.mob.level().destroyBlockProgress(this.mob.getId(), this.doorPos, -1);
     }
 
     @Override
     public void tick() {
         super.tick();
         if (this.mob.getRandom().nextInt(20) == 0) {
-            this.mob.getWorld().syncWorldEvent(1019, this.doorPos, 0);
-            if (!this.mob.handSwinging) {
-                this.mob.swingHand(this.mob.getActiveHand());
+            this.mob.level().levelEvent(1019, this.doorPos, 0);
+            if (!this.mob.swinging) {
+                this.mob.swing(this.mob.getUsedItemHand());
             }
         }
 
         this.breakProgress += 90;
         int i = (int)((float)this.breakProgress / (float)this.getMaxProgress() * 10.0F);
         if (i != this.prevBreakProgress) {
-            this.mob.getWorld().setBlockBreakingInfo(this.mob.getId(), this.doorPos, i);
+            this.mob.level().destroyBlockProgress(this.mob.getId(), this.doorPos, i);
             this.prevBreakProgress = i;
         }
 
         if (this.breakProgress >= this.getMaxProgress()) {
-            this.mob.getWorld().removeBlock(this.doorPos, false);
-            this.mob.getWorld().syncWorldEvent(1021, this.doorPos, 0);
-            this.mob.getWorld().syncWorldEvent(2001, this.doorPos, Block.getRawIdFromState(this.mob.getWorld().getBlockState(this.doorPos)));
+            this.mob.level().removeBlock(this.doorPos, false);
+            this.mob.level().levelEvent(1021, this.doorPos, 0);
+            this.mob.level().levelEvent(2001, this.doorPos, Block.getId(this.mob.level().getBlockState(this.doorPos)));
         }
     }
 }

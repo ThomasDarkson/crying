@@ -1,8 +1,8 @@
 package crying.interfaces;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 public interface LightningVars {
-    PlayerEntity get_playerThatSummonedLightningWithCopperCryingTool();
-    void set_playerThatSummonedLightningWithCopperCryingTool(PlayerEntity player);
+    Player get_playerThatSummonedLightningWithCopperCryingTool();
+    void set_playerThatSummonedLightningWithCopperCryingTool(Player player);
 }

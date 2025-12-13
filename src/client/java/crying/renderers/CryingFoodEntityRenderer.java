@@ -1,53 +1,53 @@
 package crying.renderers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import crying.blocks.food.CryingFoodBlock;
 import crying.entities.CryingFoodEntity;
 import crying.states.CryingFoodEntityRenderState;
-import net.minecraft.client.item.ItemModelManager;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.item.ItemRenderState;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
-import net.minecraft.client.render.command.ModelCommandRenderer;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.phys.Vec3;
 
 public class CryingFoodEntityRenderer implements BlockEntityRenderer<CryingFoodEntity, CryingFoodEntityRenderState> {
-    ItemModelManager itemManager;
-    public CryingFoodEntityRenderer(BlockEntityRendererFactory.Context ctx) {
-        itemManager = ctx.itemModelManager();
+    ItemModelResolver itemManager;
+    public CryingFoodEntityRenderer(BlockEntityRendererProvider.Context ctx) {
+        itemManager = ctx.itemModelResolver();
     }
     
     @Override
-    public void render(CryingFoodEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+    public void submit(CryingFoodEntityRenderState state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
         if (state != null && state.stack != null) {
-            matrices.push();
+            matrices.pushPose();
             matrices.translate(0.5F, 0.01F, 0.5F);
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90F));
+            matrices.mulPose(Axis.XP.rotationDegrees(90F));
             matrices.scale(0.5f, 0.5f, 0.5f);
-            ItemRenderState s = new ItemRenderState();
-            itemManager.clearAndUpdate(s, state.stack, ItemDisplayContext.NONE, null, null, 0);
-            s.render(matrices, queue, 15728880, OverlayTexture.DEFAULT_UV, 0);
-            matrices.pop();
+            ItemStackRenderState s = new ItemStackRenderState();
+            itemManager.updateForTopItem(s, state.stack, ItemDisplayContext.NONE, null, null, 0);
+            s.submit(matrices, queue, 15728880, OverlayTexture.NO_OVERLAY, 0);
+            matrices.popPose();
         }
     }
 
     @Override
-    public void updateRenderState(CryingFoodEntity blockEntity, CryingFoodEntityRenderState state, float tickProgress, Vec3d cameraPos, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlay) {
-        BlockEntityRenderState.updateBlockEntityRenderState(blockEntity, state, crumblingOverlay);
+    public void extractRenderState(CryingFoodEntity blockEntity, CryingFoodEntityRenderState state, float tickProgress, Vec3 cameraPos, ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
+        BlockEntityRenderState.extractBase(blockEntity, state, crumblingOverlay);
 
-        if (blockEntity.getCachedState().getBlock() instanceof CryingFoodBlock block) {
+        if (blockEntity.getBlockState().getBlock() instanceof CryingFoodBlock block) {
             state.stack = block.stack();
         } 
     }
 
     @Override
-    public int getRenderDistance() {
+    public int getViewDistance() {
         return 103;
     }
 

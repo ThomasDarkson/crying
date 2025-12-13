@@ -1,12 +1,12 @@
 package crying.entities;
 
 import crying.Crying;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CriersHeartBlockEntity extends BlockEntity implements BlockEntityTicker<CriersHeartBlockEntity> {
     public float heartbeatPhase = 0.0f;
@@ -22,10 +22,10 @@ public class CriersHeartBlockEntity extends BlockEntity implements BlockEntityTi
     }
 
     @Override
-    public void tick(World world, BlockPos pos, BlockState state, CriersHeartBlockEntity blockEntity) {
+    public void tick(Level world, BlockPos pos, BlockState state, CriersHeartBlockEntity blockEntity) {
     }
 
-    public static void ticker(World world, BlockPos pos, BlockState state, CriersHeartBlockEntity blockEntity) {
+    public static void ticker(Level world, BlockPos pos, BlockState state, CriersHeartBlockEntity blockEntity) {
         if (world.isThundering()) 
             blockEntity.speedModifier = 2.5F;
         else if (world.isRaining())

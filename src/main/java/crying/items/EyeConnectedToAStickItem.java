@@ -2,79 +2,79 @@ package crying.items;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.TeleportTarget;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.phys.Vec3;
 
 public class EyeConnectedToAStickItem extends Item {
     public EyeConnectedToAStickItem() {
-        super(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "eye_connected_to_a_stick")))
-            .maxDamage(1236)
-            .fireproof()
-            .maxCount(1)
+        super(new Item.Properties()
+            .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Crying.ID, "eye_connected_to_a_stick")))
+            .durability(1236)
+            .fireResistant()
+            .stacksTo(1)
             .useCooldown(5F)
             .rarity(Rarity.EPIC));
 
         Crying.register(this, "eye_connected_to_a_stick");
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.EYE, this));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.EYE, this));
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
-        if (world instanceof ServerWorld serverWorld) {
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
+        if (world instanceof ServerLevel serverWorld) {
             try {
-                ItemStack stack = user.getStackInHand(hand);
-                stack.damage(1, user);
+                ItemStack stack = user.getItemInHand(hand);
+                stack.hurtWithoutBreaking(1, user);
                 boolean old = user.isInvulnerable();
                 user.setInvulnerable(true);
-                tryTeleport(serverWorld, user, user.getBlockPos(), hand);
+                tryTeleport(serverWorld, user, user.blockPosition(), hand);
                 user.setInvulnerable(old);
                 user.fallDistance = 0;
-                return ActionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             } 
             catch (Exception e) {
-                return ActionResult.FAIL;
+                return InteractionResult.FAIL;
             }
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
-    static void tryTeleport(ServerWorld world, PlayerEntity user, BlockPos pos, Hand hand) {
-        RegistryEntry<DimensionType> entry = world.getDimensionEntry();
-        RegistryKey<DimensionType> key = entry.getKey().orElse(Crying.CRYING_DIMENSION_TYPE);
-        RegistryKey<World> teleportKey = Crying.CRYING_WORLD;
+    static void tryTeleport(ServerLevel world, Player user, BlockPos pos, InteractionHand hand) {
+        Holder<DimensionType> entry = world.dimensionTypeRegistration();
+        ResourceKey<DimensionType> key = entry.unwrapKey().orElse(Crying.CRYING_DIMENSION_TYPE);
+        ResourceKey<Level> teleportKey = Crying.CRYING_WORLD;
         if (key == Crying.CRYING_DIMENSION_TYPE) {
-            teleportKey = World.OVERWORLD;
+            teleportKey = Level.OVERWORLD;
         }
-        ServerWorld serverWorld = world.getServer().getWorld(teleportKey);
+        ServerLevel serverWorld = world.getServer().getLevel(teleportKey);
         BlockPos safePos = findSafeTeleportPosition(serverWorld, pos);
-        user.teleportTo(new TeleportTarget(serverWorld, new Vec3d(safePos.getX(), safePos.getY(), safePos.getZ()), Vec3d.ZERO, 0, 0, TeleportTarget.NO_OP));
-        user.swingHand(hand, user instanceof ServerPlayerEntity);
+        user.teleport(new TeleportTransition(serverWorld, new Vec3(safePos.getX(), safePos.getY(), safePos.getZ()), Vec3.ZERO, 0, 0, TeleportTransition.DO_NOTHING));
+        user.swing(hand, user instanceof ServerPlayer);
     }
 
-    private static BlockPos findSafeTeleportPosition(ServerWorld world, BlockPos origin) {
+    private static BlockPos findSafeTeleportPosition(ServerLevel world, BlockPos origin) {
         final int maxRadius = 64;
         final int maxVerticalSearch = 16;
 
-        int minY = world.getBottomY() + 2;
-        int maxY = world.getTopYInclusive() - 2;
+        int minY = world.getMinY() + 2;
+        int maxY = world.getMaxY() - 2;
 
         BlockPos firstTry = findSafeOnColumn(world, origin.getX(), origin.getZ(), maxVerticalSearch, minY, maxY);
         if (firstTry != null) {
@@ -110,11 +110,11 @@ public class EyeConnectedToAStickItem extends Item {
             }
         }
 
-        return world.getSpawnPoint().getPos();
+        return world.getRespawnData().pos();
     }
 
-    private static BlockPos findSafeOnColumn(ServerWorld world, int x, int z, int maxVerticalSearch, int minY, int maxY) {
-        int topY = world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z);
+    private static BlockPos findSafeOnColumn(ServerLevel world, int x, int z, int maxVerticalSearch, int minY, int maxY) {
+        int topY = world.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
 
         if (topY < minY) 
             topY = minY;
@@ -144,12 +144,12 @@ public class EyeConnectedToAStickItem extends Item {
         return null;
     }
 
-    private static boolean isSafeFeetPos(ServerWorld world, BlockPos feetPos) {
-        BlockPos headPos = feetPos.up();
-        BlockPos belowPos = feetPos.down();
+    private static boolean isSafeFeetPos(ServerLevel world, BlockPos feetPos) {
+        BlockPos headPos = feetPos.above();
+        BlockPos belowPos = feetPos.below();
 
         return world.getBlockState(feetPos).isAir()
             && world.getBlockState(headPos).isAir()
-            && world.getBlockState(belowPos).isSolidBlock(world, belowPos);
+            && world.getBlockState(belowPos).isRedstoneConductor(world, belowPos);
     }
 }

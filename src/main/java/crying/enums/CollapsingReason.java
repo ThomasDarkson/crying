@@ -1,27 +1,27 @@
 package crying.enums;
 
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.StringRepresentable;
 
-public enum CollapsingReason implements StringIdentifiable {
-    UNKNOWN("unknown", Formatting.WHITE),
-    HIGH_DAMAGE("high_damage", Formatting.RED),
-    BAD_FOOD("bad_food", Formatting.DARK_GREEN),
-    MURDER("murder", Formatting.DARK_RED),
-    LOW_LIGHT("low_light", Formatting.GRAY),
-    HYPOTHERMIA("hypothermia", Formatting.AQUA);
+public enum CollapsingReason implements StringRepresentable {
+    UNKNOWN("unknown", ChatFormatting.WHITE),
+    HIGH_DAMAGE("high_damage", ChatFormatting.RED),
+    BAD_FOOD("bad_food", ChatFormatting.DARK_GREEN),
+    MURDER("murder", ChatFormatting.DARK_RED),
+    LOW_LIGHT("low_light", ChatFormatting.GRAY),
+    HYPOTHERMIA("hypothermia", ChatFormatting.AQUA);
 
     private String name;
-    private Formatting color;
-    private CollapsingReason(String name, Formatting color) {
+    private ChatFormatting color;
+    private CollapsingReason(String name, ChatFormatting color) {
         this.name = name;
         this.color = color;
     }
 
-    public Formatting getColor() {
+    public ChatFormatting getColor() {
         return this.color;
     }
 
@@ -29,12 +29,12 @@ public enum CollapsingReason implements StringIdentifiable {
         return this.name;
     }
 
-    public MutableText getTranslatableName() {
-        return Text.translatable(asString()).setStyle(Style.EMPTY.withColor(this.getColor()));
+    public MutableComponent getTranslatableName() {
+        return Component.translatable(getSerializedName()).setStyle(Style.EMPTY.withColor(this.getColor()));
     }
 
     @Override
-    public String asString() {
+    public String getSerializedName() {
         return "collapsing.reason." + this.name;
     }
 

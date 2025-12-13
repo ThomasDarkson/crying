@@ -2,31 +2,31 @@ package crying.blocks.core;
 
 import crying.Crying;
 import crying.interfaces.HasUniqueItemSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CoreBlock extends Block implements HasUniqueItemSettings {
-    public static final VoxelShape SHAPE = Block.createColumnShape(8.0, 0.0, 8.0);
+    public static final VoxelShape SHAPE = Block.column(8.0, 0.0, 8.0);
 
-    public CoreBlock(Settings settings, String id) {
+    public CoreBlock(Properties settings, String id) {
         super(settings);
 
         Crying.registerBlock(this, id);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected boolean canPathfindThrough(BlockState state, NavigationType type) {
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 

@@ -1,8 +1,8 @@
 package crying.interfaces;
 
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
 
 public interface PlayerEntityRenderStateVarsInterface extends EntityRenderStateVarsInterface {
-    Hand get_cryingShieldHand();
-    void set_cryingShieldHand(Hand hand);
+    InteractionHand get_cryingShieldHand();
+    void set_cryingShieldHand(InteractionHand hand);
 }

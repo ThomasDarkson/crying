@@ -1,24 +1,5 @@
 package crying.mixin;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.mob.Angerable;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.SlimeEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,13 +15,31 @@ import crying.entities.GrapplingHookEntity;
 import crying.enums.CollapsingReason;
 import crying.interfaces.SanityManager;
 import crying.tools.CryingShieldItem;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import crying.interfaces.BiomeVars;
 import crying.interfaces.CryingTool;
 import crying.interfaces.FoodVars;
 import crying.interfaces.HookVars;
 import crying.interfaces.SanityVars;
 
-@Mixin(PlayerEntity.class)
+@Mixin(Player.class)
 public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeVars {
     SanityManager SanityManager;
     GrapplingHookEntity hook;
@@ -48,67 +47,67 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
     int coldTicks = 0;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(World world, GameProfile profile, CallbackInfo info) {
-        PlayerEntity player = (PlayerEntity) (Object) this;
-        SanityManager = new SanityManager(player.getUuidAsString());
+    public void init(Level world, GameProfile profile, CallbackInfo info) {
+        Player player = (Player) (Object) this;
+        SanityManager = new SanityManager(player.getStringUUID());
     }
 
-    @Inject(method = "initDataTracker", at = @At("TAIL"))
-    public void initDataTracker(DataTracker.Builder builder, CallbackInfo info) {
-        builder.add(Crying.FOOD_COUNT, 0);
+    @Inject(method = "defineSynchedData", at = @At("TAIL"))
+    public void initDataTracker(SynchedEntityData.Builder builder, CallbackInfo info) {
+        builder.define(Crying.FOOD_COUNT, 0);
     }
 
-    @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    public void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
-        PlayerEntity player = (PlayerEntity) (Object) this;
-        if (Crying.isTheCriersSword(source.getWeaponStack()) && !(source.getAttacker() instanceof CrierEntity)) {
+    @Inject(method = "hurtServer", at = @At("HEAD"), cancellable = true)
+    public void damage(ServerLevel world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
+        Player player = (Player) (Object) this;
+        if (Crying.isTheCriersSword(source.getWeaponItem()) && !(source.getEntity() instanceof CrierEntity)) {
             info.setReturnValue(false);
         }
         if (!player.isInvulnerableTo(world, source) 
-            && !source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)
-            && !source.isIn(DamageTypeTags.IS_FALL)
-            && !source.isIn(DamageTypeTags.IS_FIRE)
-            && !source.isIn(DamageTypeTags.IS_DROWNING)
-            && !source.isIn(DamageTypeTags.IS_FREEZING)) {
-                if (!source.isIn(DamageTypeTags.BYPASSES_SHIELD)) {
-                    Hand hand = Crying.getHandThatHasCryingShield(player);
+            && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
+            && !source.is(DamageTypeTags.IS_FALL)
+            && !source.is(DamageTypeTags.IS_FIRE)
+            && !source.is(DamageTypeTags.IS_DROWNING)
+            && !source.is(DamageTypeTags.IS_FREEZING)) {
+                if (!source.is(DamageTypeTags.BYPASSES_SHIELD)) {
+                    InteractionHand hand = Crying.getHandThatHasCryingShield(player);
                     if (hand != null) {
-                        ItemStack stack = player.getStackInHand(hand);
+                        ItemStack stack = player.getItemInHand(hand);
                         if (stack.getItem() instanceof CryingShieldItem item) {
-                            item.useShield(stack, hand, player, source.getAttacker(), source, Math.round(amount));
+                            item.useShield(stack, hand, player, source.getEntity(), source, Math.round(amount));
                         }
                     }
                 }
 
-                if ((source.getAttacker() instanceof HostileEntity) || (source.getAttacker() instanceof Angerable angerable && angerable.getAngryAt() != null && angerable.getAngryAt().equals(player.getUuid()))) {
+                if ((source.getEntity() instanceof Monster) || (source.getEntity() instanceof NeutralMob angerable && angerable.getPersistentAngerTarget() != null && angerable.getPersistentAngerTarget().equals(player.getUUID()))) {
                     SanityManager manager = Crying.getSanityManager(player);
                     manager.damage(amount);
                 }
         }
-        if (player.getMainHandStack().getItem() instanceof CryingTool tool) {
+        if (player.getMainHandItem().getItem() instanceof CryingTool tool) {
             if (tool.getCoreIngredient() == Items.NETHERITE_INGOT) {
-                if (source.isIn(DamageTypeTags.IS_FIRE)) {
+                if (source.is(DamageTypeTags.IS_FIRE)) {
                     player.heal(amount);
                     info.setReturnValue(false);
                 }
             }
-            else if (tool.getCoreIngredient() == Items.GOLD_INGOT || Crying.isTheCriersSword(player.getMainHandStack())) {
-                if (!player.isCreative() && source.getAttacker() instanceof Entity && amount > 0F)
+            else if (tool.getCoreIngredient() == Items.GOLD_INGOT || Crying.isTheCriersSword(player.getMainHandItem())) {
+                if (!player.isCreative() && source.getEntity() instanceof Entity && amount > 0F)
                     GranterEntity.summonGranterEntity(world, player);
             }
         }
     }
 
-    @Inject(method = "onKilledOther", at = @At("TAIL"), cancellable = true)
-    public void onKilledOther(ServerWorld world, LivingEntity other, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
+    @Inject(method = "killedEntity", at = @At("TAIL"), cancellable = true)
+    public void onKilledOther(ServerLevel world, LivingEntity other, DamageSource damageSource, CallbackInfoReturnable<Boolean> info) {
         @SuppressWarnings("rawtypes")
         EntityType type = other.getType();
-        PlayerEntity player = (PlayerEntity) (Object) this;
+        Player player = (Player) (Object) this;
         SanityManager manager = Crying.getSanityManager(player);
 
         if (
             type == EntityType.CAT ||
-            (other instanceof TameableEntity && ((TameableEntity) other).isTamed()) ||
+            (other instanceof TamableAnimal && ((TamableAnimal) other).isTame()) ||
             type == EntityType.VILLAGER ||
             type == EntityType.WANDERING_TRADER ||
             type == EntityType.IRON_GOLEM ||
@@ -118,7 +117,7 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
             manager.collapse(Crying.tickSecond(900), player, CollapsingReason.MURDER);
         }
         else {
-            if (manager.getMaxLevel() > 0 && (other instanceof HostileEntity || other instanceof SlimeEntity)) {
+            if (manager.getMaxLevel() > 0 && (other instanceof Monster || other instanceof Slime)) {
                 float decreaseValue = -1F;
                 if (type == EntityType.GHAST || type == EntityType.ENDERMAN || type == EntityType.ENDERMITE)
                     decreaseValue = -5F;
@@ -134,15 +133,15 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
         }
     }
 
-    @Inject(method = "readCustomData", at = @At("TAIL"))
-    public void readCustomData(ReadView nbt, CallbackInfo info) {
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    public void readCustomData(ValueInput nbt, CallbackInfo info) {
         this.SanityManager.readNbt(nbt);
-        this.setEatenCryingFoodCount(nbt.getInt("eatenCryingFoodCount", 0));
-        this.setTicksInColdBiome(nbt.getInt("coldTicks", 0));
+        this.setEatenCryingFoodCount(nbt.getIntOr("eatenCryingFoodCount", 0));
+        this.setTicksInColdBiome(nbt.getIntOr("coldTicks", 0));
     }
 
-    @Inject(method = "writeCustomData", at = @At("TAIL"))
-    protected void writeCustomData(WriteView nbt, CallbackInfo info) {
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    protected void writeCustomData(ValueOutput nbt, CallbackInfo info) {
         this.SanityManager.writeNbt(nbt);
         nbt.putInt("eatenCryingFoodCount", this.getEatenCryingFoodCount());
         nbt.putInt("coldTicks", this.getTicksInColdBiome());
@@ -170,9 +169,9 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
 
     @Override
     public int getEatenCryingFoodCount() {
-        PlayerEntity player = (PlayerEntity) (Object) this;
+        Player player = (Player) (Object) this;
         try {
-            return player.getDataTracker().get(Crying.FOOD_COUNT);
+            return player.getEntityData().get(Crying.FOOD_COUNT);
         }
         catch (Exception e) {
             return 0;
@@ -183,8 +182,8 @@ public class PlayerEntityMixin implements SanityVars, HookVars, FoodVars, BiomeV
     public void setEatenCryingFoodCount(int count) {
         this.eatenCryingFoodCount = Math.min(count, Crying.MAX_CRYING_FOOD_COUNT);
 
-        PlayerEntity player = (PlayerEntity) (Object) this;
-        player.getDataTracker().set(Crying.FOOD_COUNT, this.eatenCryingFoodCount);
+        Player player = (Player) (Object) this;
+        player.getEntityData().set(Crying.FOOD_COUNT, this.eatenCryingFoodCount);
     }
 
     @Override

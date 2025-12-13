@@ -1,17 +1,17 @@
 package crying.blocks.food;
 
 import crying.Crying;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class CryingFoodCarrotBlock extends CryingFoodBlock {
     public CryingFoodCarrotBlock() {
-        super(Settings.create().
-            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "crying_food_carrot"))).
+        super(Properties.of().
+            setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Crying.ID, "crying_food_carrot"))).
             strength(0F, 36000000.0F).
-            luminance((state) -> {
+            lightLevel((state) -> {
                 return 11;
             }), "crying_food_carrot");
     }

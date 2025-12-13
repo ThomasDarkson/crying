@@ -3,12 +3,12 @@ package crying.tools.sword;
 import crying.Crying;
 import crying.entities.GranterEntity;
 import crying.tools.abstracts.AbstractCryingSwordItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class CriersSwordItem extends AbstractCryingSwordItem {
     public CriersSwordItem() {
@@ -16,12 +16,12 @@ public class CriersSwordItem extends AbstractCryingSwordItem {
     }
 
     @Override
-    public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker.isSneaking())
-            target.dropItem((ServerWorld) target.getEntityWorld(), Items.GOLD_INGOT);
+    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (attacker.isShiftKeyDown())
+            target.spawnAtLocation((ServerLevel) target.level(), Items.GOLD_INGOT);
 
-        if (!target.isDead()) {
-            GranterEntity.summonEvilGranterEntity(target.getEntityWorld(), target);
+        if (!target.isDeadOrDying()) {
+            GranterEntity.summonEvilGranterEntity(target.level(), target);
         }
     }
 
@@ -31,7 +31,7 @@ public class CriersSwordItem extends AbstractCryingSwordItem {
     }
 
     @Override
-    public Text getName(ItemStack stack) {
-        return Text.translatable("item.crying.criers_sword");
+    public Component getName(ItemStack stack) {
+        return Component.translatable("item.crying.criers_sword");
     }
 }

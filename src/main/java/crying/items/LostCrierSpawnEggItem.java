@@ -2,20 +2,20 @@ package crying.items;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 
 public class LostCrierSpawnEggItem extends SpawnEggItem {
     public LostCrierSpawnEggItem() {
-        super(new Item.Settings()
+        super(new Item.Properties()
             .spawnEgg(Crying.LOST_CRIER)
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "lost_crier_spawn_egg"))));
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Crying.ID, "lost_crier_spawn_egg"))));
 
         Crying.register(this, "lost_crier_spawn_egg");
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register((itemGroup) -> itemGroup.addAfter(Crying.CRIER_SPAWN_EGG, this));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.SPAWN_EGGS).register((itemGroup) -> itemGroup.addAfter(Crying.CRIER_SPAWN_EGG, this));
     }
 }

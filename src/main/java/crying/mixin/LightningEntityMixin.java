@@ -6,12 +6,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import crying.interfaces.LightningVars;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.player.Player;
 
-@Mixin(LightningEntity.class)
+@Mixin(LightningBolt.class)
 public class LightningEntityMixin implements LightningVars {
-    PlayerEntity summoner = null;
+    Player summoner = null;
 
     @Inject(method = "spawnFire", at = @At("HEAD"), cancellable = true)
     private void spawnFire(int spreadAttempts, CallbackInfo info) {
@@ -21,12 +21,12 @@ public class LightningEntityMixin implements LightningVars {
     }
 
     @Override
-    public PlayerEntity get_playerThatSummonedLightningWithCopperCryingTool() {
+    public Player get_playerThatSummonedLightningWithCopperCryingTool() {
         return this.summoner;
     }
 
     @Override
-    public void set_playerThatSummonedLightningWithCopperCryingTool(PlayerEntity player) {
+    public void set_playerThatSummonedLightningWithCopperCryingTool(Player player) {
         this.summoner = player;
     }
 }

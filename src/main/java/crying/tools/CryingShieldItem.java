@@ -2,55 +2,55 @@ package crying.tools;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.type.AttributeModifierSlot;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class CryingShieldItem extends Item {
     public static final int CRYING_SHIELD_HEALTH = 2688;
 
     public CryingShieldItem() {
-        super(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_shield")))
-            .fireproof()
+        super(new Item.Properties()
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Crying.ID, "crying_shield")))
+            .fireResistant()
             .rarity(Rarity.EPIC)
-            .attributeModifiers(AttributeModifiersComponent.builder().add(EntityAttributes.KNOCKBACK_RESISTANCE, new EntityAttributeModifier(Identifier.of(Crying.ID, ""), 0.200000000000000618d, Operation.ADD_VALUE), AttributeModifierSlot.HAND).build())
-            .maxDamage(CRYING_SHIELD_HEALTH));
+            .attributes(ItemAttributeModifiers.builder().add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(Identifier.fromNamespaceAndPath(Crying.ID, ""), 0.200000000000000618d, Operation.ADD_VALUE), EquipmentSlotGroup.HAND).build())
+            .durability(CRYING_SHIELD_HEALTH));
 
         Crying.register(this, "crying_shield");
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> itemGroup.addAfter(Items.SHIELD, this));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register((itemGroup) -> itemGroup.addAfter(Items.SHIELD, this));
     }
 
-    public void useShield(ItemStack stack, Hand hand, PlayerEntity player, Entity attacker, DamageSource source, int damage) {
+    public void useShield(ItemStack stack, InteractionHand hand, Player player, Entity attacker, DamageSource source, int damage) {
         if (damage > 3)
-            stack.damage(damage, player);
+            stack.hurtWithoutBreaking(damage, player);
         else
-            stack.damage(1, player);
+            stack.hurtWithoutBreaking(1, player);
 
-        if (attacker != null && attacker instanceof LivingEntity entity && !entity.isDead() && player.isSneaking()) {
-            entity.damage((ServerWorld) player.getEntityWorld(), new DamageSource(source.getTypeRegistryEntry(), player), Math.round(damage / 2));
+        if (attacker != null && attacker instanceof LivingEntity entity && !entity.isDeadOrDying() && player.isShiftKeyDown()) {
+            entity.hurtServer((ServerLevel) player.level(), new DamageSource(source.typeHolder(), player), Math.round(damage / 2));
         }
 
-        player.getEntityWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_SHIELD_BLOCK.value(), player.getSoundCategory());
-        if (stack.getDamage() >= stack.getMaxDamage()) {
-            player.getEntityWorld().playSound(null, player.getBlockPos(), SoundEvents.ITEM_SHIELD_BREAK.value(), player.getSoundCategory());
+        player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK.value(), player.getSoundSource());
+        if (stack.getDamageValue() >= stack.getMaxDamage()) {
+            player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BREAK.value(), player.getSoundSource());
         }
     }
 }

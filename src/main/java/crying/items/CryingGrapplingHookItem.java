@@ -4,66 +4,66 @@ import crying.Crying;
 import crying.entities.GrapplingHookEntity;
 import crying.interfaces.HookVars;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class CryingGrapplingHookItem extends Item {
     public CryingGrapplingHookItem() {
-        super(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, "crying_grappling_hook")))
+        super(new Item.Properties()
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Crying.ID, "crying_grappling_hook")))
             .component(Crying.THROWN, false)
             .component(Crying.HOOK_UUID, "")
             .rarity(Rarity.EPIC)
-            .maxCount(1)
-            .fireproof());
+            .stacksTo(1)
+            .fireResistant());
 
         Crying.register(this, "crying_grappling_hook");
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.addAfter(Crying.EYE_CONNECTED_TO_A_STICK, this));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register((itemGroup) -> itemGroup.addAfter(Crying.EYE_CONNECTED_TO_A_STICK, this));
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+    public InteractionResult use(Level world, Player user, InteractionHand hand) {
         try {
-            if (world.getDimensionEntry().getKey().get() != Crying.CRYING_DIMENSION_TYPE) {
-                return ActionResult.FAIL;
+            if (world.dimensionTypeRegistration().unwrapKey().get() != Crying.CRYING_DIMENSION_TYPE) {
+                return InteractionResult.FAIL;
             }   
         }
         catch (Exception e) {
-            return ActionResult.FAIL;
+            return InteractionResult.FAIL;
         }
-        ItemStack stack = user.getStackInHand(hand);
+        ItemStack stack = user.getItemInHand(hand);
         HookVars ihook = Crying.getHook(user);
         GrapplingHookEntity hookEntity = ihook.getHook();
         if (hookEntity != null) {
             hookEntity.discard();
-            user.swingHand(hand, user instanceof ServerPlayerEntity);
-            return ActionResult.PASS;
+            user.swing(hand, user instanceof ServerPlayer);
+            return InteractionResult.PASS;
         }
 
-        if (!world.isClient()) {
+        if (!world.isClientSide()) {
             GrapplingHookEntity hook = GrapplingHookEntity.createWithOwner(Crying.GRAPPLING_HOOK, user, world);
             stack.set(Crying.THROWN, true);
-            stack.set(Crying.HOOK_UUID, hook.getUuidAsString());
-            Vec3d look = user.getRotationVec(1.0F);
-            hook.setPos(user.getX() + look.x * 0.6, user.getEyeY() - 0.1 + look.y * 0.6, user.getZ() + look.z * 0.6);
+            stack.set(Crying.HOOK_UUID, hook.getStringUUID());
+            Vec3 look = user.getViewVector(1.0F);
+            hook.setPosRaw(user.getX() + look.x * 0.6, user.getEyeY() - 0.1 + look.y * 0.6, user.getZ() + look.z * 0.6);
             float speed = 1.8f;
-            hook.setVelocity(look.x * speed, look.y * speed, look.z * speed);
-            world.spawnEntity(hook);
-            stack.damage(1, user);
-            return ActionResult.SUCCESS;
+            hook.setDeltaMovement(look.x * speed, look.y * speed, look.z * speed);
+            world.addFreshEntity(hook);
+            stack.hurtWithoutBreaking(1, user);
+            return InteractionResult.SUCCESS;
         }
 
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

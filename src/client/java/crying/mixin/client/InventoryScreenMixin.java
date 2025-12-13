@@ -7,24 +7,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import crying.Crying;
 import crying.interfaces.FoodVars;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.ARGB;
 
 @Mixin(InventoryScreen.class)
 public class InventoryScreenMixin {
     @Inject(method = "render", at = @At("TAIL"))
-    public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo info) {
-        MinecraftClient client = MinecraftClient.getInstance();
+    public void render(GuiGraphics context, int mouseX, int mouseY, float deltaTicks, CallbackInfo info) {
+        Minecraft client = Minecraft.getInstance();
         if (client.player != null) {
             FoodVars food = (FoodVars) (Object) client.player;
             String count = "" + food.getEatenCryingFoodCount() + " / " + Crying.MAX_CRYING_FOOD_COUNT;
-            MutableText text = Text.literal(count);
+            MutableComponent text = Component.literal(count);
 
-            context.drawText(MinecraftClient.getInstance().textRenderer, text, 8, 12, ColorHelper.getArgb(255, 255, 255), true);
+            context.drawString(Minecraft.getInstance().font, text, 8, 12, ARGB.color(255, 255, 255), true);
         }
     }
 }

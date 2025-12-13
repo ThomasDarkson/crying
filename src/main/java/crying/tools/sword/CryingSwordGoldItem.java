@@ -1,11 +1,11 @@
 package crying.tools.sword;
 
 import crying.tools.abstracts.AbstractCryingSwordItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class CryingSwordGoldItem extends AbstractCryingSwordItem {
     public CryingSwordGoldItem() {
@@ -13,9 +13,9 @@ public class CryingSwordGoldItem extends AbstractCryingSwordItem {
     }
 
     @Override
-    public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker.isSneaking())
-            target.dropItem((ServerWorld) target.getEntityWorld(), Items.GOLD_INGOT);
+    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (attacker.isShiftKeyDown())
+            target.spawnAtLocation((ServerLevel) target.level(), Items.GOLD_INGOT);
     }
 
     @Override

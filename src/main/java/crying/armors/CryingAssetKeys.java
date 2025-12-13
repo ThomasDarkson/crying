@@ -1,18 +1,18 @@
 package crying.armors;
 
 import crying.Crying;
-import net.minecraft.item.equipment.EquipmentAsset;
-import net.minecraft.item.equipment.EquipmentAssetKeys;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.EquipmentAssets;
 
-public class CryingAssetKeys implements EquipmentAssetKeys {
-    static RegistryKey<? extends Registry<EquipmentAsset>> REGISTRY_KEY = RegistryKey.ofRegistry(Identifier.ofVanilla("equipment_asset"));
-    public static RegistryKey<EquipmentAsset> CRYING = register("crying");
-    public static RegistryKey<EquipmentAsset> CRYING_WITH_ELYTRA = register("crying_with_elytra");
+public class CryingAssetKeys implements EquipmentAssets {
+    static ResourceKey<? extends Registry<EquipmentAsset>> REGISTRY_KEY = ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("equipment_asset"));
+    public static ResourceKey<EquipmentAsset> CRYING = createId("crying");
+    public static ResourceKey<EquipmentAsset> CRYING_WITH_ELYTRA = createId("crying_with_elytra");
 
-    static RegistryKey<EquipmentAsset> register(String name) {
-        return RegistryKey.of(REGISTRY_KEY, Identifier.of(Crying.ID, name));
+    static ResourceKey<EquipmentAsset> createId(String name) {
+        return ResourceKey.create(ROOT_ID, Identifier.fromNamespaceAndPath(Crying.ID, name));
     }
 }

@@ -3,57 +3,57 @@ package crying.interfaces;
 import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
-import net.minecraft.block.Oxidizable.OxidationLevel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
 
 public interface OxidizableCryingTool extends CryingTool {
-    default OxidationLevel getOxidationLevel(ItemStack stack) {
-        if (stack.contains(Crying.OXIDATION_LEVEL)) {
+    default WeatherState getOxidationLevel(ItemStack stack) {
+        if (stack.has(Crying.OXIDATION_LEVEL)) {
             switch (stack.getOrDefault(Crying.OXIDATION_LEVEL, "unaffected").toLowerCase()) {
                 case "exposed":
-                    return OxidationLevel.EXPOSED;
+                    return WeatherState.EXPOSED;
                 case "weathered":
-                    return OxidationLevel.WEATHERED;
+                    return WeatherState.WEATHERED;
                 case "oxidized":
-                    return OxidationLevel.OXIDIZED;
+                    return WeatherState.OXIDIZED;
             }
         }
 
-        return OxidationLevel.UNAFFECTED;
+        return WeatherState.UNAFFECTED;
     }
 
     @Nullable
-    default MutableText getOxidizedName(ItemStack stack) {
-        MutableText text = Text.literal("");
+    default MutableComponent getOxidizedName(ItemStack stack) {
+        MutableComponent text = Component.literal("");
         boolean shouldReturn = false;
         boolean wasWaxed = false;
         if (stack.getOrDefault(Crying.WAS_WAXED, false)) {
-            text.append(Text.translatable("crying.waxed"));
+            text.append(Component.translatable("crying.waxed"));
             shouldReturn = true;
             wasWaxed = true;
         }
 
-        OxidationLevel level = getOxidationLevel(stack);
+        WeatherState level = getOxidationLevel(stack);
         switch (level) {
-            case OxidationLevel.EXPOSED:
+            case WeatherState.EXPOSED:
                 if (wasWaxed)
-                    text.append(Text.literal(" "));
-                text.append(Text.translatable("crying.exposed"));
+                    text.append(Component.literal(" "));
+                text.append(Component.translatable("crying.exposed"));
                 break;
-            case OxidationLevel.WEATHERED:
+            case WeatherState.WEATHERED:
                 if (wasWaxed)
-                    text.append(Text.literal(" "));
-                text.append(Text.translatable("crying.weathered"));
+                    text.append(Component.literal(" "));
+                text.append(Component.translatable("crying.weathered"));
                 break;
-            case OxidationLevel.OXIDIZED:
+            case WeatherState.OXIDIZED:
                 if (wasWaxed)
-                    text.append(Text.literal(" "));
-                text.append(Text.translatable("crying.oxidized"));
+                    text.append(Component.literal(" "));
+                text.append(Component.translatable("crying.oxidized"));
                 break;
             default:
                 return shouldReturn ? text : null;
@@ -62,34 +62,34 @@ public interface OxidizableCryingTool extends CryingTool {
         return text;
     }
 
-    default void tickInventory(ItemStack stack, ServerWorld world, Entity entity, EquipmentSlot slot) {
+    default void tickInventory(ItemStack stack, ServerLevel world, Entity entity, EquipmentSlot slot) {
         boolean holding = false;
-        int ageToCheck = (int) (20 * (world.getTickManager().getTickRate() / 20F));
+        int ageToCheck = (int) (20 * (world.tickRateManager().tickrate() / 20F));
         if (slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND) {
-            ageToCheck = (int) (1200 * (world.getTickManager().getTickRate() / 20F));
+            ageToCheck = (int) (1200 * (world.tickRateManager().tickrate() / 20F));
             holding = true;
         }
 
-        if (entity.age % ageToCheck == 0) {
+        if (entity.tickCount % ageToCheck == 0) {
             int seconds = stack.getOrDefault(Crying.OXIDATION_SECONDS, 0);
             stack.set(Crying.OXIDATION_SECONDS, seconds + (holding ? 60 : 1));
-            stack.set(Crying.OXIDATION_LEVEL, checkSeconds(stack).asString());
+            stack.set(Crying.OXIDATION_LEVEL, checkSeconds(stack).getSerializedName());
         }
     }
 
-    private static OxidationLevel checkSeconds(ItemStack stack) {
+    private static WeatherState checkSeconds(ItemStack stack) {
         int value = stack.getOrDefault(Crying.OXIDATION_SECONDS, 0);
         int markiplier = 1;
         if (stack.getOrDefault(Crying.WAS_WAXED, false))
             markiplier = 2;
 
         if (value >= 72000 * markiplier) 
-            return OxidationLevel.OXIDIZED;
+            return WeatherState.OXIDIZED;
         else if (value >= 48000 * markiplier)
-            return OxidationLevel.WEATHERED;
+            return WeatherState.WEATHERED;
         else if (value >= 24000 * markiplier)
-            return OxidationLevel.EXPOSED;
+            return WeatherState.EXPOSED;
 
-        return OxidationLevel.UNAFFECTED;
+        return WeatherState.UNAFFECTED;
     }
 }

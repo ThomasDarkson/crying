@@ -40,7 +40,7 @@
           {
             "model": {
               "type": "minecraft:model",
-              "model": "crying:item/crying_chestplate_copper_trim"
+              "model": "crying:item/_copper_trim"
             },
             "when": "minecraft:copper"
           },
@@ -85,13 +85,6 @@
               "model": "crying:item/crying_chestplate_resin_trim"
             },
             "when": "minecraft:resin"
-          },
-          {
-            "model": {
-              "type": "minecraft:model",
-              "model": "crying:item/crying_chestplate_crying_trim"
-            },
-            "when": "minecraft:crying"
           }
         ],
         "fallback": {

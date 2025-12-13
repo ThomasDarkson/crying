@@ -4,23 +4,23 @@ import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
 import crying.interfaces.OxidizableCryingTool;
-import net.minecraft.block.Oxidizable.OxidationLevel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
 
 public class OxidizableCryingToolItem extends CryingToolItem implements OxidizableCryingTool {
-    public OxidizableCryingToolItem(Settings settings) {
-        super(settings.component(Crying.WAS_WAXED, false).component(Crying.OXIDATION_SECONDS, 0).component(Crying.OXIDATION_LEVEL, OxidationLevel.UNAFFECTED.asString()));
+    public OxidizableCryingToolItem(Properties settings) {
+        super(settings.component(Crying.WAS_WAXED, false).component(Crying.OXIDATION_SECONDS, 0).component(Crying.OXIDATION_LEVEL, WeatherState.UNAFFECTED.getSerializedName()));
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, ServerWorld world, Entity entity, @Nullable EquipmentSlot slot) {
+    public void inventoryTick(ItemStack stack, ServerLevel world, Entity entity, @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, world, entity, slot);
         
         this.tickInventory(stack, world, entity, slot);
@@ -32,10 +32,10 @@ public class OxidizableCryingToolItem extends CryingToolItem implements Oxidizab
     }
 
     @Override
-    public Text getName(ItemStack stack) {
-        MutableText text = this.getOxidizedName(stack);
+    public Component getName(ItemStack stack) {
+        MutableComponent text = this.getOxidizedName(stack);
         if (text != null)
-            return text.append(Text.literal(" ")).append(super.getName(stack));
+            return text.append(Component.literal(" ")).append(super.getName(stack));
 
         return super.getName(stack);
     }

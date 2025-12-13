@@ -1,67 +1,66 @@
 package crying.entities;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Leashable;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.network.EntityTrackerEntry;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.world.World;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
-import net.minecraft.sound.SoundCategory;
-
 import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.server.level.ServerEntity;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Leashable;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
-public class GrapplingHookEntity extends PersistentProjectileEntity implements Leashable {
+public class GrapplingHookEntity extends AbstractArrow implements Leashable {
     private static final int MAX_PULL_TICKS = 80;
     private static final int MAX_AGE = 100;
     private boolean attached = false;
-    private Vec3d anchorPos = null;
+    private Vec3 anchorPos = null;
     private int pullTicks = 0;
     private LeashData leashData;
 
-    public GrapplingHookEntity(EntityType<? extends GrapplingHookEntity> type, World world) {
+    public GrapplingHookEntity(EntityType<? extends GrapplingHookEntity> type, Level world) {
         super(type, world);
         this.setInvulnerable(true);
     }
 
-    public static GrapplingHookEntity createWithOwner(EntityType<? extends GrapplingHookEntity> type, LivingEntity owner, World world) {
+    public static GrapplingHookEntity createWithOwner(EntityType<? extends GrapplingHookEntity> type, LivingEntity owner, Level world) {
         GrapplingHookEntity entity = new GrapplingHookEntity(type, world);
         entity.setOwner(owner);
-        entity.attachLeash(owner, true);
+        entity.setLeashedTo(owner, true);
         return entity;
     }
 
-    private void attach(Vec3d pos) {
+    private void attach(Vec3 pos) {
         this.anchorPos = pos;
         this.attached = true;
-        this.setVelocity(0, 0, 0);
+        this.setDeltaMovement(0, 0, 0);
         this.setNoGravity(true);
-        this.getEntityWorld().playSound(null, this.getBlockPos(), SoundEvents.ENTITY_ARROW_HIT, SoundCategory.PLAYERS, 1.0f, 1.0f);
-        this.age = 0;
+        this.level().playSound(null, this.blockPosition(), SoundEvents.ARROW_HIT, SoundSource.PLAYERS, 1.0f, 1.0f);
+        this.tickCount = 0;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.getEntityWorld().isClient()) 
+        if (this.level().isClientSide()) 
             return;
 
         if (attached) {            
@@ -72,103 +71,103 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
             }
 
             Entity entity = this.getOwner();
-            if (entity == null || !(entity instanceof PlayerEntity)) {
+            if (entity == null || !(entity instanceof Player)) {
                 this.discard();
                 return;
             }
-            PlayerEntity player = (PlayerEntity) entity;
-            if (player.isDead()) {
+            Player player = (Player) entity;
+            if (player.isDeadOrDying()) {
                 this.discard();
                 return;
             }
             if (anchorPos == null) {
                 return;
             }
-            double distSq = player.squaredDistanceTo(anchorPos.x, anchorPos.y, anchorPos.z);
+            double distSq = player.distanceToSqr(anchorPos.x, anchorPos.y, anchorPos.z);
             if (distSq < 1.0) {
-                player.setVelocity(0, player.getVelocity().y, 0);
+                player.setDeltaMovement(0, player.getDeltaMovement().y, 0);
                 this.discard();
                 return;
             }
 
-            Vec3d dir = anchorPos.subtract(player.getEntityPos());
+            Vec3 dir = anchorPos.subtract(player.position());
             double dist = Math.sqrt(distSq);
-            Vec3d pullVec = dir.normalize().multiply(Math.min(1.2, 0.9 + dist / 10.0));
-            Vec3d blended = player.getVelocity().multiply(0.3).add(pullVec.multiply(0.7));
+            Vec3 pullVec = dir.normalize().scale(Math.min(1.2, 0.9 + dist / 10.0));
+            Vec3 blended = player.getDeltaMovement().scale(0.3).add(pullVec.scale(0.7));
 
-            player.setVelocity(blended);
+            player.setDeltaMovement(blended);
             player.fallDistance = 0;
-            player.velocityModified = true;
+            player.hurtMarked = true;
 
-            if (this.age % 10 == 0) {
-                this.getEntityWorld().playSound(null, player.getBlockPos(), SoundEvents.BLOCK_CHAIN_PLACE, SoundCategory.PLAYERS, 0.2f, 1.0f);
+            if (this.tickCount % 10 == 0) {
+                this.level().playSound(null, player.blockPosition(), SoundEvents.CHAIN_PLACE, SoundSource.PLAYERS, 0.2f, 1.0f);
             }
 
             return;
         }
 
-        if (this.age > MAX_AGE) {
+        if (this.tickCount > MAX_AGE) {
             this.discard();
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    protected void onCollision(HitResult hitResult) {
-        super.onCollision(hitResult);
+    protected void onHit(HitResult hitResult) {
+        super.onHit(hitResult);
 
-        if (this.getEntityWorld().isClient()) 
+        if (this.level().isClientSide()) 
             return;
 
         if (hitResult.getType() == HitResult.Type.BLOCK) {
             BlockHitResult bhr = (BlockHitResult) hitResult;
             BlockPos hitPos = bhr.getBlockPos();
-            BlockState state = this.getEntityWorld().getBlockState(hitPos);
+            BlockState state = this.level().getBlockState(hitPos);
 
-            Vec3d pos = bhr.getPos(); 
-            if (state.isIn(BlockTags.CLIMBABLE) || state.isIn(BlockTags.LEAVES) || state.isSolid()) {
+            Vec3 pos = bhr.getLocation(); 
+            if (state.is(BlockTags.CLIMBABLE) || state.is(BlockTags.LEAVES) || state.isSolid()) {
                 attach(pos);
             }
         } 
         else if (hitResult.getType() == HitResult.Type.ENTITY) {
             EntityHitResult entityHitResult = (EntityHitResult) hitResult;
-            if (this.isOwner(entityHitResult.getEntity()))
-                this.attach(entityHitResult.getEntity().getEntityPos());
+            if (this.ownedBy(entityHitResult.getEntity()))
+                this.attach(entityHitResult.getEntity().position());
             else
                 this.discard();
         }
     }
 
     @Override
-    public boolean applyElasticity(Entity leashHolder, LeashData leashData) {
+    public boolean checkElasticInteractions(Entity leashHolder, LeashData leashData) {
         return false;
     }
 
     @Override
-    public void writeCustomData(WriteView nbt) {
-        super.writeCustomData(nbt);
+    public void addAdditionalSaveData(ValueOutput nbt) {
+        super.addAdditionalSaveData(nbt);
         if (anchorPos != null)
-            nbt.put("anchorPos", Vec3d.CODEC, anchorPos);
+            nbt.store("anchorPos", Vec3.CODEC, anchorPos);
         nbt.putInt("pullTicks", pullTicks);
         nbt.putBoolean("attached", attached);
     }
 
     @Override
-    public void readCustomData(ReadView nbt) {
-        super.readCustomData(nbt);
-        anchorPos = nbt.read("anchorPos", Vec3d.CODEC).orElse(new Vec3d(0d, 0d, 0d));
-        pullTicks = nbt.getInt("pullTicks", 0);
-        attached = nbt.getBoolean("attached", false);
+    public void readAdditionalSaveData(ValueInput nbt) {
+        super.readAdditionalSaveData(nbt);
+        anchorPos = nbt.read("anchorPos", Vec3.CODEC).orElse(new Vec3(0d, 0d, 0d));
+        pullTicks = nbt.getIntOr("pullTicks", 0);
+        attached = nbt.getBooleanOr("attached", false);
     }
 
     @Override
     public void remove(RemovalReason reason) {
         super.remove(reason);
-        if (this.getOwner() != null && this.getOwner() instanceof PlayerEntity player) {
-            if (this.isOwner(player)) {
+        if (this.getOwner() != null && this.getOwner() instanceof Player player) {
+            if (this.ownedBy(player)) {
                 Crying.getHook(player).setHook(null);
                 player.getInventory().forEach((stack) -> {
-                    if (stack.getOrDefault(Crying.HOOK_UUID, "").equals(this.getUuidAsString())) {
+                    if (stack.getOrDefault(Crying.HOOK_UUID, "").equals(this.getStringUUID())) {
                         stack.set(Crying.THROWN, false);
                     }
                 });
@@ -177,38 +176,38 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
     }
 
     @Override
-    public void onPlayerCollision(PlayerEntity player) {
+    public void playerTouch(Player player) {
     }
 
     @Override
-    public Packet<ClientPlayPacketListener> createSpawnPacket(EntityTrackerEntry entityTrackerEntry) {
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entityTrackerEntry) {
         Entity entity = this.getOwner();
-        return new EntitySpawnS2CPacket(this, entityTrackerEntry, entity == null ? 0 : entity.getId());
+        return new ClientboundAddEntityPacket(this, entityTrackerEntry, entity == null ? 0 : entity.getId());
     }
 
     @Override
-    protected void onEntityHit(EntityHitResult result) {
+    protected void onHitEntity(EntityHitResult result) {
     }
 
     @Override
-    protected void onBlockHit(BlockHitResult blockHitResult) {
+    protected void onHitBlock(BlockHitResult blockHitResult) {
     }
 
     @Override
-    protected ItemStack getDefaultItemStack() {
+    protected ItemStack getDefaultPickupItem() {
         return new ItemStack(Crying.CRYING_GRAPPLING_HOOK);
     }
 
     @Override
     public void setOwner(@Nullable Entity entity) {
         super.setOwner(entity);
-        if (entity != null && entity instanceof PlayerEntity player) {
+        if (entity != null && entity instanceof Player player) {
             Crying.getHook(player).setHook(this);
         }
     }
 
     @Override
-    public void detachLeash() {
+    public void dropLeash() {
     }
 
     @Override
@@ -232,12 +231,12 @@ public class GrapplingHookEntity extends PersistentProjectileEntity implements L
     }
 
     @Override
-    protected double getGravity() {
+    protected double getDefaultGravity() {
         return 0.075d;
     }
 
     @Override
-    public double getLeashSnappingDistance() {
+    public double leashSnapDistance() {
         return (double) Integer.MAX_VALUE;
     }
 

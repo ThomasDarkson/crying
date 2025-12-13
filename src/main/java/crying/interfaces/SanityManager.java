@@ -7,17 +7,16 @@ import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
 import crying.enums.CollapsingReason;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.LightType;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class SanityManager {
     private static final Map<String, SanityManager> managers = new HashMap<>();
@@ -76,17 +75,17 @@ public class SanityManager {
         updateThis();
     }
     
-    public void tick(ServerPlayerEntity player)
+    public void tick(ServerPlayer player)
     {
         if (!this.isActive)
             return;
             
-        ServerWorld serverWorld = player.getEntityWorld();
+        ServerLevel serverWorld = player.level();
         Difficulty difficulty = serverWorld.getDifficulty();
 
-        Biome biome = serverWorld.getBiome(player.getBlockPos()).value();
+        Biome biome = serverWorld.getBiome(player.blockPosition()).value();
         if (biome != null) {
-            if (biome.getTemperature() <= 0.3F) {
+            if (biome.getBaseTemperature() <= 0.3F) {
                 int coldTicks = ((BiomeVars) player).getTicksInColdBiome();
                 coldTicks++;
                 ((BiomeVars) player).setTicksInColdBiome(coldTicks);
@@ -100,7 +99,7 @@ public class SanityManager {
                 ((BiomeVars) player).setTicksInColdBiome(0);
         }
 
-        if (getCollapseRegenTicks() >= 1 && !player.isDead()) {
+        if (getCollapseRegenTicks() >= 1 && !player.isDeadOrDying()) {
             collapseRegenTicks -= 1 * collapseMultiplier;
             if (collapseRegenTicks < 0)
                 collapseRegenTicks = 0;
@@ -111,7 +110,7 @@ public class SanityManager {
             }
         }
 
-        boolean bl = serverWorld.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION);
+        boolean bl = serverWorld.getGameRules().get(net.minecraft.world.level.gamerules.GameRules.NATURAL_HEALTH_REGENERATION);
         if (getSanityLevel() >= (float) getMaxLevel())
             setRegen(false);
         else
@@ -127,7 +126,7 @@ public class SanityManager {
             decreaseLevel(1F);
         }
 
-        if (serverWorld.getLightLevel(LightType.SKY, player.getBlockPos()) <= 4 && serverWorld.getLightLevel(LightType.BLOCK, player.getBlockPos()) <= 4) {
+        if (serverWorld.getBrightness(LightLayer.SKY, player.blockPosition()) <= 4 && serverWorld.getBrightness(LightLayer.BLOCK, player.blockPosition()) <= 4) {
             darkTicks++;
             if (darkTicks == Crying.tickSecond(30)) {
                 collapse(Crying.tickSecond(480), player, CollapsingReason.LOW_LIGHT);
@@ -261,11 +260,11 @@ public class SanityManager {
         updateThis();
 
         if (entity != null) {
-            entity.getEntityWorld().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_PLAYER_HURT, entity.getSoundCategory());
+            entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_HURT, entity.getSoundSource());
         }
     }
 
-    public int setCollapseTicks(int ticks, CollapsingReason reason, PlayerEntity player) {
+    public int setCollapseTicks(int ticks, CollapsingReason reason, Player player) {
         if (!this.isActive)
             return 1;
 
@@ -314,17 +313,17 @@ public class SanityManager {
         }
     }
 
-    public void readNbt(ReadView nbt) {
-        this.isActive = nbt.getBoolean("isActive", true);
-        this.sanityTickTimer = nbt.getInt("sanityTickTimer", 0);
-        this.maxLevel = nbt.getInt("maxLevel", 0);
-        this.shouldRegen = nbt.getBoolean("shouldRegen", false);
-        this.shouldRegenCommand = nbt.getBoolean("shouldRegenCommand", true);
-        this.ticksHalfHealth = nbt.getInt("ticksHalfHealth", 0);
-        this.collapseRegenTicks = nbt.getInt("collapseRegenTicks", 0);
-        this.darkTicks = nbt.getInt("darkTicks", 0);
-        this.collapseMultiplier = nbt.getInt("collapseMultiplier", 1);
-        this.collapsingReason = CollapsingReason.fromString(nbt.getString("collapsingReason", null));
+    public void readNbt(ValueInput nbt) {
+        this.isActive = nbt.getBooleanOr("isActive", true);
+        this.sanityTickTimer = nbt.getIntOr("sanityTickTimer", 0);
+        this.maxLevel = nbt.getIntOr("maxLevel", 0);
+        this.shouldRegen = nbt.getBooleanOr("shouldRegen", false);
+        this.shouldRegenCommand = nbt.getBooleanOr("shouldRegenCommand", true);
+        this.ticksHalfHealth = nbt.getIntOr("ticksHalfHealth", 0);
+        this.collapseRegenTicks = nbt.getIntOr("collapseRegenTicks", 0);
+        this.darkTicks = nbt.getIntOr("darkTicks", 0);
+        this.collapseMultiplier = nbt.getIntOr("collapseMultiplier", 1);
+        this.collapsingReason = CollapsingReason.fromString(nbt.getStringOr("collapsingReason", null));
 
         if (this.sanityLevel > this.maxLevel)
             this.sanityLevel = this.maxLevel;
@@ -332,7 +331,7 @@ public class SanityManager {
         updateThis();
     }
 
-    public void writeNbt(WriteView nbt) {
+    public void writeNbt(ValueOutput nbt) {
         nbt.putBoolean("isActive", this.isActive);
         nbt.putBoolean("shouldRegen", this.shouldRegen);
         nbt.putBoolean("shouldRegenCommand", this.shouldRegenCommand);

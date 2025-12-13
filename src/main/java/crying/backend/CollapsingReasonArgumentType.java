@@ -7,12 +7,11 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import crying.enums.CollapsingReason;
-import net.minecraft.command.CommandSource;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import net.minecraft.commands.SharedSuggestionProvider;
 
 public class CollapsingReasonArgumentType implements ArgumentType<CollapsingReason> {
     private CollapsingReasonArgumentType() {
@@ -31,7 +30,7 @@ public class CollapsingReasonArgumentType implements ArgumentType<CollapsingReas
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return CommandSource.suggestMatching(Arrays.stream(CollapsingReason.values()).map(CollapsingReason::getName),  builder);
+        return SharedSuggestionProvider.suggest(Arrays.stream(CollapsingReason.values()).map(CollapsingReason::getName),  builder);
     }
 
     @Override

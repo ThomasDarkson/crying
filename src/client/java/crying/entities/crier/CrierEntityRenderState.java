@@ -1,8 +1,8 @@
 package crying.entities.crier;
 
-import net.minecraft.client.render.entity.state.BipedEntityRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 
-public class CrierEntityRenderState extends BipedEntityRenderState {
+public class CrierEntityRenderState extends HumanoidRenderState {
     public boolean forlorn = false;
     public float shieldHealth = 0;
     public int realAge = 0;

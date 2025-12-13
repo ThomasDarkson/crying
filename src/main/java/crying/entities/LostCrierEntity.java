@@ -1,33 +1,33 @@
 package crying.entities;
 
 import crying.Crying;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.InventoryOwner;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionTypes;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.npc.InventoryCarrier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 
-public class LostCrierEntity extends PathAwareEntity implements InventoryOwner {
-    SimpleInventory inventory = new SimpleInventory(4);
+public class LostCrierEntity extends PathfinderMob implements InventoryCarrier {
+    SimpleContainer inventory = new SimpleContainer(4);
     
-    public LostCrierEntity(EntityType<? extends LostCrierEntity> entityType, World world) {
+    public LostCrierEntity(EntityType<? extends LostCrierEntity> entityType, Level world) {
         super(entityType, world);
 
         ItemStack cryingObsidian = new ItemStack(Items.CRYING_OBSIDIAN);
@@ -39,50 +39,50 @@ public class LostCrierEntity extends PathAwareEntity implements InventoryOwner {
         ItemStack hardCryingObsidian = new ItemStack(Crying.HARD_CRYING_OBSIDIAN);
         hardCryingObsidian.setCount(1);
 
-        inventory.addStack(cryingObsidian);
-        inventory.addStack(chains);
-        inventory.addStack(hardCryingObsidian);
+        inventory.addItem(cryingObsidian);
+        inventory.addItem(chains);
+        inventory.addItem(hardCryingObsidian);
 
-        this.targetSelector.clear((target) -> {
+        this.targetSelector.removeAllGoals((target) -> {
             return true;
         });
 
-        this.goalSelector.add(1, new WanderAroundGoal(this, 0.35d, 1, false));
-        this.goalSelector.add(1, new LookAroundGoal(this));
-        this.goalSelector.add(1, new LookAtEntityGoal(this, PlayerEntity.class, 2.0F));
+        this.goalSelector.addGoal(1, new RandomStrollGoal(this, 0.35d, 1, false));
+        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 2.0F));
     }
 
-    public static DefaultAttributeContainer.Builder createLostCrierAttributes() {
-        return PassiveEntity.createMobAttributes().add(EntityAttributes.MAX_HEALTH, 206d).add(EntityAttributes.KNOCKBACK_RESISTANCE, 0.5d);
+    public static AttributeSupplier.Builder createLostCrierAttributes() {
+        return AgeableMob.createMobAttributes().add(Attributes.MAX_HEALTH, 206d).add(Attributes.KNOCKBACK_RESISTANCE, 0.5d);
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.getEntityWorld().getDimensionEntry().getKey().orElse(Crying.CRYING_DIMENSION_TYPE) == DimensionTypes.OVERWORLD) {
-            if (this.getEntityWorld() instanceof ServerWorld world) {
-                Crying.CRIER.spawn(world, this.getBlockPos(), SpawnReason.NATURAL);
-                this.getEntityWorld().playSound(null, this.getBlockPos(), Crying.CRIER_SCREAM_EVENT, SoundCategory.HOSTILE);
+        if (this.level().dimensionTypeRegistration().unwrapKey().orElse(Crying.CRYING_DIMENSION_TYPE) == BuiltinDimensionTypes.OVERWORLD) {
+            if (this.level() instanceof ServerLevel world) {
+                Crying.CRIER.spawn(world, this.blockPosition(), EntitySpawnReason.NATURAL);
+                this.level().playSound(null, this.blockPosition(), Crying.CRIER_SCREAM_EVENT, SoundSource.HOSTILE);
                 this.discard();
             }
         }
     }
 
     @Override
-    public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if (player.getStackInHand(hand).getItem() == Crying.CRYING_CARROT) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        if (player.getItemInHand(hand).getItem() == Crying.CRYING_CARROT) {
             this.heal(10.3F);
-            player.getStackInHand(hand).decrementUnlessCreative(1, player);
-            return ActionResult.SUCCESS;
+            player.getItemInHand(hand).consume(1, player);
+            return InteractionResult.SUCCESS;
         }
 
-        return super.interactMob(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     @Override
@@ -96,20 +96,20 @@ public class LostCrierEntity extends PathAwareEntity implements InventoryOwner {
     }
 
     @Override
-    public SimpleInventory getInventory() {
+    public SimpleContainer getInventory() {
         return this.inventory;
     }
 
     @Override
-    public boolean canPickupItem(ItemStack stack) {
+    public boolean canHoldItem(ItemStack stack) {
         return false;
     }
 
     @Override
-    protected void dropLoot(ServerWorld world, DamageSource damageSource, boolean causedByPlayer) {
+    protected void dropFromLootTable(ServerLevel world, DamageSource damageSource, boolean causedByPlayer) {
         if (causedByPlayer) {
             if (world.getRandom().nextFloat() < 0.1F) {
-                this.dropItem(world, Crying.HARDENED_CORE_PIECE);
+                this.spawnAtLocation(world, Crying.HARDENED_CORE_PIECE);
             }
         }
     }

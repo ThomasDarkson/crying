@@ -8,31 +8,31 @@ import crying.Crying;
 import crying.entities.CrierEntity;
 import crying.interfaces.HasUniqueItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.block.pattern.BlockPattern;
-import net.minecraft.block.pattern.BlockPatternBuilder;
-import net.minecraft.block.pattern.CachedBlockPosition;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.block.BlockStatePredicate;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+import net.minecraft.world.level.block.state.pattern.BlockPattern;
+import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 public class HardCryingObsidianBlock extends Block implements HasUniqueItemSettings {    
     @Nullable
@@ -40,93 +40,93 @@ public class HardCryingObsidianBlock extends Block implements HasUniqueItemSetti
 
     public HardCryingObsidianBlock() {
         super(
-            Settings.create().
-            registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "hard_crying_obsidian"))).
-            mapColor(MapColor.BLACK).
+            Properties.of().
+            setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(Crying.ID, "hard_crying_obsidian"))).
+            mapColor(MapColor.COLOR_BLACK).
             instrument(NoteBlockInstrument.BASEDRUM).
-            requiresTool().
+            requiresCorrectToolForDrops().
             strength(75.0F, 1320.0F).
-            luminance((state) -> {
+            lightLevel((state) -> {
                 return 10;
             })
         );
 
         Crying.registerBlock(this, "hard_crying_obsidian");
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register((itemGroup) -> itemGroup.addAfter(Items.CRYING_OBSIDIAN, this.asItem()));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS).register((itemGroup) -> itemGroup.addAfter(Items.CRYING_OBSIDIAN, this.asItem()));
     }
 
     @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (random.nextInt(2) == 0) {
-            Direction direction = Direction.random(random);
+            Direction direction = Direction.getRandom(random);
             if (direction != Direction.UP) {
-                BlockPos blockPos = pos.offset(direction);
+                BlockPos blockPos = pos.relative(direction);
                 BlockState blockState = world.getBlockState(blockPos);
-                if (!state.isOpaque() || !blockState.isSideSolidFullSquare(world, blockPos, direction.getOpposite())) {
-                    double d = direction.getOffsetX() == 0 ? random.nextDouble() : 0.5 + (double)direction.getOffsetX() * 0.6;
-                    double e = direction.getOffsetY() == 0 ? random.nextDouble() : 0.5 + (double)direction.getOffsetY() * 0.6;
-                    double f = direction.getOffsetZ() == 0 ? random.nextDouble() : 0.5 + (double)direction.getOffsetZ() * 0.6;
-                    world.addParticleClient(ParticleTypes.DRIPPING_OBSIDIAN_TEAR, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + f, 0.0, 0.0, 0.0);
+                if (!state.canOcclude() || !blockState.isFaceSturdy(world, blockPos, direction.getOpposite())) {
+                    double d = direction.getStepX() == 0 ? random.nextDouble() : 0.5 + (double)direction.getStepX() * 0.6;
+                    double e = direction.getStepY() == 0 ? random.nextDouble() : 0.5 + (double)direction.getStepY() * 0.6;
+                    double f = direction.getStepZ() == 0 ? random.nextDouble() : 0.5 + (double)direction.getStepZ() * 0.6;
+                    world.addParticle(ParticleTypes.DRIPPING_OBSIDIAN_TEAR, (double)pos.getX() + d, (double)pos.getY() + e, (double)pos.getZ() + f, 0.0, 0.0, 0.0);
                 }
             }
         }
     }
 
     @Override
-    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        if (!oldState.isOf(state.getBlock())) {
+    protected void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (!oldState.is(state.getBlock())) {
             this.trySpawnEntity(world, pos);
         }
     }
 
-    private void trySpawnEntity(World world, BlockPos pos) {
-        BlockPattern.Result result = this.getCrierPattern().searchAround(world, pos);
+    private void trySpawnEntity(Level world, BlockPos pos) {
+        BlockPattern.BlockPatternMatch result = this.getCrierPattern().find(world, pos);
         if (result != null) {
-            CrierEntity crierEntity = Crying.CRIER.spawn((ServerWorld) world, result.translate(0, 2, 0).getBlockPos(), SpawnReason.TRIGGERED);
+            CrierEntity crierEntity = Crying.CRIER.spawn((ServerLevel) world, result.getBlock(0, 2, 0).getPos(), EntitySpawnReason.TRIGGERED);
             if (crierEntity != null) {
-                spawnEntity(world, result, crierEntity, result.translate(0, 2, 0).getBlockPos());
+                spawnEntity(world, result, crierEntity, result.getBlock(0, 2, 0).getPos());
             }
         } 
     }
 
-    private static void spawnEntity(World world, BlockPattern.Result patternResult, Entity entity, BlockPos pos) {
+    private static void spawnEntity(Level world, BlockPattern.BlockPatternMatch patternResult, Entity entity, BlockPos pos) {
         breakPatternBlocks(world, patternResult);
-        entity.refreshPositionAndAngles((double)pos.getX() + 0.5, (double)pos.getY() + 0.05, (double)pos.getZ() + 0.5, 0.0F, 0.0F);
-        Iterator<ServerPlayerEntity> var4 = world.getNonSpectatingEntities(ServerPlayerEntity.class, entity.getBoundingBox().expand(5.0)).iterator();
+        entity.snapTo((double)pos.getX() + 0.5, (double)pos.getY() + 0.05, (double)pos.getZ() + 0.5, 0.0F, 0.0F);
+        Iterator<ServerPlayer> var4 = world.getEntitiesOfClass(ServerPlayer.class, entity.getBoundingBox().inflate(5.0)).iterator();
 
         while (var4.hasNext()) {
-            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)var4.next();
-            Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, entity);
+            ServerPlayer serverPlayerEntity = (ServerPlayer)var4.next();
+            CriteriaTriggers.SUMMONED_ENTITY.trigger(serverPlayerEntity, entity);
         }
 
         updatePatternBlocks(world, patternResult);
     }
 
-    public static void breakPatternBlocks(World world, BlockPattern.Result patternResult) {
+    public static void breakPatternBlocks(Level world, BlockPattern.BlockPatternMatch patternResult) {
         for (int i = 0; i < patternResult.getWidth(); ++i) {
             for (int j = 0; j < patternResult.getHeight(); ++j) {
-                CachedBlockPosition cachedBlockPosition = patternResult.translate(i, j, 0);
-                world.setBlockState(cachedBlockPosition.getBlockPos(), Blocks.AIR.getDefaultState(), 2);
-                world.syncWorldEvent(2001, cachedBlockPosition.getBlockPos(), Block.getRawIdFromState(cachedBlockPosition.getBlockState()));
+                BlockInWorld cachedBlockPosition = patternResult.getBlock(i, j, 0);
+                world.setBlock(cachedBlockPosition.getPos(), Blocks.AIR.defaultBlockState(), 2);
+                world.levelEvent(2001, cachedBlockPosition.getPos(), Block.getId(cachedBlockPosition.getState()));
             }
         }
 
     }
 
-    public static void updatePatternBlocks(World world, BlockPattern.Result patternResult) {
+    public static void updatePatternBlocks(Level world, BlockPattern.BlockPatternMatch patternResult) {
         for (int i = 0; i < patternResult.getWidth(); ++i) {
             for (int j = 0; j < patternResult.getHeight(); ++j) {
-                CachedBlockPosition cachedBlockPosition = patternResult.translate(i, j, 0);
-                world.updateNeighbors(cachedBlockPosition.getBlockPos(), Blocks.AIR);
+                BlockInWorld cachedBlockPosition = patternResult.getBlock(i, j, 0);
+                world.updateNeighborsAt(cachedBlockPosition.getPos(), Blocks.AIR);
             }
         }
     }
 
     private BlockPattern getCrierPattern() {
         if (this.crierPattern == null) {
-                this.crierPattern = BlockPatternBuilder.start().aisle(new String[]{"~^~", "###", "?#?"}).where('^', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Crying.HARD_CRYING_OBSIDIAN))).where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.CRYING_OBSIDIAN))).where('~', (pos) -> {
-                return pos.getBlockState().isAir();
-            }).where('?', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.IRON_CHAIN))).build();
+                this.crierPattern = BlockPatternBuilder.start().aisle(new String[]{"~^~", "###", "?#?"}).where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(Crying.HARD_CRYING_OBSIDIAN))).where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.CRYING_OBSIDIAN))).where('~', (pos) -> {
+                return pos.getState().isAir();
+            }).where('?', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.IRON_CHAIN))).build();
         }
         return this.crierPattern;
     }

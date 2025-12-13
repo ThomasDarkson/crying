@@ -2,29 +2,29 @@ package crying.blocks.core;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.enums.NoteBlockInstrument;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 public class OverHardenedCoreBlock extends CoreBlock {    
     public OverHardenedCoreBlock() {
         super(
-            Settings.create()
-            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "over-hardened_core")))
-            .mapColor(MapColor.IRON_GRAY)
+            Properties.of()
+            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(Crying.ID, "over-hardened_core")))
+            .mapColor(MapColor.METAL)
             .instrument(NoteBlockInstrument.SNARE)
-            .sounds(BlockSoundGroup.HEAVY_CORE)
-            .hardness(900.0F)
-            .pistonBehavior(PistonBehavior.NORMAL)
-            .resistance(3200000F)
-            .requiresTool(),
+            .sound(SoundType.HEAVY_CORE)
+            .destroyTime(900.0F)
+            .pushReaction(PushReaction.NORMAL)
+            .explosionResistance(3200000F)
+            .requiresCorrectToolForDrops(),
             "over-hardened_core"
         );
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.HARDENED_CORE, this.asItem()));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.HARDENED_CORE, this.asItem()));
     }
 }

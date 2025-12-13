@@ -1,14 +1,14 @@
 package crying.entities.lost_crier;
 
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.util.Identifier;
 import crying.entities.LostCrierEntity;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.Identifier;
 
 public class LostCrierEntityRenderer extends LostCrierEntityBaseRenderer<LostCrierEntity, LostCrierEntityRenderState, LostCrierEntityModel<LostCrierEntityRenderState>> {
-    public LostCrierEntityRenderer(EntityRendererFactory.Context context) {
-        this(context, EntityModelLayers.ZOMBIE, EntityModelLayers.ZOMBIE_BABY, 0.75F);
+    public LostCrierEntityRenderer(EntityRendererProvider.Context context) {
+        this(context, ModelLayers.ZOMBIE, ModelLayers.ZOMBIE_BABY, 0.75F);
     }
 
     public LostCrierEntityRenderState createRenderState() {
@@ -16,13 +16,13 @@ public class LostCrierEntityRenderer extends LostCrierEntityBaseRenderer<LostCri
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public LostCrierEntityRenderer(EntityRendererFactory.Context ctx, EntityModelLayer model, EntityModelLayer babyModel, float scale) {
-        super(ctx, new LostCrierEntityModel(ctx.getPart(model)), new LostCrierEntityModel(ctx.getPart(babyModel)), scale);
+    public LostCrierEntityRenderer(EntityRendererProvider.Context ctx, ModelLayerLocation model, ModelLayerLocation babyModel, float scale) {
+        super(ctx, new LostCrierEntityModel(ctx.bakeLayer(model)), new LostCrierEntityModel(ctx.bakeLayer(babyModel)), scale);
     }
 
     @Override
-    public Identifier getTexture(LostCrierEntityRenderState renderState) {
-        return super.getTexture(renderState);
+    public Identifier getTextureLocation(LostCrierEntityRenderState renderState) {
+        return super.getTextureLocation(renderState);
     }
 
     @Override

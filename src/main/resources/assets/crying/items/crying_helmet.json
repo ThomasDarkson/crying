@@ -78,13 +78,6 @@
           "model": "crying:item/crying_helmet_resin_trim"
         },
         "when": "minecraft:resin"
-      },
-      {
-        "model": {
-          "type": "minecraft:model",
-          "model": "crying:item/crying_helmet_crying_trim"
-        },
-        "when": "minecraft:crying"
       }
     ],
     "fallback": {

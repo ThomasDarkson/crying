@@ -1,13 +1,13 @@
 package crying.items;
 
 import crying.Crying;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.UseOnContext;
 
 public class GranterItem extends Item {
     public GranterItem() {
@@ -15,20 +15,20 @@ public class GranterItem extends Item {
     }
 
     public GranterItem(String id) {
-        super(new Item.Settings()
-            .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Crying.ID, id)))
-            .fireproof()
-            .maxCount(1)
+        super(new Item.Properties()
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Crying.ID, id)))
+            .fireResistant()
+            .stacksTo(1)
             .rarity(Rarity.EPIC));
 
         Crying.register(this, id);
     }
 
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getWorld().getBlockState(context.getBlockPos()).getBlock().getHardness() > 0) {
-            context.getWorld().setBlockState(context.getBlockPos(), Crying.CRYING_BLOCK.getDefaultState());
+    public InteractionResult useOn(UseOnContext context) {
+        if (context.getLevel().getBlockState(context.getClickedPos()).getBlock().defaultDestroyTime() > 0) {
+            context.getLevel().setBlockAndUpdate(context.getClickedPos(), Crying.CRYING_BLOCK.defaultBlockState());
             Crying.LOGGER.warn("Granter item used");
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

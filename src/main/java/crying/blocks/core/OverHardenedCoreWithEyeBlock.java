@@ -4,36 +4,36 @@ import org.jetbrains.annotations.Nullable;
 
 import crying.Crying;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 
 public class OverHardenedCoreWithEyeBlock extends CoreBlock {    
     public OverHardenedCoreWithEyeBlock() {
         super(
-            Settings.create()
-            .registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Crying.ID, "over-hardened_core_with_eye")))
-            .hardness(-1F)
-            .pistonBehavior(PistonBehavior.BLOCK)
-            .resistance((float) Integer.MAX_VALUE),
+            Properties.of()
+            .setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(Crying.ID, "over-hardened_core_with_eye")))
+            .destroyTime(-1F)
+            .pushReaction(PushReaction.BLOCK)
+            .explosionResistance((float) Integer.MAX_VALUE),
             "over-hardened_core_with_eye"
         );
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.OVER_HARDENED_CORE, this.asItem()));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register((itemGroup) -> itemGroup.addAfter(Crying.OVER_HARDENED_CORE, this.asItem()));
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if (placer instanceof ServerPlayerEntity player)
-            world.breakBlock(pos, !player.isCreative());
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+        if (placer instanceof ServerPlayer player)
+            world.destroyBlock(pos, !player.isCreative());
         else
-            world.breakBlock(pos, true);
+            world.destroyBlock(pos, true);
     }
 }

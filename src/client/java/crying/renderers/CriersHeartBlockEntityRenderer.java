@@ -1,59 +1,59 @@
 package crying.renderers;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import crying.entities.CriersHeartBlockEntity;
 import crying.states.CriersHeartBlockEntityRenderState;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.block.entity.state.BlockEntityRenderState;
-import net.minecraft.client.render.command.ModelCommandRenderer;
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
-import net.minecraft.client.render.state.CameraRenderState;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
 public class CriersHeartBlockEntityRenderer implements BlockEntityRenderer<CriersHeartBlockEntity, CriersHeartBlockEntityRenderState> {
     private static final float PI = (float) Math.PI;
 
-    public CriersHeartBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
+    public CriersHeartBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
     }
 
     @Override
-    public void render(CriersHeartBlockEntityRenderState state, MatrixStack matrices, OrderedRenderCommandQueue queue, CameraRenderState cameraState) {
+    public void submit(CriersHeartBlockEntityRenderState state, PoseStack matrices, SubmitNodeCollector queue, CameraRenderState cameraState) {
         if (state.state != null) {
             float phase = state.heartbeatPhase + state.tickProgress * ((state.SPEED + state.speedModifier) / 100);
             phase %= 1.0F;
 
             float scale = getScale(phase);
-            matrices.push();
+            matrices.pushPose();
             matrices.translate(0.5, 0.5, 0.5);
             matrices.scale(scale, scale, scale);
             matrices.translate(-0.5, -0.5, -0.5);
 
-            queue.submitBlock(matrices, state.state, 15728880, OverlayTexture.DEFAULT_UV, 0);
-            matrices.pop();
+            queue.submitBlock(matrices, state.state, 15728880, OverlayTexture.NO_OVERLAY, 0);
+            matrices.popPose();
         }
     }
 
     private static float getScale(float phase) {
         if (phase < 0.3f) 
-            return 1.0f + 0.15f * MathHelper.sin(phase / 0.3f * PI);
+            return 1.0f + 0.15f * Mth.sin(phase / 0.3f * PI);
         else if (phase < 0.6f)
-            return 1.0f + 0.075f * MathHelper.sin((phase - 0.3f) / 0.3f * PI);
+            return 1.0f + 0.075f * Mth.sin((phase - 0.3f) / 0.3f * PI);
         else 
             return 1.0f;
     }
 
     @Override
-    public void updateRenderState(CriersHeartBlockEntity blockEntity, CriersHeartBlockEntityRenderState state, float tickProgress, Vec3d cameraPos, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlay) {
-        BlockEntityRenderState.updateBlockEntityRenderState(blockEntity, state, crumblingOverlay);
+    public void extractRenderState(CriersHeartBlockEntity blockEntity, CriersHeartBlockEntityRenderState state, float tickProgress, Vec3 cameraPos, ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
+        BlockEntityRenderState.extractBase(blockEntity, state, crumblingOverlay);
         
         state.SPEED = blockEntity.SPEED;
         state.heartbeatPhase = blockEntity.heartbeatPhase;
         state.speedModifier = blockEntity.speedModifier;
         state.tickProgress = tickProgress;
-        state.state = blockEntity.getCachedState();
+        state.state = blockEntity.getBlockState();
     }
 
     @Override
